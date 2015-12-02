@@ -70,7 +70,7 @@ If he finds problems with the developer's changes, the scrum master will comment
 When no problems exist in the changes, the scrum master can merge those changes with the dev branch of the official repository. When he feels that the code is suitable for publication, he will merge the official dev branch with the official master branch.
 
 #### Developers synchronize with the official repository
-Since the main codebase has mvoed forward, other developers should synchronize with the official repository:
+Since the main codebase has moved forward, other developers should synchronize with the official repository:
 
 ```
   git pull --rebase upstream dev
