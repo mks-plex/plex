@@ -73,7 +73,7 @@ When no problems exist in the changes, the scrum master can merge those changes 
 Since the main codebase has mvoed forward, other developers should synchronize with the official repository:
 
 ```
-  git pull upstream dev
+  git pull --rebase upstream dev
 ```
 
 ### Example Workflow
@@ -100,6 +100,7 @@ In local branch `master`:
 Branches should be named using slash notation, with the type of change coming before the slash, and the specific change coming after the slash. If the portion coming after the slash is more than one word, combine words with hyphens, as seen in the example below.
 
 > type/subject
+
 > e.g. feature/login-button
 
 #### Type
@@ -144,6 +145,7 @@ Must be one of the following:
 The **header** of the commit message must include a **type** and a **subject**.
 
 > [type] subject
+
 > e.g. [feature] add login button
 
 Please also include a **body**.
