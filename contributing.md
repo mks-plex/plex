@@ -78,7 +78,7 @@ Since the main codebase has mvoed forward, other developers should synchronize w
 
 ### Example Workflow
 
-In local branch `master`:
+In local branch `dev`:
 
 ```
   git pull --rebase upstream dev
