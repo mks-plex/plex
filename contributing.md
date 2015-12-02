@@ -62,7 +62,7 @@ Second, they need to notify the scrum master that they want to merge their featu
 When the scrum master receives the pull request, his job is to decide whether or not to integrate it into the official codebase. To do this, he (or a developer he delegates the task to) will pull the code into their local repository. The scrum master needs to `fetch` the feature branch from the developer's server-side repository into his own local repository after checking out a review branch for the specific review in question.
 
 ```
-  git fetch https://bitbucket.org/user/repo <feature-branch-name>
+  git fetch https://github.com/user/repo <feature-branch-name>
 ```
 
 If he finds problems with the developer's changes, the scrum master will comment on the developer's pull request regarding what problems exist. Then the developer can make further changes to resolve the problems and perform another `git add` and `git commit`.
