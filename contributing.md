@@ -1,5 +1,20 @@
 # Contributing to plex
 
+## Thoughts on Style
+Please follow the guidelines set out in the [Airbnb JavaScript ES5 Style Guide](https://github.com/airbnb/javascript/tree/master/es5).
+
+Some examples of style rules to adhere to include, but are not limited to:
+* use single quotes `''` for strings
+* assign variables at the top of their scope
+* use braces with all multi-line blocks (if-else statements)
+* use soft tabs set to 2 spaces
+* place 1 space before the leading brace of a function body
+* place 1 space before the opening parenthesis in control statements (if, while etc.)
+* place no space before the argument list in function calls and declarations
+* end files with a single newline character
+* leave a blank line after blocks and before the next statement
+* use semicolons
+
 ## Git Forking Workflow
 ***
 The Forking Workflow gives every developer working on the project a server-side repository, so that each contributor has not one, but two Git repositories: a private local one and a public server-side one. Developers push to their own server-side repositories, and only the project maintainer (i.e. scrum master) can push to the official repository.
