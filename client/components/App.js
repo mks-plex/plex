@@ -18,3 +18,5 @@ var App = React.createClass({
     )
   }
 });
+
+//ReactDOM(<App />, document.getElementById("main"));
