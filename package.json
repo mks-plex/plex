@@ -1,0 +1,22 @@
+{
+  "name": "plex",
+  "version": "1.0.0",
+  "description": "MakerSquare Thesis Project",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plexit/plex.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/plexit/plex/issues"
+  },
+  "homepage": "https://github.com/plexit/plex#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
