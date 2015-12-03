@@ -10,6 +10,7 @@ var Body = React.createClass({
   render: function() {
     return (
       <div className="main-content">
+        <p id="intro-message">Plex allows you to test the time complexity of your algorithm.</p>
         <CodeMirror />
         <Analysis />
       </div>
