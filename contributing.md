@@ -6,11 +6,11 @@ Please follow the guidelines set out in the [Airbnb JavaScript ES5 Style Guide](
 Some examples of style rules to adhere to include, but are not limited to:
 * use single quotes `''` for strings
 * assign variables at the top of their scope
-* use braces with all multi-line blocks (if-else statements
+* use braces with all multi-line blocks (if-else statements)
 * use soft tabs set to 2 spaces
 * place 1 space before the leading brace of a function body
 * place 1 space before the opening parenthesis in control statements (if, while etc.)
-* place no space before the argument list in function calls and declarations.
+* place no space before the argument list in function calls and declarations
 * end files with a single newline character
 * leave a blank line after blocks and before the next statement
 * use semicolons
