@@ -8,6 +8,6 @@ app.get('/', function(req, res) {
 
 // serving up static html files for React.js testing
 
-app.use(express.static(__dirname + '/../client/static'));
+app.use(express.static(__dirname + '/../client/static/'));
 
 app.listen(port);
