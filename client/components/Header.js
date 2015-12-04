@@ -4,10 +4,12 @@
 
 var React = require('react');
 
-module.exports = React.createClass({
+var Header = React.createClass({
   render: function() {
     return (
       <h1>PLEX</h1>
     )
   }
 });
+
+module.exports = Header;
