@@ -3,6 +3,7 @@ var express = require('express');
 var webpack = require('webpack');
 var webpackMiddleware = require('webpack-dev-middleware');
 var config = require('../webpack.config.js');
+var mid = require('./middleware.js');
 
 var app = express();
 var compiler = webpack(config);
