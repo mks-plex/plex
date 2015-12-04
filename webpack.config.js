@@ -1,8 +1,8 @@
 module.exports = {
   entry: './client/main.js',
   output: {
-    filename: '.bundle.js',
-    path: __dirname + '/build'
+    path: __dirname + '/client/build',
+    filename: 'bundle.js',
   },
   module: {
     loaders: [
@@ -13,6 +13,10 @@ module.exports = {
         query: {
           presets: ['react']
         }
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css'
       }
     ]
   }
