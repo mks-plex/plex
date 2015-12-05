@@ -47,16 +47,17 @@ function runTimeAverage(userInput, dbInput, iterations) {
 }
 
 function getRunTime(userInput, dbInput) {
-	// FIXME: refactor to use process time and convert to milliseconds from nano
-
 	var userAlg = buildFunc(userInput);
-	var start = window.performance.now();
+	var time = process.hrtime();
 	var result = userAlg(data);
-	var finish = window.performance.now();
-	var runTime = finish - start;
+	var diff = process.hrtime(time);
+	var runTime = (diff[0] * 1e9 + diff[1]) / 1e6;
 
-	// returns [runtime, N, result]
-	return [Number(runTime.toFixed(3)), data.length, result];
+	// returns [runtime in milliseconds, input size N, result]
+	if (data.length <= 100) {
+		return [Number(runTime.toFixed(3)), data.length, result];
+	} else {
+		return [Number(runTime.toFixed(3)), data.length];
 }
 
 function buildFunc(userInput) {
