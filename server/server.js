@@ -1,13 +1,18 @@
+var path = require('path');
 var express = require('express');
+var webpack = require('webpack');
+var webpackMiddleware = require('webpack-dev-middleware');
+var config = require('../webpack.config.js');
+
 var app = express();
+var compiler = webpack(config);
+
 var port = process.env.PORT || 3000;
 
-app.get('/', function(req, res) {
-  res.send('server up');
+app.use(express.static(__dirname + '/../client/'));
+app.use(webpackMiddleware(compiler));
+app.get('*', function(req, res) {
+  res.sendFile(path.resolve(__dirname, '../client/index.html'));
 });
-
-// serving up static html files for React.js testing
-
-app.use(express.static(__dirname + '/../client/static'));
 
 app.listen(port);
