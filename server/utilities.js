@@ -1,19 +1,20 @@
-module.exports.evalAlg = function(userInput) {
+var queries = require('./queries.js');
+
+module.exports.evalAlg = function(userInput, dataType) {
 	/** 
 	powX represents tests for data size Math.pow(10, X)
 	skip pow1 because results not accurate for input size < 100
 	*/
 
 	var data = queries.getSets(dataType);
-
 	// TODO: add queries file, get data inputs from database, save in respective variables
 
-	var pow2 = runTimeAverage(userInput, dataHun, 6);
-	var pow3 = runTimeAverage(userInput, dataThous, 6);
-	var pow4 = runTimeAverage(userInput, dataTenThou, 3);
-	var pow5 = getRunTime(userInput, dataHunThou);
-	var pow6 = getRunTime(userInput, dataMil);
-	// var pow7 = getRunTime(dataTenMil);  // <--- if feasible, add
+	var pow2 = runTimeAverage(userInput, data[0], 8);
+	var pow3 = runTimeAverage(userInput, data[1], 6);
+	var pow4 = runTimeAverage(userInput, data[2], 3);
+	var pow5 = getRunTime(userInput, data[3]);
+	var pow6 = getRunTime(userInput, data[4]);
+	// var pow7 = getRunTime(userInput, data[5]);
 
 	return [pow2, pow3, pow4, pow5, pow6];
 }
@@ -49,27 +50,26 @@ function runTimeAverage(userInput, dbInput, iterations) {
 function getRunTime(userInput, dbInput) {
 	var userAlg = buildFunc(userInput);
 	var time = process.hrtime();
-	var result = userAlg(data);
+	var result = userAlg(dbInput);
 	var diff = process.hrtime(time);
 	var runTime = (diff[0] * 1e9 + diff[1]) / 1e6;
 
 	// returns [runtime in milliseconds, input size N, result]
-	if (data.length <= 100) {
-		return [Number(runTime.toFixed(3)), data.length, result];
+	if (dbInput.length <= 100) {
+		return [Number(runTime.toFixed(3)), dbInput.length, result];
 	} else {
-		return [Number(runTime.toFixed(3)), data.length];
+		return [Number(runTime.toFixed(3)), dbInput.length];
 }
 
 function buildFunc(userInput) {
-	var metas = getMeta(userInput);
-	var algString = userInput.slice(string.indexOf('{') + 1, string.lastIndexOf('}'));
-	var userAlg = new Function(metas[1], algString);
+	var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
+	var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
+	var userAlg = new Function(param, algString);
 
 	return userAlg;
 }
 
-function getMeta(string) {
-	var param = string.slice(string.indexOf('(')+1, string.indexOf(')'));
+function getFuncName(string) {
 	var dStop = string.indexOf('=');
 	var eStop = string.indexOf('(');
 	var funcName;
@@ -88,8 +88,10 @@ function getMeta(string) {
   } else {
       alert ('Please use a function expression or declaration\ne.g. `var myFunc = ...` or `function myFunc()...`');
     }
-	return [funcName, param];
+	return funcName;
 }
+
+
 
 
 
