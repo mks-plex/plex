@@ -1,1 +1,8 @@
-This is where you will use mongoose to write an awesome schema.
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/local');
+
+var InputSchema = new mongoose.Schema({
+	inputArray: [ { type: Number } ]
+});
+
+var Input = mongoose.model('Input', InputSchema);
