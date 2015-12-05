@@ -9,7 +9,7 @@ var compiler = webpack(config);
 
 var port = process.env.PORT || 3000;
 
-app.use(express.static(__dirname + '/../client/build'));
+app.use(express.static(__dirname + '/../client/'));
 app.use(webpackMiddleware(compiler));
 app.get('*', function(req, res) {
   res.sendFile(path.resolve(__dirname, '../client/index.html'));
