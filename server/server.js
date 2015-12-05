@@ -11,15 +11,12 @@ var port = process.env.PORT || 3000;
 
 app.use(express.static(__dirname + '/../client/'));
 
+
 // ~~~~~~
 
-var parseRouter = express.Router();
-
-parseRouter.post('/:dataType', mid.evalForAllInputSizes, function(req, res) {
+app.post('/parse/:dataType', mid.evalForAllInputSizes, function(req, res) {
   res.send(res.coords);
-})
-
-app.use('/parse', parseRouter);
+});
 
 // ~~~~~
 
