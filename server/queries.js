@@ -23,23 +23,5 @@
       return integerController.getIntegers()
     // }
   }
-
-
-  //~~~~~~~~
-
-  // var parseRouter = express.Router();
-
-  // parseRouter.post('/:datatype', mid.evalForAllInputSizes, function(req, res) {
-  //  res.send(res.coords);
-  // })
-
-  // app.use('/parse', parseRouter);
-
-  //~~~~~~~~
-
-
-  //~~~~~~
-  // var data = queries.getData(dataType);   // utilities.js
-  //~~~~~~~
-
+  
  // } //end of module.exports
