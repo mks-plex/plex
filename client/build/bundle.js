@@ -19647,7 +19647,7 @@
 
 	var React = __webpack_require__(1);
 	var Header = __webpack_require__(160);
-	var Body = __webpack_require__(161);
+	var Body = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Body\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	var Footer = __webpack_require__(166);
 
 	var App = React.createClass({
@@ -19691,125 +19691,11 @@
 	module.exports = Header;
 
 /***/ },
-/* 161 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	  Body
-	*/
-
-	var React = __webpack_require__(1);
-	var CodeMirror = __webpack_require__(162);
-	var Analysis = __webpack_require__(163);
-
-	var Body = React.createClass({
-	  displayName: 'Body',
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'main-content' },
-	      React.createElement(
-	        'p',
-	        { id: 'intro-message' },
-	        'Plex allows you to test the time complexity of your algorithm.'
-	      ),
-	      React.createElement(CodeMirror, null),
-	      React.createElement(Analysis, null)
-	    );
-	  }
-	});
-
-	module.exports = Body;
-
-/***/ },
-/* 162 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	  CodeMirror
-	*/
-
-	var React = __webpack_require__(1);
-
-	var CodeMirror = React.createClass({
-	  displayName: "CodeMirror",
-
-	  render: function () {
-	    return React.createElement("div", { className: "codeMirror-container" });
-	  }
-	});
-
-	module.exports = CodeMirror;
-
-/***/ },
-/* 163 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	  Analysis
-	*/
-
-	var React = __webpack_require__(1);
-	var Graph = __webpack_require__(164);
-	var Data = __webpack_require__(165);
-
-	var Analysis = React.createClass({
-	  displayName: 'Analysis',
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'analysis-container' },
-	      React.createElement(Graph, null),
-	      React.createElement(Data, null)
-	    );
-	  }
-	});
-
-	module.exports = Analysis;
-
-/***/ },
-/* 164 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	  Graph
-	*/
-
-	var React = __webpack_require__(1);
-
-	var Graph = React.createClass({
-	  displayName: "Graph",
-
-	  render: function () {
-	    return React.createElement("div", { className: "graph-container" });
-	  }
-	});
-
-	module.exports = Graph;
-
-/***/ },
-/* 165 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	  Data
-	*/
-
-	var React = __webpack_require__(1);
-
-	var Data = React.createClass({
-	  displayName: "Data",
-
-	  render: function () {
-	    return React.createElement("div", { className: "data-container" });
-	  }
-	});
-
-	module.exports = Data;
-
-/***/ },
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
 /* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
