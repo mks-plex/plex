@@ -5,7 +5,6 @@ var webpackMiddleware = require('webpack-dev-middleware');
 var config = require('../webpack.config.js');
 var queries = require('./queries.js');
 var integerController = require('./routes/integerController');
-var Q = require('q');
 
 
 
@@ -27,8 +26,8 @@ app.get('*', function(req, res) {
 
 // queries(app);
 
-var data = queries.getData().then(function(data){
-	console.log("in server.js ", data)
+var data = queries.getData().then(function(data) {
+    console.log("in server.js ", data)
 })
 
 app.listen(port);
