@@ -1,1 +1,3 @@
-This is where styles will go.
+.ReactCodeMirror {
+  linenumbers: true;
+}
