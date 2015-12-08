@@ -1,0 +1,9 @@
+// var server = require('./server');
+// var faker = require('faker');
+
+// var integer=[];
+// for(var i=0; i<100; i++){
+//   // integer.push(faker.random.number());
+// }
+// console.log("Integer " , integer.length);
+// module.exports = integer;

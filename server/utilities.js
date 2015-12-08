@@ -25,6 +25,12 @@ module.exports.evalAlg = function(userInput, dataType) {
   return [pow2, pow3, pow4, pow5, pow6];
 };
 
+var data = queries.getData().then(function(data) {
+    for(var i=0; i<data.length; i++) {
+      console.log("in utilities.js: ", data[i].array.length);
+    }
+})
+
 module.exports.getCoords = function(data) {
   console.log('U24-getting d3-readable coordinates from eval data');
 

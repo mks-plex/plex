@@ -6,6 +6,9 @@ var webpackMiddleware = require('webpack-dev-middleware');
 var config = require('../webpack.config.js');
 var mid = require('./middleware.js');
 
+var integerController = require('./routes/integerController');
+
+
 var app = express();
 var compiler = webpack(config);
 var port = process.env.PORT || 3000;
@@ -25,5 +28,8 @@ app.use(webpackMiddleware(compiler));
 app.get('*', function(req, res) {
   res.sendFile(path.resolve(__dirname, '../client/index.html'));
 });
+
+// app.get('/test', integerController.getIntegers);
+// app.post('/test', integerController.postIntegers);
 
 app.listen(port);
