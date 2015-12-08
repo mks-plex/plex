@@ -23,11 +23,11 @@ var CodeMirror = React.createClass({
     var options = {
       lineNumbers: true,
       mode: 'javascript',
-      tabSize: 2,
+      tabSize: 2
     };
     return (
       <div className="codeMirror-container">
-          <ReactCodeMirror ref="editor" value={this.state.code} onChange={this.updateCode} options={options} />
+        <ReactCodeMirror ref="editor" value={this.state.code} onChange={this.updateCode} options={options} />
       </div>
     )
   }
