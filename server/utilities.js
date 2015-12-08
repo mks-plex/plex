@@ -6,7 +6,7 @@ module.exports.evalAlg = function(userInput, dataType) {
   // TODO: add queries file, get data inputs from database, save in respective variables
   var data = queries.getData(dataType);
 
-  /* 
+  /*
   powX represents tests for data size Math.pow(10, X). e.g. 10^3 for 1,000
   skip pow1 because results not accurate for input size < 100
   possibly include pow7 if sizes of ten million are feasible
@@ -30,7 +30,7 @@ module.exports.getCoords = function(data) {
 
   for (var i = 0; i < data.length; i++) {
     if (data[i][3] && data[i][4]) {
-      coords.push([data[i][1], data[i][0], data[i][3], data[i][4]]);  
+      coords.push([data[i][1], data[i][0], data[i][3], data[i][4]]);
     } else {
       coords.push([data[i][1], data[i][0]]);
     }
@@ -42,14 +42,14 @@ module.exports.getCoords = function(data) {
 
 function runTimeAverage(userInput, dbInput, iterations) {
   console.log('U34-calculating runtime average for N=' + dbInput.length);
-  
+
   var times = [];
   var total = 0;
   var i = 0;
   var averageRun;
   var result;
 
-  
+
   while (i < iterations) {
     var stats = getRunTime(userInput, dbInput);
     times.push(stats[0]);
@@ -85,7 +85,7 @@ function buildFunc(userInput) {
   var userAlg = new Function(param, algString);
 
   console.log('U67-created algorithm with user input');
-  
+
   return userAlg;
 }
 
@@ -115,8 +115,3 @@ function getFuncName(string) {
 
   return funcName;
 }
-
-
-
-
-
