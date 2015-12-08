@@ -9,20 +9,20 @@ var integerSchema = mongoose.Schema({
 var integerModel = mongoose.model('integers', integerSchema);
 
 // ----------- To populate the DB ------------
-// exports.postIntegers = function(req, res) {
-//  var newInteger = new integerModel();
-//  newInteger.array = integer;
-//  console.log("INTERGER:" + integer.length);
-//  newInteger.save(function(err, data) {
-//    if(err) {
-//      console.log(err);
-//      res.status(500).send();
-//    } else {
-//      console.log("DATA: " + data);
-//      res.send(data);
-//    }
-//  });
-// };
+exports.postIntegers = function(req, res) {
+ var newInteger = new integerModel();
+ newInteger.array = integer;
+ console.log("INTERGER:" + integer.length);
+ newInteger.save(function(err, data) {
+   if(err) {
+     console.log(err);
+     res.status(500).send();
+   } else {
+     console.log("DATA: " + data);
+     res.send(data);
+   }
+ });
+};
 
 //-------- To fetch data from the DB ------ 
  exports.getIntegers = function() {
