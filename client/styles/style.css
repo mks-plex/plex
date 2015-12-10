@@ -1,1 +1,11 @@
-This is where styles will go.
+html {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  -webkit-box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}

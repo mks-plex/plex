@@ -8,8 +8,8 @@ var Line = React.createClass({
   getDefaultProps: function() {
     return {
       path: '',
-      color: 'blue',
-      width: 2
+      color: 'black',
+      width: 1
     }
   },
 

@@ -11,36 +11,35 @@ var DataSeries = require('./DataSeries');
 var LineChart = React.createClass({
   getDefaultProps: function() {
     return {
-      width: 600,
-      height: 300
+      width: '100%',
+      height: '100%'
     }
   },
 
   render: function() {
-    var data = this.props.data;
     var size = { width: this.props.width, height: this.props.height };
 
-    var max = _.chain(data.series1, data.series2, data.series3)
-      .zip()
-      .map(function(values) {
-        return _.reduce(values, function(memo, value) { return Math.max(memo, value.y); }, 0);
-      })
-      .max()
-      .value();
-
-    var xScale = d3.scale.linear()
-      .domain([0, 6])
+    var xScale = d3.scale.log()
+      .domain([0.000001, 10000000])
       .range([0, this.props.width]);
 
+    var xAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient('bottom')
+      .ticks(0, "e");
+
     var yScale = d3.scale.linear()
-      .domain([0, max])
-      .range([this.props.height, 0]);
+      .domain([0, 120])
+      .range([0, 120]);
+
+    var yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient('left')
+      .ticks(6);
 
     return (
-      <Chart width={this.props.width} height={this.props.height}>
-        <DataSeries data={data.series1} size={size} xScale={xScale} yScale={yScale} ref="series1" color="cornflowerblue" />
-        <DataSeries data={data.series2} size={size} xScale={xScale} yScale={yScale} ref="series2" color="red" />
-        <DataSeries data={data.series3} size={size} xScale={xScale} yScale={yScale} ref="series3" color="green" />
+      <Chart width={this.props.width} height={this.props.height} xAxis={xAxis} yAxis={yAxis}>
+        <DataSeries />
       </Chart>
     );
   }

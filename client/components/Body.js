@@ -24,8 +24,19 @@ var Body = React.createClass({
       }
     });
   },
-  
+
   render: function() {
+    var style = {
+      content: {
+        display: 'flex',
+        flexDirection: 'column',
+        height: '90vh'
+      },
+      intro: {
+        width: '100%'
+      }
+    };
+
     return (
       <div className="main-content">
         <p id="intro-message">Plex allows you to test the time complexity of your algorithm.</p>
