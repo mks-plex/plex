@@ -23,7 +23,7 @@ module.exports.evalAlg = function(userInput, dataType) {
   var pow6 = getRunTime(userInput, data[4]);
 
   return [pow2, pow3, pow4, pow5, pow6];
-}
+};
 
 module.exports.getCoords = function(data) {
   console.log('U24-getting d3-readable coordinates from eval data');
@@ -42,7 +42,7 @@ module.exports.getCoords = function(data) {
 
   // returns json: '[{runTime, N, [worst, best case for averaged inputs]}]' for each input size N
   return JSON.stringify(coords);
-}
+};
 
 function runTimeAverage(userInput, dbInput, iterations) {
   console.log('U34-calculating runtime average for N = ' + dbInput.length);
@@ -57,6 +57,7 @@ function runTimeAverage(userInput, dbInput, iterations) {
     total += stats[1];
     i++;
   }
+  
   averageRun = total / iterations;
 
   // TODO: include worst and best case : Math.max(times), Math.min(times) & for getRunTime
@@ -88,7 +89,7 @@ function memoize(func) {
 
     return cached[args];
   };
-};
+}
 
 function buildFunc(userInput) {
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
