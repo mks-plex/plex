@@ -1,4 +1,5 @@
 var queries = require('./queries.js');
+var memoBuild = memoize(buildFunc);
 
 module.exports.evalAlg = function(userInput, dataType) {
   console.log('U4-evaluating algorithm with server data');
@@ -75,7 +76,6 @@ function runTimeAverage(userInput, dbInput, iterations) {
   averageRun = total / iterations;
 
   // TODO: include worst and best case : Math.max(times), Math.min(times) & for getRunTime
-
   // returns [input size N, average runtime in milliseconds, worst, best]
   return [stats[0], Number(averageRun.toFixed(3))];
 }
@@ -83,7 +83,7 @@ function runTimeAverage(userInput, dbInput, iterations) {
 function getRunTime(userInput, dbInput) {
   console.log('U51-calculating single runtime for N = ' + dbInput.length);
 
-  var userAlg = buildFunc(userInput);
+  var userAlg = memoBuild(userInput);
   var time = process.hrtime();
   var result = userAlg(dbInput);
   var diff = process.hrtime(time);
@@ -93,6 +93,18 @@ function getRunTime(userInput, dbInput) {
   return [dbInput.length, Number(runTime.toFixed(3))];
 }
 
+function memoize(func) {
+  var cached = {};
+
+  return function() {
+    var args = Array.prototype.slice.call(arguments);
+    if (!cached[args]) {
+      cached[args] = func.apply(this, arguments);
+    }
+
+    return cached[args];
+  };
+};
 
 function buildFunc(userInput) {
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
@@ -104,9 +116,6 @@ function buildFunc(userInput) {
   
   return userAlg;
 }
-
-
-// TODO: transfer this to be method on codemirror class(?)
 
 function getFuncName(string) {
   var dStop = string.indexOf('=');
