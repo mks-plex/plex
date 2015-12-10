@@ -1,4 +1,4 @@
-//var queries = require('./queries.js');
+var queries = require('./queries.js');
 var memoBuild = memoize(buildFunc);
 
 module.exports.evalAlg = function(userInput, dataType) {
