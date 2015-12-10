@@ -14,6 +14,9 @@ var CodeMirror = React.createClass({
       mode: 'javascript'
     }
   },
+  handleClick: function() {
+    this.props.getCode(this.state.code);
+  },
   updateCode: function(newCode) {
     this.setState({
       code: newCode
@@ -28,6 +31,7 @@ var CodeMirror = React.createClass({
     return (
       <div className="codeMirror-container">
         <ReactCodeMirror ref="editor" value={this.state.code} onChange={this.updateCode} options={options} />
+        <button onClick={this.handleClick}>PlexIt</button>  
       </div>
     )
   }
