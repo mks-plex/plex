@@ -7,8 +7,8 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
 
   var dataType = req.params.dataType || null;
   var algorithmData = utils.evalAlg(userInput, dataType);
-  var d3Coordinates = utils.getCoords(algorithmData);
+  var jsonD3Coordinates = utils.getCoords(algorithmData);
 
-  res.coords = d3Coordinates;
+  res.coords = jsonD3Coordinates;
   next();
 }

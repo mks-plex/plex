@@ -1,9 +1,11 @@
 var queries = require('./queries.js');
+var memoBuild = memoize(buildFunc);
 
 module.exports.evalAlg = function(userInput, dataType) {
   console.log('U4-evaluating algorithm with server data');
 
   // TODO: add queries file, get data inputs from database, save in respective variables
+  
   var data = queries.getData(dataType);
 
   /*
@@ -13,34 +15,41 @@ module.exports.evalAlg = function(userInput, dataType) {
 
   TODO: include 60 - 90 second timeout for pow5 and pow6 depending on results
   */
+
   var pow2 = runTimeAverage(userInput, data[0], 8);
   var pow3 = runTimeAverage(userInput, data[1], 6);
   var pow4 = runTimeAverage(userInput, data[2], 3);
   var pow5 = getRunTime(userInput, data[3]);
   var pow6 = getRunTime(userInput, data[4]);
-  // var pow7 = getRunTime(userInput, data[5]);
 
   return [pow2, pow3, pow4, pow5, pow6];
 }
 
 module.exports.getCoords = function(data) {
-  console.log('U24-getting graph coordinates from evaluation data');
+  console.log('U24-getting d3-readable coordinates from eval data');
 
   var coords = [];
 
+  // TODO: refactor to include worst and best case : data[i][2], data[i][3]
+
   for (var i = 0; i < data.length; i++) {
     if (data[i][3] && data[i][4]) {
+<<<<<<< 29150fd94ae38030f618eba24897d9e3bcdd2190
       coords.push([data[i][1], data[i][0], data[i][3], data[i][4]]);
+=======
+      coords.push({x_axis: data[i][0], y_axis: data[i][1], worst: data[i][2], best: data[i][3]});  
+>>>>>>> [refactor] refactor middleware to return json
     } else {
-      coords.push([data[i][1], data[i][0]]);
+      coords.push({x_axis: data[i][0], y_axis: data[i][1]});
     }
   }
 
-  // returns array of [runTime, N, [worst, best case for averaged inputs]] for each input size N
-  return coords;
+  // returns json: '[{runTime, N, [worst, best case for averaged inputs]}]' for each input size N
+  return JSON.stringify(coords);
 }
 
 function runTimeAverage(userInput, dbInput, iterations) {
+<<<<<<< 29150fd94ae38030f618eba24897d9e3bcdd2190
   console.log('U34-calculating runtime average for N=' + dbInput.length);
 
   var times = [];
@@ -50,48 +59,64 @@ function runTimeAverage(userInput, dbInput, iterations) {
   var result;
 
 
+=======
+  console.log('U34-calculating runtime average for N = ' + dbInput.length);
+
+  var total = 0;
+  var i = 0;
+  var averageRun;
+  var stats;
+  
+>>>>>>> [refactor] refactor middleware to return json
   while (i < iterations) {
-    var stats = getRunTime(userInput, dbInput);
-    times.push(stats[0]);
-    total += stats[0];
+    stats = getRunTime(userInput, dbInput);
+    total += stats[1];
     i++;
   }
   averageRun = total / iterations;
 
-  // returns [avgRunTime, N, result || null, worst case, best case]
-  return [Number(averageRun.toFixed(3)), stats[1], stats[2], Math.max(times), Math.min(times)];
+  // TODO: include worst and best case : Math.max(times), Math.min(times) & for getRunTime
+  // returns [input size N, average runtime in milliseconds, worst, best]
+  return [stats[0], Number(averageRun.toFixed(3))];
 }
 
 function getRunTime(userInput, dbInput) {
-  console.log('U51-calculating single runtime for N=' + dbInput.length);
+  console.log('U51-calculating single runtime for N = ' + dbInput.length);
 
-  var userAlg = buildFunc(userInput);
+  var userAlg = memoBuild(userInput);
   var time = process.hrtime();
   var result = userAlg(dbInput);
   var diff = process.hrtime(time);
   var runTime = (diff[0] * 1e9 + diff[1]) / 1e6;
 
-  // returns [runtime in milliseconds, input size N, and result if N = 100]
-  if (dbInput.length <= 100) {
-    return [Number(runTime.toFixed(3)), dbInput.length, result];
-  } else {
-    return [Number(runTime.toFixed(3)), dbInput.length, null];
-  }
+  // returns [N, runtime in milliseconds]
+  return [dbInput.length, Number(runTime.toFixed(3))];
 }
+
+function memoize(func) {
+  var cached = {};
+
+  return function() {
+    var args = Array.prototype.slice.call(arguments);
+    if (!cached[args]) {
+      cached[args] = func.apply(this, arguments);
+    }
+
+    return cached[args];
+  };
+};
 
 function buildFunc(userInput) {
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
+  var algName = getFuncName(userInput);
   var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
   var userAlg = new Function(param, algString);
 
-  console.log('U67-created algorithm with user input');
-
+  console.log('U67-created ' + algName + ' algorithm with user input');
+  
   return userAlg;
 }
 
-
-
-// TODO: transfer this to be method on codemirror class(?)
 function getFuncName(string) {
   var dStop = string.indexOf('=');
   var eStop = string.indexOf('(');
@@ -115,3 +140,4 @@ function getFuncName(string) {
 
   return funcName;
 }
+
