@@ -1,10 +1,10 @@
 var path = require('path');
 var express = require('express');
+var bodyParser = require('body-parser');
 var webpack = require('webpack');
 var webpackMiddleware = require('webpack-dev-middleware');
 var config = require('../webpack.config.js');
 var mid = require('./middleware.js');
-var bodyParser = require('body-parser');
 
 var app = express();
 var compiler = webpack(config);

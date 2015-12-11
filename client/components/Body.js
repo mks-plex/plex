@@ -3,9 +3,9 @@
 */
 
 var React = require('react');
+var $ = require('jquery');
 var CodeMirror = require('./CodeMirror');
 var Analysis = require('./Analysis');
-var $ = require('jquery');
 
 var Body = React.createClass({
   getCode: function(newCode) {
@@ -21,8 +21,9 @@ var Body = React.createClass({
       error: function(err) {
         console.error('Ooop! You have a ' + err.status + ' error.');
       }
-    })
+    });
   },
+  
   render: function() {
     return (
       <div className="main-content">
