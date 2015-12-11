@@ -5,7 +5,7 @@ module.exports.evalAlg = function(userInput, dataType) {
   console.log('U4-evaluating algorithm with server data');
 
   // TODO: add queries file, get data inputs from database, save in respective variables
-  
+
   var data = queries.getData(dataType);
 
   /*
@@ -34,7 +34,7 @@ module.exports.getCoords = function(data) {
 
   for (var i = 0; i < data.length; i++) {
     if (data[i][3] && data[i][4]) {
-      coords.push({x_axis: data[i][0], y_axis: data[i][1], worst: data[i][2], best: data[i][3]});  
+      coords.push({x_axis: data[i][0], y_axis: data[i][1], worst: data[i][2], best: data[i][3]});
     } else {
       coords.push({x_axis: data[i][0], y_axis: data[i][1]});
     }
@@ -57,7 +57,7 @@ function runTimeAverage(userInput, dbInput, iterations) {
     total += stats[1];
     i++;
   }
-  
+
   averageRun = total / iterations;
 
   // TODO: include worst and best case : Math.max(times), Math.min(times) & for getRunTime
@@ -98,7 +98,7 @@ function buildFunc(userInput) {
   var userAlg = new Function(param, algString);
 
   console.log('U67-created ' + algName + ' algorithm with user input');
-  
+
   return userAlg;
 }
 
@@ -125,4 +125,3 @@ function getFuncName(string) {
 
   return funcName;
 }
-
