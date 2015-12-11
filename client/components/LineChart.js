@@ -11,8 +11,8 @@ var DataSeries = require('./DataSeries');
 var LineChart = React.createClass({
   getDefaultProps: function() {
     return {
-      width: '100%',
-      height: '100%'
+      width: 800,
+      height: 300
     }
   },
 
@@ -30,7 +30,7 @@ var LineChart = React.createClass({
 
     var yScale = d3.scale.linear()
       .domain([0, 120])
-      .range([0, 120]);
+      .range([this.props.height, 0]);
 
     var yAxis = d3.svg.axis()
       .scale(yScale)

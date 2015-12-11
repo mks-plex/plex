@@ -6,41 +6,30 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var Chart = React.createClass({
+  renderAxes: function() {
+    this.xAxisG
+      .attr('transform', 'translate(0, ' + (this.props.height - 50) + ')')
+      .call(this.props.xAxis);
+    this.yAxisG
+      .attr('transform', 'translate(50, 0)')
+      .call(this.props.yAxis);
+  },
+
   componentDidMount: function() {
     this.xAxisG = d3.select(ReactDOM.findDOMNode(this.refs.xAxis));
     this.yAxisG = d3.select(ReactDOM.findDOMNode(this.refs.yAxis));
     console.log(this.xAxisG);
+    this.renderAxes();
   },
 
   componentWillReceiveProps: function() {
-    var xScale = d3.scale.log()
-      .domain([0.000001, 10000000])
-      .range([0, this.props.width]);
-
-    var xAxis = d3.svg.axis()
-      .scale(xScale)
-      .orient('bottom')
-      .ticks(0, "e");
-
-    var yScale = d3.scale.linear()
-      .domain([0, 120])
-      .range([0, 120]);
-
-    var yAxis = d3.svg.axis()
-      .scale(yScale)
-      .orient('left')
-      .ticks(6);
-
-    this.xAxisG.call(xAxis);
-    this.yAxisG.call(yAxis);
+    this.renderAxes();
   },
 
   render: function() {
     var style = {
       chart: {
-        borderColor: 'black',
-        borderStyle: 'solid',
-        borderWidth: 1
+
       }
     };
 
