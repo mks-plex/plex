@@ -17,28 +17,37 @@ var LineChart = React.createClass({
   },
 
   render: function() {
-    var size = { width: this.props.width, height: this.props.height };
-
     var xScale = d3.scale.log()
-      .domain([0.000001, 10000000])
-      .range([0, this.props.width]);
+      .domain([0.1, 10000000])
+      .range([0, this.props.width - 50]);
 
     var xAxis = d3.svg.axis()
       .scale(xScale)
       .orient('bottom')
-      .ticks(0, "e");
+      .ticks(0, d3.format(','))
+      .tickValues([100, 1000, 10000, 100000, 1000000])
+      .outerTickSize(0);
+
+    var x0Scale = d3.scale.ordinal()
+      .domain([0])
+      .range([0]);
+
+    var x0Axis = d3.svg.axis()
+      .scale(x0Scale)
+      .orient('bottom');
 
     var yScale = d3.scale.linear()
       .domain([0, 120])
-      .range([this.props.height, 0]);
+      .range([this.props.height - 50, 0]);
 
     var yAxis = d3.svg.axis()
       .scale(yScale)
       .orient('left')
-      .ticks(6);
+      .tickValues([0, 20, 40, 60, 80, 100])
+      .outerTickSize(0);
 
     return (
-      <Chart width={this.props.width} height={this.props.height} xAxis={xAxis} yAxis={yAxis}>
+      <Chart width={this.props.width} height={this.props.height} xAxis={xAxis} x0Axis={x0Axis} yAxis={yAxis}>
         <DataSeries />
       </Chart>
     );
