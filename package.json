@@ -17,8 +17,11 @@
   },
   "homepage": "https://github.com/plexit/plex#readme",
   "dependencies": {
+    "bluebird": "^3.0.6",
     "body-parser": "^1.14.1",
+    "codemirror": "^5.9.0",
     "express": "^4.13.3",
+    "jquery": "^2.1.4",
     "react": "^0.14.3",
     "react-codemirror": "^0.2.2",
     "react-dom": "^0.14.3"
@@ -28,6 +31,7 @@
     "babel-loader": "^6.2.0",
     "babel-preset-react": "^6.1.18",
     "css-loader": "^0.23.0",
+    "mongoose": "^4.3.1",
     "path": "^0.12.7",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9",

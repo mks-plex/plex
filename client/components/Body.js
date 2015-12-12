@@ -11,7 +11,7 @@ var Body = React.createClass({
   getCode: function(newCode) {
     $.ajax({
       type: 'POST',
-      url: '/parse/:dataType',
+      url: '/parse/integers',
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify({data: newCode}),
