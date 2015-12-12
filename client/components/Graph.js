@@ -3,26 +3,67 @@
 */
 
 var React = require('react');
-var LineChart = require('./LineChart');
+var d3 = require('d3');
+var ZeroAxis = require('./ZeroAxis');
+var InputAxis = require('./InputAxis');
+var TimeAxis = require('./TimeAxis');
+var Line = require('./Line');
 
 var Graph = React.createClass({
   getDefaultProps: function() {
     return {
-      data: [
-        {x: 0.1, y: 0}, {x: 100, y: 10}, {x: 1000, y: 20}, {x: 10000, y: 30}, {x: 100000, y: 40}, {x: 1000000, y: 50}
-      ]
+      width: 800,
+      height: 300
     }
   },
 
   render: function() {
+    //styles
     var style = {
-      width: '65vw'
+      svg: {
+        margin: 50
+      }
     };
 
+    //ordinal axis
+    var x0Scale = d3.scale.ordinal()
+      .domain([0])
+      .range([0]);
+
+    var x0Axis = d3.svg.axis()
+      .scale(x0Scale)
+      .orient('bottom');
+
+    // logarithmic scale (x)
+    var xScale = d3.scale.log()
+      .domain([0.1, 10000000])
+      .range([0, this.props.width - 50]);
+
+    var xAxis = d3.svg.axis()
+      .scale(xScale)
+      .orient('bottom')
+      .ticks(0, d3.format(','))
+      .tickValues([100, 1000, 10000, 100000, 1000000])
+      .outerTickSize(0);
+
+    // linear scale (y)
+    var yScale = d3.scale.linear()
+      .domain([0, 120])
+      .range([this.props.height - 50, 0]);
+
+    var yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient('left')
+      .tickValues([0, 20, 40, 60, 80, 100])
+      .outerTickSize(0);
+
     return (
-      <div className="graph-container" style={style}>
-        <LineChart data={this.props.data} />
-      </div>
+      <svg width={this.props.width} height={this.props.height} style={style.svg}>
+        <ZeroAxis data={this.props.data} width={this.props.width} height={this.props.height} x0Axis={x0Axis} />
+        <InputAxis data={this.props.data} width={this.props.width} height={this.props.height} xAxis={xAxis} />
+        <TimeAxis data={this.props.data} width={this.props.width} height={this.props.height} yAxis={yAxis} />
+        <Line data={this.props.data} xScale={xScale} yScale={yScale}/>
+      </svg>
     );
   }
 });
