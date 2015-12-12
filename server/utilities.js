@@ -1,47 +1,47 @@
 var queries = require('./queries.js');
 var memoBuild = memoize(buildFunc);
+var Promise = require('bluebird');
 
 module.exports.evalAlg = function(userInput, dataType) {
-  console.log('U4-evaluating algorithm with server data');
 
-  // TODO: add queries file, get data inputs from database, save in respective variables
+  return new Promise(function(resolve, reject){
+    console.log('U4-evaluating algorithm with server data');
+    console.log('data type is ' + dataType);
 
-  var data = queries.getData(dataType);
+    var pow2, pow3, pow4, pow5, pow6;
 
-  /*
-  powX represents tests for data size Math.pow(10, X). e.g. 10^3 for 1,000
-  skip pow1 because results not accurate for input size < 100
-  possibly include pow7 if sizes of ten million are feasible
-
-  TODO: include 60 - 90 second timeout for pow5 and pow6 depending on results
-  */
-
-  var pow2 = runTimeAverage(userInput, data[0], 8);
-  var pow3 = runTimeAverage(userInput, data[1], 6);
-  var pow4 = runTimeAverage(userInput, data[2], 3);
-  var pow5 = getRunTime(userInput, data[3]);
-  var pow6 = getRunTime(userInput, data[4]);
-
-  return [pow2, pow3, pow4, pow5, pow6];
-};
+    queries.getData(dataType).then(function(data) {
+      /*
+      powX represents tests for data size Math.pow(10, X). e.g. 10^3 for 1,000
+      skip pow1 because results not accurate for input size < 100
+      possibly include pow7 if sizes of ten million are feasible
+      */
+      pow2 = runTimeAverage(userInput, data[0].array, 8);
+      pow3 = runTimeAverage(userInput, data[1].array, 6);
+      pow4 = runTimeAverage(userInput, data[2].array, 3);
+      pow5 = getRunTime(userInput, data[3].array);
+      // pow6 = getRunTime(userInput, data[4].array);
+      
+      resolve([pow2, pow3, pow4, pow5]);
+    })
+  })
+}; 
 
 module.exports.getCoords = function(data) {
-  console.log('U24-getting d3-readable coordinates from eval data');
 
-  var coords = [];
+  return new Promise(function(resolve, reject) {
+    console.log('U24-getting d3-readable coordinates from eval data');
 
-  // TODO: refactor to include worst and best case : data[i][2], data[i][3]
-
-  for (var i = 0; i < data.length; i++) {
-    if (data[i][3] && data[i][4]) {
-      coords.push({x_axis: data[i][0], y_axis: data[i][1], worst: data[i][2], best: data[i][3]});
-    } else {
-      coords.push({x_axis: data[i][0], y_axis: data[i][1]});
+    var coords = [];
+    for (var i = 0; i < data.length; i++) {
+      if (data[i][3] && data[i][4]) {
+        coords.push({x_axis: data[i][0], y_axis: data[i][1], worst: data[i][2], best: data[i][3]});
+      } else {
+        coords.push({x_axis: data[i][0], y_axis: data[i][1]});
+      }
     }
-  }
-
-  // returns json: '[{runTime, N, [worst, best case for averaged inputs]}]' for each input size N
-  return JSON.stringify(coords);
+    resolve(JSON.stringify(coords));
+  })
 };
 
 function runTimeAverage(userInput, dbInput, iterations) {

@@ -16,9 +16,9 @@ db.once('open', function() {
   console.log("db connection succeeded");
 });
 
-exports.getData = function() {
-  // if(datatype === "integers"){
+exports.getData = function(dataType) {
+  if(dataType === "integers"){
     return integerController.getIntegers();
-  // }
+  }
 }
   
