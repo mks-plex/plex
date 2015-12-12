@@ -1,5 +1,10 @@
 # MongoDB 
 
+## Install Mongo
+```
+brew install mongodb
+```
+
 ## Local Set Up
 ```
 $ mkdir [database name folder]
