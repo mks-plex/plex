@@ -31,6 +31,7 @@
     "babel-loader": "^6.2.0",
     "babel-preset-react": "^6.1.18",
     "css-loader": "^0.23.0",
+    "mongoose": "^4.3.1",
     "path": "^0.12.7",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.9",
