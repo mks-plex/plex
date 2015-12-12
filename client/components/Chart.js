@@ -6,6 +6,32 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 
 var Chart = React.createClass({
+  getDefaultProps: function() {
+    return {
+      interpolate: 'linear',
+      color: 'black',
+      lineWidth: 1,
+      data: []
+    }
+  },
+
+  componentDidMount: function() {
+    this.xAxisG = d3.select(ReactDOM.findDOMNode(this.refs.xAxis));
+    this.x0AxisG = d3.select(ReactDOM.findDOMNode(this.refs.x0Axis));
+    this.yAxisG = d3.select(ReactDOM.findDOMNode(this.refs.yAxis));
+    this.xAxisLabel = d3.select(ReactDOM.findDOMNode(this.refs.xLabel));
+    this.yAxisLabel = d3.select(ReactDOM.findDOMNode(this.refs.yLabel));
+    this.path = d3.select(ReactDOM.findDOMNode(this.refs.path));
+    this.renderAxes();
+    this.renderLabels();
+    this.renderPath();
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    this.renderAxes();
+    this.renderLabels();
+  },
+
   renderAxes: function() {
     this.xAxisG
       .attr('class', 'x axis')
@@ -36,19 +62,9 @@ var Chart = React.createClass({
       .text('time');
   },
 
-  componentDidMount: function() {
-    this.xAxisG = d3.select(ReactDOM.findDOMNode(this.refs.xAxis));
-    this.x0AxisG = d3.select(ReactDOM.findDOMNode(this.refs.x0Axis));
-    this.yAxisG = d3.select(ReactDOM.findDOMNode(this.refs.yAxis));
-    this.xAxisLabel = d3.select(ReactDOM.findDOMNode(this.refs.xLabel));
-    this.yAxisLabel = d3.select(ReactDOM.findDOMNode(this.refs.yLabel));
-    this.renderAxes();
-    this.renderLabels();
-  },
-
-  componentWillReceiveProps: function() {
-    this.renderAxes();
-    this.renderLabels();
+  renderPath: function() {
+    this.path
+      .attr('transform', 'translate(32, 20)');
   },
 
   render: function() {
@@ -58,6 +74,14 @@ var Chart = React.createClass({
       }
     };
 
+    var xScale = this.props.xScale;
+    var yScale = this.props.yScale;
+
+    var line = d3.svg.line()
+      .x(function(d) { return xScale(d.x); })
+      .y(function(d) { return yScale(d.y); })
+      .interpolate(this.props.interpolate);
+
     return (
       <svg width={this.props.width} height={this.props.height} style={style.chart}>
         <g ref="x0Axis"></g>
@@ -66,6 +90,9 @@ var Chart = React.createClass({
         </g>
         <g ref="yAxis">
           <text ref="yLabel"></text>
+        </g>
+        <g>
+          <path ref="path" d={line(this.props.data)} stroke={this.props.color} strokeWidth={this.props.lineWidth} fill="none" />
         </g>
       </svg>
     );

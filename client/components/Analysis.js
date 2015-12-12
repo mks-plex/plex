@@ -16,7 +16,7 @@ var Analysis = React.createClass({
 
     return (
       <div className="analysis-container" style={style}>
-        <Graph />
+        <Graph data={this.props.data} />
         <Data />
       </div>
     )

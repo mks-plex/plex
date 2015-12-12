@@ -6,7 +6,6 @@ var React = require('react');
 var d3 = require('d3');
 var _ = require('underscore');
 var Chart = require('./Chart');
-var DataSeries = require('./DataSeries');
 
 var LineChart = React.createClass({
   getDefaultProps: function() {
@@ -47,8 +46,7 @@ var LineChart = React.createClass({
       .outerTickSize(0);
 
     return (
-      <Chart width={this.props.width} height={this.props.height} xAxis={xAxis} x0Axis={x0Axis} yAxis={yAxis}>
-        <DataSeries />
+      <Chart data={this.props.data} width={this.props.width} height={this.props.height} xAxis={xAxis} x0Axis={x0Axis} yAxis={yAxis} xScale={xScale} yScale={yScale}>
       </Chart>
     );
   }
