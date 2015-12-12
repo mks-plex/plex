@@ -1,5 +1,5 @@
-var utils = require('./utilities.js');
 var Promise = require('bluebird');
+var utils = require('./utilities.js');
 
 module.exports.evalForAllInputSizes = function(req, res, next) {
   var userInput = req.body.data;
@@ -13,5 +13,5 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
       res.coords = d3Coordinates;
       next();
     });  
-  })
+  });
 }

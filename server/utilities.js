@@ -1,10 +1,9 @@
+var Promise = require('bluebird');
 var queries = require('./queries.js');
 var memoBuild = memoize(buildFunc);
-var Promise = require('bluebird');
 
 module.exports.evalAlg = function(userInput, dataType) {
-
-  return new Promise(function(resolve, reject){
+  return new Promise(function(resolve, reject) {
     console.log('U4-evaluating algorithm with server data');
     console.log('data type is ' + dataType);
 
@@ -23,16 +22,16 @@ module.exports.evalAlg = function(userInput, dataType) {
       // pow6 = getRunTime(userInput, data[4].array);
       
       resolve([pow2, pow3, pow4, pow5]);
-    })
-  })
+    });
+  });
 }; 
 
 module.exports.getCoords = function(data) {
-
   return new Promise(function(resolve, reject) {
     console.log('U24-getting d3-readable coordinates from eval data');
 
     var coords = [];
+    
     for (var i = 0; i < data.length; i++) {
       if (data[i][3] && data[i][4]) {
         coords.push({x_axis: data[i][0], y_axis: data[i][1], worst: data[i][2], best: data[i][3]});
@@ -41,7 +40,7 @@ module.exports.getCoords = function(data) {
       }
     }
     resolve(JSON.stringify(coords));
-  })
+  });
 };
 
 function runTimeAverage(userInput, dbInput, iterations) {

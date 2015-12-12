@@ -5,9 +5,8 @@ var webpack = require('webpack');
 var webpackMiddleware = require('webpack-dev-middleware');
 var config = require('../webpack.config.js');
 var mid = require('./middleware.js');
-
 var integerController = require('./routes/integerController');
-var utils = require('./utilities.js')
+var utils = require('./utilities.js');
 
 var app = express();
 var compiler = webpack(config);

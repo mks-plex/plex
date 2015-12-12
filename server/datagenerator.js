@@ -1,5 +1,4 @@
 var server = require('./server');
-// var faker = require('faker');
 
 var integer=[];
 // for(var i = 100; i > 0; i--){

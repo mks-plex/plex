@@ -17,7 +17,7 @@ db.once('open', function() {
 });
 
 exports.getData = function(dataType) {
-  if(dataType === "integers"){
+  if (dataType === 'integers') {
     return integerController.getIntegers();
   }
 }
