@@ -31,8 +31,8 @@ var Line = React.createClass({
     var yScale = this.props.yScale;
 
     var line = d3.svg.line()
-      .x(function(d) { return xScale(d.x); })
-      .y(function(d) { return yScale(d.y); })
+      .x(function(d) { return xScale(d.x_axis); })
+      .y(function(d) { return yScale(d.y_axis); })
       .interpolate(this.props.interpolate);
 
     return (

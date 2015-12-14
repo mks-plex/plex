@@ -47,7 +47,7 @@ var Body = React.createClass({
       <div className="main-content" style={style.content}>
         <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
-        <Analysis />
+        <Analysis data={this.state.data} />
       </div>
     )
   }
