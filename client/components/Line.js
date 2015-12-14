@@ -9,7 +9,7 @@ var d3 = require('d3');
 var Line = React.createClass({
   getDefaultProps: function() {
     return {
-      interpolate: 'linear',
+      interpolate: 'monotone',
       color: 'black',
       strokeWidth: 1,
       data: []

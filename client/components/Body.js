@@ -8,6 +8,12 @@ var CodeMirror = require('./CodeMirror');
 var Analysis = require('./Analysis');
 
 var Body = React.createClass({
+  getInitialState: function() {
+    return {
+      data: []
+    };
+  },
+
   getCode: function(newCode) {
     $.ajax({
       type: 'POST',
@@ -21,7 +27,7 @@ var Body = React.createClass({
       },
       error: function(err) {
         console.error('Ooop! You have a ' + err.status + ' error.');
-      }
+      }.bind(this)
     });
   },
 
