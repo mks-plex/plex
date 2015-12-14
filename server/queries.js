@@ -20,5 +20,5 @@ exports.getData = function(dataType) {
   if (dataType === 'integers') {
     return integerController.getIntegers();
   }
-}
+};
   

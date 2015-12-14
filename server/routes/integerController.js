@@ -26,8 +26,9 @@ exports.postIntegers = function(req, res) {
 
 //-------- To fetch data from the DB ------ 
 exports.getIntegers = function() {
+  console.log('Getting Integers');
   return integerModel.find({}, function(err, foundData) {
-    // console.log('FoundData: ', foundData[0].array.length) 
+    // return foundData[0].array;
   });
 }; 
 

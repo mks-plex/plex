@@ -3,44 +3,42 @@ var queries = require('./queries.js');
 var memoBuild = memoize(buildFunc);
 
 module.exports.evalAlg = function(userInput, dataType) {
+  console.log('U6-evaluating algorithm with server data');
+
   return new Promise(function(resolve, reject) {
-    console.log('U4-evaluating algorithm with server data');
-    console.log('data type is ' + dataType);
+    return queries.getData(dataType)
+    .then(function(stuff) {
+      var data = stuff[0].array;
+      var currentInputSize = 500;
+      var result = [];
 
-    var pow2, pow3, pow4, pow5, pow6;
+      console.log('U13-data length is ' + data.length);
 
-    queries.getData(dataType).then(function(data) {
-      /*
-      powX represents tests for data size Math.pow(10, X). e.g. 10^3 for 1,000
-      skip pow1 because results not accurate for input size < 100
-      possibly include pow7 if sizes of ten million are feasible
-      */
-      pow2 = runTimeAverage(userInput, data[0].array, 8);
-      pow3 = runTimeAverage(userInput, data[1].array, 6);
-      pow4 = runTimeAverage(userInput, data[2].array, 3);
-      pow5 = getRunTime(userInput, data[3].array);
-      // pow6 = getRunTime(userInput, data[4].array);
-      
-      resolve([pow2, pow3, pow4, pow5]);
+      while (currentInputSize < data.length) {
+        var runtime = getRunTime(userInput, data.slice(0, currentInputSize));
+        result.push(runtime);
+        currentInputSize += 1000;
+      }
+
+      resolve(result);
     });
   });
 }; 
 
-module.exports.getCoords = function(data) {
-  return new Promise(function(resolve, reject) {
-    console.log('U24-getting d3-readable coordinates from eval data');
-
-    var coords = [];
-    
-    for (var i = 0; i < data.length; i++) {
-      if (data[i][3] && data[i][4]) {
-        coords.push({x_axis: data[i][0], y_axis: data[i][1], worst: data[i][2], best: data[i][3]});
-      } else {
-        coords.push({x_axis: data[i][0], y_axis: data[i][1]});
-      }
+module.exports.getJSONCoords = function(data) {
+  // return new Promise(function(resolve, reject) {
+  console.log('U24-getting d3-readable coordinates from eval data');
+  var coords = [];
+  
+  for (var i = 0; i < data.length; i++) {
+    if (data[i][3] && data[i][4]) {
+      coords.push({x_axis: data[i][0], y_axis: data[i][1], worst: data[i][2], best: data[i][3]});
+    } else {
+      coords.push({x_axis: data[i][0], y_axis: data[i][1]});
     }
-    resolve(JSON.stringify(coords));
-  });
+  }
+  
+  return JSON.stringify(coords);
 };
 
 function runTimeAverage(userInput, dbInput, iterations) {
@@ -65,17 +63,18 @@ function runTimeAverage(userInput, dbInput, iterations) {
 }
 
 function getRunTime(userInput, dbInput) {
-  console.log('U51-calculating single runtime for N = ' + dbInput.length);
-
   var userAlg = memoBuild(userInput);
+  // var userAlg = buildFunc(userInput);
   var time = process.hrtime();
   var result = userAlg(dbInput);
   var diff = process.hrtime(time);
   var runTime = (diff[0] * 1e9 + diff[1]) / 1e6;
 
+  console.log('U51- single runtime for N = ' + dbInput.length + ', run: ' + runTime);
   // returns [N, runtime in milliseconds]
   return [dbInput.length, Number(runTime.toFixed(3))];
 }
+
 
 function memoize(func) {
   var cached = {};
@@ -91,12 +90,15 @@ function memoize(func) {
 }
 
 function buildFunc(userInput) {
+  console.log('U116- building function');
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
+  console.log('param is ' + param);
   var algName = getFuncName(userInput);
+  console.log('algname is ' + algName);
   var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
   var userAlg = new Function(param, algString);
 
-  console.log('U67-created ' + algName + ' algorithm with user input');
+  console.log('U122-created ' + algName + ' algorithm with user input');
 
   return userAlg;
 }
