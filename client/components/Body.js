@@ -15,8 +15,9 @@ var Body = React.createClass({
       dataType: 'json',
       contentType: 'application/json',
       data: JSON.stringify({data: newCode}),
-      success: function() {
-        console.log('Post request was successful');
+      success: function(data) {
+        console.log('Response received, success');
+        console.log(data);
       },
       error: function(err) {
         console.error('Ooop! You have a ' + err.status + ' error.');

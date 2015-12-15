@@ -18,8 +18,7 @@ app.use(express.static(__dirname + '/../client/'));
 // endpoint for users submitting an algortithm to test, including which data type to test with
 
 app.post('/parse/:dataType', mid.evalForAllInputSizes, function(req, res) {
-  console.log('This is the algorithm', req.body.data);
-  console.log('S18-sending response, coordinates are: ' + res.coords);
+  console.log('S21-sending response, coordinates are: ' + res.coords);
   res.send(res.coords);
 });
 
@@ -29,7 +28,7 @@ app.get('*', function(req, res) {
   res.sendFile(path.resolve(__dirname, '../client/index.html'));
 });
 
-// app.get('/test', integerController.getIntegers);
-// app.post('/test', integerController.postIntegers);
+app.get('/test', integerController.getIntegers);
+app.post('/test', integerController.postIntegers);
 
 app.listen(port);
