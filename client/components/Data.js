@@ -7,12 +7,14 @@ var React = require('react');
 var Data = React.createClass({
   render: function() {
     var style = {
-      container: {padding: 50},
-      content: {
+      container: {
+        margin: 50,
         width: '30vw',
         borderColor: 'black',
         borderStyle: 'solid',
         borderWidth: 1
+      },
+      content: {
       }
     };
 

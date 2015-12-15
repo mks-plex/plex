@@ -36,25 +36,25 @@ var Graph = React.createClass({
 
     // logarithmic scale (x)
     var xScale = d3.scale.log()
-      .domain([0.1, 1000000])
+      .domain([10, 20000])
       .range([0, this.props.width - 50]);
 
     var xAxis = d3.svg.axis()
       .scale(xScale)
       .orient('bottom')
       .ticks(0, d3.format(','))
-      .tickValues([100, 1000, 10000, 100000])
+      .tickValues([100, 1000, 10000])
       .outerTickSize(0);
 
     // linear scale (y)
     var yScale = d3.scale.linear()
-      .domain([0, 1200])
+      .domain([0, 240])
       .range([this.props.height - 50, 0]);
 
     var yAxis = d3.svg.axis()
       .scale(yScale)
       .orient('left')
-      .tickValues([0, 200, 400, 600, 800, 1000])
+      .tickValues([0, 40, 80, 120, 160, 200])
       .outerTickSize(0);
 
     return (

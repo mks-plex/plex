@@ -24,7 +24,8 @@ var Body = React.createClass({
       success: function(data) {
         console.log('Response received, success');
         console.log(data);
-      },
+        this.setState({data: data});
+      }.bind(this),
       error: function(err) {
         console.error('Ooop! You have a ' + err.status + ' error.');
       }.bind(this)
