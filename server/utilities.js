@@ -3,21 +3,28 @@ var queries = require('./queries.js');
 var memoBuild = memoize(buildFunc);
 
 module.exports.evalAlg = function(userInput, dataType) {
-  console.log('U6-evaluating algorithm with server data');
+  var avgCutoff = 1000;
+  var avgIterations = 3;
+  var currentInputSize = 500;
+  var stepFactor = 1.2;
+  var result = [];
+  var runtime;
 
   return new Promise(function(resolve, reject) {
     return queries.getData(dataType)
-    .then(function(stuff) {
-      var data = stuff[0].array;
-      var currentInputSize = 500;
-      var result = [];
+    .then(function(response) {
+      var data = response[0].array;
 
-      console.log('U13-data length is ' + data.length);
+      console.log('U18-data length is ' + data.length);
 
-      while (currentInputSize < data.length) {
-        var runtime = getRunTime(userInput, data.slice(0, currentInputSize));
+      while (currentInputSize < 10000) {
+        if (currentInputSize <= avgCutoff) {
+          runtime = runTimeAverage(userInput, data.slice(0, currentInputSize), avgIterations);
+        } else {
+          runtime = getRunTime(userInput, data.slice(0, currentInputSize));
+        }
         result.push(runtime);
-        currentInputSize += 1000;
+        currentInputSize *= stepFactor;
       }
 
       resolve(result);
@@ -26,23 +33,19 @@ module.exports.evalAlg = function(userInput, dataType) {
 }; 
 
 module.exports.getJSONCoords = function(data) {
-  // return new Promise(function(resolve, reject) {
-  console.log('U24-getting d3-readable coordinates from eval data');
+  console.log('U36-getting json coordinates from eval data');
+
   var coords = [];
   
   for (var i = 0; i < data.length; i++) {
-    if (data[i][3] && data[i][4]) {
-      coords.push({x_axis: data[i][0], y_axis: data[i][1], worst: data[i][2], best: data[i][3]});
-    } else {
-      coords.push({x_axis: data[i][0], y_axis: data[i][1]});
-    }
+    coords.push({x_axis: data[i][0], y_axis: data[i][1]});
   }
-  
+
   return JSON.stringify(coords);
 };
 
 function runTimeAverage(userInput, dbInput, iterations) {
-  console.log('U34-calculating runtime average for N = ' + dbInput.length);
+  console.log('U48-calculating runtime average for N = ' + dbInput.length);
 
   var total = 0;
   var i = 0;
@@ -57,8 +60,7 @@ function runTimeAverage(userInput, dbInput, iterations) {
 
   averageRun = total / iterations;
 
-  // TODO: include worst and best case : Math.max(times), Math.min(times) & for getRunTime
-  // returns [input size N, average runtime in milliseconds, worst, best]
+  // returns [input size N, average runtime in milliseconds]
   return [stats[0], Number(averageRun.toFixed(3))];
 }
 
@@ -70,35 +72,20 @@ function getRunTime(userInput, dbInput) {
   var diff = process.hrtime(time);
   var runTime = (diff[0] * 1e9 + diff[1]) / 1e6;
 
-  console.log('U51- single runtime for N = ' + dbInput.length + ', run: ' + runTime);
+  console.log('U75- single runtime for N = ' + dbInput.length + ', run: ' + runTime);
   // returns [N, runtime in milliseconds]
   return [dbInput.length, Number(runTime.toFixed(3))];
 }
 
-
-function memoize(func) {
-  var cached = {};
-
-  return function() {
-    var args = Array.prototype.slice.call(arguments);
-    if (!cached[args]) {
-      cached[args] = func.apply(this, arguments);
-    }
-
-    return cached[args];
-  };
-}
-
 function buildFunc(userInput) {
-  console.log('U116- building function');
+  console.log('U116-building function');
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
-  console.log('param is ' + param);
+  console.log('U99-param is ' + param);
   var algName = getFuncName(userInput);
-  console.log('algname is ' + algName);
   var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
   var userAlg = new Function(param, algString);
 
-  console.log('U122-created ' + algName + ' algorithm with user input');
+  console.log('U88-created ' + algName + ' algorithm with user input');
 
   return userAlg;
 }
@@ -125,4 +112,17 @@ function getFuncName(string) {
   }
 
   return funcName;
+}
+
+function memoize(func) {
+  var cached = {};
+
+  return function() {
+    var args = Array.prototype.slice.call(arguments);
+    if (!cached[args]) {
+      cached[args] = func.apply(this, arguments);
+    }
+
+    return cached[args];
+  };
 }

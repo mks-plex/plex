@@ -5,7 +5,7 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
   var userInput = req.body.data;
   var dataType = req.params.dataType || null; 
 
-  console.log('M6-string received from ajax: ' + userInput);
+  console.log('M8-string received from ajax: ' + userInput);
 
   return new Promise(function(resolve, reject) {
   	var data = utils.evalAlg(userInput, dataType);
@@ -15,13 +15,4 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
     res.coords = coords;
     next();
   });
-
-  // return utils.evalAlg(userInput, dataType).then(function(algorithmData) {
-  // 	console.log('M34-got ' + algorithmData);
-  //   return utils.getCoords(algorithmData).then(function(d3Coordinates) {
-  //     res.coords = d3Coordinates;
-  //     next();
-  //   });  
-  // });
-
 };
