@@ -1,10 +1,10 @@
+/******YOU DO NOT NEED TO CHANGE ANY OF THE CODE BEFORE LINE 76******/
+
+var fs = require('fs');
+
 // This file is for testing purposes only. It is used for
 // generating test data and running our test data on a variety
 // of sorting algorithms.
-
-// Change the name of the last path to the name of the
-// algorithm you want to test
-var algo = require('../algos/bubbleSort');
 
 // This function - the createTest function - creates a
 // series of test data. This test data is an array of arrays.
@@ -74,3 +74,25 @@ function createDataSet(min, max, increment, algorithm, repetitions) {
   }
   return results;
 };
+
+/******CHANGE PARAMETERS BELOW******/
+
+// Change the name of the last path to the name of the
+// algorithm you want to test
+// PUT ALGORITHM HERE
+var algo = require('../algos/nativesort.js');
+
+// ADD PARAMETRS HERE
+var data = createDataSet(100, 10000, 100, algo, 15);
+
+var csvContent = "";
+data.forEach(function(infoArray, index){
+   dataString = infoArray.join(",");
+   csvContent += index < data.length ? dataString+ "\n" : dataString;
+});
+
+// NAME FILE HERE
+fs.writeFile('data/native0.csv', csvContent, function(err) {
+  if (err) throw err;
+  console.log('Success!');
+});
