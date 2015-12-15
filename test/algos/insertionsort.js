@@ -11,3 +11,5 @@ function insertionSort(unsortedList) {
   }
   return unsortedList;
 }
+
+module.exports = insertionSort;
