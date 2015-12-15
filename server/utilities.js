@@ -30,13 +30,13 @@ module.exports.evalAlg = function(userInput, dataType) {
       resolve(result);
     });
   });
-}; 
+};
 
 module.exports.getJSONCoords = function(data) {
   console.log('U36-getting json coordinates from eval data');
 
   var coords = [];
-  
+
   for (var i = 0; i < data.length; i++) {
     coords.push({x_axis: data[i][0], y_axis: data[i][1]});
   }

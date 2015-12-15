@@ -8,6 +8,12 @@ var CodeMirror = require('./CodeMirror');
 var Analysis = require('./Analysis');
 
 var Body = React.createClass({
+  getInitialState: function() {
+    return {
+      data: []
+    };
+  },
+
   getCode: function(newCode) {
     $.ajax({
       type: 'POST',
@@ -18,19 +24,31 @@ var Body = React.createClass({
       success: function(data) {
         console.log('Response received, success');
         console.log(data);
-      },
+        this.setState({data: data});
+      }.bind(this),
       error: function(err) {
         console.error('Ooop! You have a ' + err.status + ' error.');
-      }
+      }.bind(this)
     });
   },
-  
+
   render: function() {
+    var style = {
+      content: {
+        display: 'flex',
+        flexDirection: 'column',
+        height: '90vh'
+      },
+      intro: {
+        width: '100%'
+      }
+    };
+
     return (
-      <div className="main-content">
-        <p id="intro-message">Plex allows you to test the time complexity of your algorithm.</p>
+      <div className="main-content" style={style.content}>
+        <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
-        <Analysis />
+        <Analysis data={this.state.data} />
       </div>
     )
   }

@@ -1,1 +1,31 @@
-This is where styles will go.
+html {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  -webkit-box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.axis {
+  shape-rendering: crispEdges;
+}
+
+.x.axis line, .x.axis path {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.0;
+}
+
+.y.axis line, .y.axis path {
+fill: none;
+stroke: #000;
+stroke-width: 1.0;
+}
+
+.tick {
+  font-size: 10px;
+}

@@ -9,11 +9,16 @@ var Footer = require('./Footer');
 
 var App = React.createClass({
   render: function() {
+    var style = {
+      display: 'flex',
+      flexDirection: 'column'
+    };
+
     return (
-      <div>
-        <Header />
-        <Body />
-        <Footer />
+      <div style={style}>
+        <Header header="plex"/>
+        <Body intro="plex allows you to test the time complexity of your algorithm."/>
+        <Footer footer="&copy; 2016"/>
       </div>
     )
   }
