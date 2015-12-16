@@ -6,6 +6,12 @@ var React = require('react');
 
 var Data = React.createClass({
   render: function() {
+    // var dataPoints = this.props.data.map(function(pair) {
+    //   return (
+    //     <Pair x={pair.x_axis} y={pair.y_axis} />
+    //   );
+    // });
+
     var style = {
       container: {
         margin: 50,
@@ -15,6 +21,7 @@ var Data = React.createClass({
         borderWidth: 1
       },
       content: {
+        textAlign: 'center'
       }
     };
 
