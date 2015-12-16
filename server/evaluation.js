@@ -4,7 +4,7 @@ var queries = require('./queries.js');
 var utils = require('./utilities.js');
 
 module.exports.evalAlg = function(userInput, dataType) {
-	var databaseSize = 10000;
+  var databaseSize = 10000;
   var avgCutoff = 500;
   var avgIterations = 3;
   var currentInputSize = 500;
@@ -47,37 +47,33 @@ module.exports.getJSONCoords = function(data) {
 };
 
 module.exports.runRegression = function(data, order) {
-	order = order || '2+';
-	var equation;
-	var result;
+  order = order || '2+';
+  var equation;
+  var result;
 
-	/* TODO: use results of bigO to run the right type of regression
-	switch statement for order/regression type
-	2+ - power y = ax^b
-	1 - linear y = ax + b
-	ln - logarithmic y = a + b ln x
-	default - linearThroughOrigin y = mx
-	*/
-	
-	switch (order) {
-		case ('2+'): result = regression('power', data);
-			equation = 'y = ' + result.equation[0] + 'x^' + result.equation[1];
-			break;
-		case ('1'): result = regression('linear', data);
-			equation = 'y = ' + result.equation[0] + 'x + ' + result.equation[1];
-			break;
-		case ('ln'): result = regression('logarithmic', data);
-			equation = 'y = ' + result.equation[0] + ' + ' + result.equation[1] + 'ln(x)';
-			break;
-		default: result = regression('linearThroughOrigin', data);
-			equation = 'y = ' + result.equation[0] + 'x';
-	}
+  /* TODO: use results of bigO to run the right type of regression
+  switch statement for order/regression type
+  2+ - power y = ax^b
+  1 - linear y = ax + b
+  ln - logarithmic y = a + b ln x
+  default - linearThroughOrigin y = mx
+  */
+  
+  switch (order) {
+    case ('2+'): result = regression('power', data);
+      equation = 'y = ' + result.equation[0] + 'x^' + result.equation[1];
+      break;
+    case ('1'): result = regression('linear', data);
+      equation = 'y = ' + result.equation[0] + 'x + ' + result.equation[1];
+      break;
+    case ('ln'): result = regression('logarithmic', data);
+      equation = 'y = ' + result.equation[0] + ' + ' + result.equation[1] + 'ln(x)';
+      break;
+    default: result = regression('linearThroughOrigin', data);
+      equation = 'y = ' + result.equation[0] + 'x';
+  }
 
-	console.log('Equation from regression: ' + equation);
+  console.log('Equation from regression: ' + equation);
 
   return equation;
 }
-
-
-
-
