@@ -57,7 +57,7 @@ var Body = React.createClass({
       <div className="main-content" style={style.content}>
         <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
-        { (this.state.data.length) ? <Analysis data={this.state.data} equation={this.state.equation} /> : <span /> }
+        <Analysis data={this.state.data} equation={this.state.equation} />
       </div>
     )
   }
