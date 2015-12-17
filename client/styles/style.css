@@ -17,13 +17,13 @@ html {
 .x.axis line, .x.axis path {
   fill: none;
   stroke: #000;
-  stroke-width: 1.0;
+  stroke-width: 3.0;
 }
 
 .y.axis line, .y.axis path {
-fill: none;
-stroke: #000;
-stroke-width: 1.0;
+  fill: none;
+  stroke: #000;
+  stroke-width: 2.0;
 }
 
 .tick {

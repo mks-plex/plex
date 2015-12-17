@@ -10,8 +10,7 @@ var Analysis = require('./Analysis');
 var Body = React.createClass({
   getInitialState: function() {
     return {
-      data: [{x_axis: 10, y_axis: 0}],
-      showResults: false
+      data: [],
     };
   },
 
@@ -54,7 +53,7 @@ var Body = React.createClass({
       <div className="main-content" style={style.content}>
         <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
-        { this.state.showResults ? <Analysis data={this.state.data} /> : null }
+        { (this.state.data.length) ? <Analysis data={this.state.data} /> : <span /> }
       </div>
     )
   }

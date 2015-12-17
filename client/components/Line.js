@@ -10,8 +10,8 @@ var Line = React.createClass({
   getDefaultProps: function() {
     return {
       interpolate: 'monotone',
-      color: 'deeppink',
-      strokeWidth: 5
+      color: 'black',
+      strokeWidth: 3
     }
   },
 

@@ -55,7 +55,7 @@ var Graph = React.createClass({
     var yAxis = d3.svg.axis()
       .scale(yScale)
       .orient('left')
-      .tickValues([0, 40, 80, 120, 160, 200])
+      .tickValues([0, 40, 80, 120, 160])
       .outerTickSize(0);
 
     return (
