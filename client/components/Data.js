@@ -21,7 +21,11 @@ var Data = React.createClass({
         borderWidth: 1
       },
       content: {
+        padding: '10px',
         textAlign: 'center'
+      },
+      equation: {
+        fontWeight: 'bold'
       }
     };
 
@@ -29,6 +33,11 @@ var Data = React.createClass({
       <div className="data-container" style={style.container}>
         <div className="data-content" style={style.content}>
           <h2>Information About Your Algorithm</h2>
+          <p>
+            The line of best fit has the equation:
+            <br />
+            <span style={style.equation}>{this.props.equation}</span>
+          </p>
           <ul>
           </ul>
         </div>
