@@ -1,6 +1,9 @@
 html {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Roboto';
+  font-size: 62.5%;
 }
 
 *, *:before, *:after {
@@ -8,6 +11,16 @@ html {
   -webkit-box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+button:hover,
+button:active,
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  opacity: 0.6;
 }
 
 .axis {
@@ -23,9 +36,13 @@ html {
 .y.axis line, .y.axis path {
   fill: none;
   stroke: #000;
+<<<<<<< 3fa8c5bd345bd3c73ed97fbc7e940ca454b24f20
   stroke-width: 2.0;
+=======
+  stroke-width: 1.0;
+>>>>>>> [feature] design user interface theme
 }
 
 .tick {
-  font-size: 10px;
+  font-size: 1rem;
 }

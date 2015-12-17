@@ -3,18 +3,19 @@
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
-  height: 300px;
-  color: black;
-  border: 1px solid black;
+  font-size: 1.5rem;
+  height: 30rem;
+  color: rgb(33, 33, 33);
+  text-align: left;
 }
 
 /* PADDING */
 
 .CodeMirror-lines {
-  padding: 4px 0; /* Vertical padding around content */
+  padding: 0.4rem 0; /* Vertical padding around content */
 }
 .CodeMirror pre {
-  padding: 0 4px; /* Horizontal padding of content */
+  padding: 0 0.4rem; /* Horizontal padding of content */
 }
 
 .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
@@ -24,32 +25,32 @@
 /* GUTTER */
 
 .CodeMirror-gutters {
-  border-right: 1px solid #ddd;
+  border-right: 0.1rem solid #ddd;
   background-color: #f7f7f7;
   white-space: nowrap;
 }
 .CodeMirror-linenumbers {}
 .CodeMirror-linenumber {
-  padding: 0 3px 0 5px;
-  min-width: 20px;
+  padding: 0 0.3rem 0 0.5rem;
+  min-width: 2rem;
   text-align: right;
   color: #999;
   white-space: nowrap;
 }
 
-.CodeMirror-guttermarker { color: black; }
+.CodeMirror-guttermarker { color: rgb(33, 33, 33); }
 .CodeMirror-guttermarker-subtle { color: #999; }
 
 /* CURSOR */
 
 .CodeMirror-cursor {
-  border-left: 1px solid black;
+  border-left: 0.1rem solid rgb(33, 33, 33);
   border-right: none;
   width: 0;
 }
 /* Shown when moving in bi-directional text */
 .CodeMirror div.CodeMirror-secondarycursor {
-  border-left: 1px solid silver;
+  border-left: 0.1rem solid silver;
 }
 .cm-fat-cursor .CodeMirror-cursor {
   width: auto;
@@ -90,7 +91,7 @@
 .cm-tab { display: inline-block; text-decoration: inherit; }
 
 .CodeMirror-ruler {
-  border-left: 1px solid #ccc;
+  border-left: 0.1rem solid #ccc;
   position: absolute;
 }
 
@@ -130,7 +131,7 @@
 .cm-s-default .cm-error {color: #f00;}
 .cm-invalidchar {color: #f00;}
 
-.CodeMirror-composing { border-bottom: 2px solid; }
+.CodeMirror-composing { border-bottom: 0.2rem solid; }
 
 /* Default styles for common addons */
 
@@ -227,7 +228,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 
 .CodeMirror-lines {
   cursor: text;
-  min-height: 1px; /* prevents collapsing before first draw */
+  min-height: 0.1rem; /* prevents collapsing before first draw */
 }
 .CodeMirror pre {
   /* Reset some styles that the rest of the page might have set */

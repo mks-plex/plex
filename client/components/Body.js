@@ -51,13 +51,18 @@ var Body = React.createClass({
 
   render: function() {
     var style = {
-      content: {
-        display: 'flex',
-        flexDirection: 'column',
-        height: '90vh'
+      container: {
+        backgroundColor: '#f8f8f8',
+        color: 'rgb(33, 33, 33)',
+        paddingTop: '13.4rem',
+        paddingBottom: '7rem',
+        paddingLeft: '30rem',
+        paddingRight: '30rem',
       },
       intro: {
-        width: '100%'
+        fontSize: '2rem',
+        paddingBottom: '4rem',
+        textAlign: 'center'
       }
     };
     var styleModal ={
@@ -88,7 +93,7 @@ var Body = React.createClass({
     }
 
     return (
-      <div className="main-content" style={style.content}>
+      <div style={style.container}>
         <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
         <Analysis data={this.state.data} equation={this.state.equation} />
