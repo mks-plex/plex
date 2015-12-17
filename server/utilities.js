@@ -37,6 +37,7 @@ module.exports.runTimeAverage = function(userInput, dbInput, iterations) {
 
 var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
   var userAlg = memoBuild(userInput);
+
   var time = process.hrtime();
   var result = userAlg(dbInput);
   var diff = process.hrtime(time);
@@ -51,14 +52,22 @@ var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
 function buildFunc(userInput) {
   console.log('utils -building function');
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
-  console.log('utils -param is ' + param);
   var algName = getFuncName(userInput);
   var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
-  var userAlg = new Function(param, algString);
+  var wrappedAlg = recursionFix(userInput, algName, param);
+  var userAlg = new Function(param, wrappedAlg);
 
   console.log('created ' + algName + ' algorithm');
+  // console.log(userAlg.toString());
 
   return userAlg;
+}
+
+function recursionFix(string, name, param) {
+  var insertBefore = 'var alg=function(' + param + '){';
+  var insertAfter = 'return ' + name + '(' + param + ');}; return alg(' + param + ')';
+  
+  return insertBefore + string + insertAfter;
 }
 
 function getFuncName(string) {
@@ -84,5 +93,3 @@ function getFuncName(string) {
 
   return funcName;
 }
-
-
