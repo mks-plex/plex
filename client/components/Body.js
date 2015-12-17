@@ -4,6 +4,7 @@
 
 var React = require('react');
 var $ = require('jquery');
+var _ = require('underscore');
 var CodeMirror = require('./CodeMirror');
 var Analysis = require('./Analysis');
 var Modal = require('react-modal');
