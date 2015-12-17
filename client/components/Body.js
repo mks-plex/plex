@@ -10,7 +10,7 @@ var Analysis = require('./Analysis');
 var Body = React.createClass({
   getInitialState: function() {
     return {
-      data: [],
+      data: [{x_axis: 10, y_axis: 0}],
     };
   },
 
@@ -29,7 +29,7 @@ var Body = React.createClass({
         console.log(equation);
         console.log(coords);
 
-        this.setState({data: coords});
+        this.setState({data: this.state.data.concat(coords)});
       }.bind(this),
       error: function(err) {
         console.error('Ooop! You have a ' + err.status + ' error.');
