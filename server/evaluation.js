@@ -57,7 +57,7 @@ module.exports.runRegression = function(data, order) {
   switch statement for order/regression type
   2+ - power y = ax^b
   1 - linear y = ax + b
-  ln - logarithmic y = a + b ln x
+  ln - logarithmic y = a + b ln x ?? or use linear also
   default - linearThroughOrigin y = mx
   */
 

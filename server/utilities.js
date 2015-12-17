@@ -49,7 +49,6 @@ var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
   return [dbInput.length, Number(runTime.toFixed(3))];
 };
 
-
 function buildFunc(userInput) {
   console.log('utils -building function');
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
