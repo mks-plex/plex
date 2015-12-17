@@ -22,9 +22,14 @@ var Body = React.createClass({
       contentType: 'application/json',
       data: JSON.stringify({data: newCode}),
       success: function(data) {
-        console.log('Response received, success');
-        console.log(data);
-        this.setState({data: data});
+        console.log('Incoming evaluation for ' + data.name);
+        var coords = JSON.parse(data.coords);
+        var equation = data.eq;
+
+        console.log(equation);
+        console.log(coords);
+
+        this.setState({data: coords});
       }.bind(this),
       error: function(err) {
         console.error('Ooop! You have a ' + err.status + ' error.');
