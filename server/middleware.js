@@ -8,8 +8,9 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
 
   return new Promise(function(resolve, reject) {
     var data = eval.evalAlg(userInput, dataType);
-    resolve(data);
-  }).then(function(data) {
+    resolve(data)
+  })
+  .then(function(data) {
     res.body = {};
 
     // TODO: integrate jon's bigO module

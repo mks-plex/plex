@@ -76,4 +76,4 @@ module.exports.runRegression = function(data, order) {
   console.log('Equation from regression: ' + equation);
 
   return equation;
-}
+};

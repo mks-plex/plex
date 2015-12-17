@@ -9,7 +9,7 @@ var memoize = module.exports.memoize = function(func) {
 
     return cached[args];
   };
-}
+};
 
 // memoizing needs to be done in this order to work properly
 module.exports.getFuncName = memoize(getFuncName);
@@ -33,7 +33,7 @@ module.exports.runTimeAverage = function(userInput, dbInput, iterations) {
 
   // returns [input size N, average runtime in milliseconds]
   return [stats[0], Number(averageRun.toFixed(3))];
-}
+};
 
 var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
   var userAlg = memoBuild(userInput);
@@ -46,7 +46,7 @@ var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
   
   // returns [N, runtime in milliseconds]
   return [dbInput.length, Number(runTime.toFixed(3))];
-}
+};
 
 function buildFunc(userInput) {
   console.log('utils -building function');
