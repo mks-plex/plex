@@ -13,7 +13,7 @@ var memoize = module.exports.memoize = function(func) {
 
 // memoizing needs to be done in this order to work properly
 module.exports.getFuncName = memoize(getFuncName);
-var memoBuild = memoize(buildFunc);
+var memoBuild = module.exports.memoBuild = memoize(buildFunc);
 
 module.exports.runTimeAverage = function(userInput, dbInput, iterations) {
   console.log('calculating runtime average for N = ' + dbInput.length);
