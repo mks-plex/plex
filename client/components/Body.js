@@ -23,6 +23,7 @@ var Body = React.createClass({
       data: JSON.stringify({data: newCode}),
       success: function(data) {
         console.log('Incoming evaluation for ' + data.name);
+
         var coords = JSON.parse(data.coords);
         var equation = data.eq;
 
@@ -32,7 +33,7 @@ var Body = React.createClass({
         this.setState({data: coords});
       }.bind(this),
       error: function(err) {
-        console.error('Ooop! You have a ' + err.status + ' error.');
+        console.error('Oups! You have a ' + err.status + ' error.' + err.responseText);
       }.bind(this)
     });
   },

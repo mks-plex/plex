@@ -18,8 +18,8 @@ app.use(express.static(__dirname + '/../client/'));
 // endpoint for users submitting an algortithm to test, including which data type to test with
 
 app.post('/parse/:dataType', mid.testAlgo, mid.evalForAllInputSizes, function(req, res) {
-  console.log('S21-sending response, coordinates are: ' + res.body.coords);
-  res.send(res.body);
+  console.log('S22-sending response, coordinates are: ' + res.body.coords);
+    res.send(res.body);
 });
 
 app.use(webpackMiddleware(compiler));

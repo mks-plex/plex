@@ -34,6 +34,6 @@ module.exports.testAlgo = function(req, res, next) {
   if(result.join() === ordArray.join()) {
     next();
   } else {
-    console.log("NOT a sorting Algorithm");
+    res.status(200).send("Error, You're function doesn't sort!");
   }
 }
