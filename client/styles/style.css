@@ -53,11 +53,7 @@ button:active {
 .y.axis line, .y.axis path {
   fill: none;
   stroke: #000;
-<<<<<<< 3fa8c5bd345bd3c73ed97fbc7e940ca454b24f20
-  stroke-width: 2.0;
-=======
   stroke-width: 1.0;
->>>>>>> [feature] design user interface theme
 }
 
 .tick {
