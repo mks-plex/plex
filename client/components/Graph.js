@@ -4,6 +4,7 @@
 
 var React = require('react');
 var d3 = require('d3');
+var _ = require('underscore');
 var ZeroAxis = require('./ZeroAxis');
 var InputAxis = require('./InputAxis');
 var TimeAxis = require('./TimeAxis');
@@ -36,7 +37,7 @@ var Graph = React.createClass({
 
     // logarithmic scale (x)
     var xScale = d3.scale.log()
-      .domain([10, 20000])
+      .domain([10, 13000])
       .range([0, this.props.width - 50]);
 
     var xAxis = d3.svg.axis()
@@ -48,13 +49,13 @@ var Graph = React.createClass({
 
     // linear scale (y)
     var yScale = d3.scale.linear()
-      .domain([0, 240])
+      .domain([0, 175])
       .range([this.props.height - 50, 0]);
 
     var yAxis = d3.svg.axis()
       .scale(yScale)
       .orient('left')
-      .tickValues([0, 40, 80, 120, 160, 200])
+      .tickValues([0, 40, 80, 120, 160])
       .outerTickSize(0);
 
     return (
@@ -62,7 +63,7 @@ var Graph = React.createClass({
         <ZeroAxis data={this.props.data} width={this.props.width} height={this.props.height} x0Axis={x0Axis} />
         <InputAxis data={this.props.data} width={this.props.width} height={this.props.height} xAxis={xAxis} />
         <TimeAxis data={this.props.data} width={this.props.width} height={this.props.height} yAxis={yAxis} />
-        <Line data={this.props.data} xScale={xScale} yScale={yScale}/>
+        <Line data={this.props.data} xScale={xScale} yScale={yScale} />
       </svg>
     );
   }

@@ -11,14 +11,29 @@ var Line = React.createClass({
     return {
       interpolate: 'monotone',
       color: 'black',
-      strokeWidth: 1,
-      data: []
+      strokeWidth: 3
     }
   },
 
   componentDidMount: function() {
     this.path = d3.select(ReactDOM.findDOMNode(this.refs.path));
     this.renderPath();
+  },
+
+  componentDidUpdate: function(nextProps) {
+    this.length = this.getTotalLength();
+    console.log(this.length);
+    this.path
+      .attr('stroke-dasharray', this.length + ' ' + this.length)
+      .attr('stroke-dashoffset', this.length)
+      .transition()
+        .duration(3000)
+        .ease('linear')
+        .attr('stroke-dashoffset', 0);
+  },
+
+  getTotalLength: function() {
+    return this.path.node().getTotalLength();
   },
 
   renderPath: function() {

@@ -10,7 +10,8 @@ var Analysis = require('./Analysis');
 var Body = React.createClass({
   getInitialState: function() {
     return {
-      data: []
+      data: [],
+      equation: ''
     };
   },
 
@@ -29,7 +30,10 @@ var Body = React.createClass({
         console.log(equation);
         console.log(coords);
 
-        this.setState({data: coords});
+        this.setState({
+          data: coords,
+          equation: equation
+        });
       }.bind(this),
       error: function(err) {
         console.error('Ooop! You have a ' + err.status + ' error.');
@@ -53,7 +57,7 @@ var Body = React.createClass({
       <div className="main-content" style={style.content}>
         <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
-        <Analysis data={this.state.data} />
+        <Analysis data={this.state.data} equation={this.state.equation} />
       </div>
     )
   }
