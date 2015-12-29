@@ -27,6 +27,7 @@
     "react-codemirror": "^0.2.2",
     "react-d3-components": "^0.6.0",
     "react-dom": "^0.14.3",
+    "react-modal": "^0.6.1",
     "regression": "^1.2.1",
     "underscore": "^1.8.3"
   },
