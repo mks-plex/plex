@@ -11,17 +11,13 @@ var Analysis = React.createClass({
     var style = {
       container: {
         display: "flex",
-        height: '100%',
         justifyContent: "space-around"
-      },
-      graph: {
-        width: '65vw'
       }
     };
 
     return (
       <div className="analysis-container" style={style.container}>
-        <div className="graph-container" style={style.graph}>
+        <div className="graph-container">
           <Graph data={this.props.data} />
         </div>
         <Data data={this.props.data} equation={this.props.equation} />

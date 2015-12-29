@@ -40,7 +40,7 @@ var CodeMirror = React.createClass({
         transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
       },
       button: {
-        backgroundColor: '#00bcd4',
+        backgroundColor: '#c5c2c2',
         border: '1rem',
         borderRadius: '0.2rem',
         boxShadow: 'rgba(0, 0, 0, 0.117647) 0 0.1rem 0.6rem, rgba(0, 0, 0, 0.239216) 0 0.1rem 0.4rem',

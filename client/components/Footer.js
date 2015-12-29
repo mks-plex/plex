@@ -9,7 +9,8 @@ var Footer = React.createClass({
     var style = {
       container: {
         alignItems: 'center',
-        backgroundColor: 'rgb(33, 33, 33)',
+        backgroundColor: '#a1a0a0',
+        boxShadow: '0 0.1rem 0.1rem 0.1rem rgba(0, 0, 0, 0.8)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -17,7 +18,7 @@ var Footer = React.createClass({
         textAlign: 'center'
       },
       content: {
-        color: 'rgba(255, 255, 255, 0.54)',
+        color: 'rgba(255, 255, 255, 0.94)',
         fontSize: '1.5rem',
         lineHeight: '2.4rem',
         maxWidth: '33.5rem'

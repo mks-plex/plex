@@ -53,8 +53,8 @@ var Body = React.createClass({
   render: function() {
     var style = {
       container: {
-        backgroundColor: '#f8f8f8',
-        color: 'rgb(33, 33, 33)',
+        backgroundColor: '#f4f4f4',
+        color: 'rgba(33, 33, 33, 0.8)',
         paddingTop: '13.4rem',
         paddingBottom: '7rem',
         paddingLeft: '30rem',

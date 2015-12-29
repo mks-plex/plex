@@ -9,9 +9,9 @@ var Header = React.createClass({
     var style = {
       mainNav: {
         alignItems: 'center',
-        background: '#00bcd4',
+        background: '#a1a0a0',
         borderRadius: '0px',
-        boxShadow: '0 0.1rem 0.4rem rgba(0, 0, 0, 0.24)',
+        boxShadow: '0 0.25rem 0.4rem rgba(0, 0, 0, 0.24)',
         color: '#ffffff',
         display: 'flex',
         fontSize: '2.6rem',
