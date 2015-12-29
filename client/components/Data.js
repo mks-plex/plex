@@ -19,7 +19,7 @@ var Data = React.createClass({
         background: '#fffdfd',
         boxShadow: '0 0.25rem 0.4rem rgba(0, 0, 0, 0.24)',
         position: 'absolute',
-        right: '70rem',
+        right: '65rem',
         height: '20rem'
       },
       content: {
