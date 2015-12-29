@@ -9,9 +9,9 @@ var d3 = require('d3');
 var Line = React.createClass({
   getDefaultProps: function() {
     return {
-      interpolate: 'monotone',
-      color: 'black',
-      strokeWidth: 3
+      interpolate: 'basis',
+      color: 'rgba(33, 33, 33, 0.75)',
+      strokeWidth: 2
     }
   },
 

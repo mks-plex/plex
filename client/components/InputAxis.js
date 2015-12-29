@@ -29,9 +29,10 @@ var InputAxis = React.createClass({
   renderLabel: function() {
     this.xAxisLabel
       .attr('x', '' + (this.props.width - 50) + '')
-      .attr('y', '-20')
+      .attr('y', '-17')
       .attr('dy', '1em')
       .style('text-anchor', 'end')
+      .style('font-size', '1.2rem')
       .text('input size');
   },
 

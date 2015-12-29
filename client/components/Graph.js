@@ -14,7 +14,7 @@ var Graph = React.createClass({
   getDefaultProps: function() {
     return {
       width: 800,
-      height: 300
+      height: 425
     }
   },
 
@@ -22,7 +22,9 @@ var Graph = React.createClass({
     //styles
     var style = {
       svg: {
-        margin: 50
+        margin: '5rem',
+        background: '#fffdfd',
+        boxShadow: '0 0.25rem 0.4rem rgba(0, 0, 0, 0.24)',
       }
     };
 
@@ -49,13 +51,13 @@ var Graph = React.createClass({
 
     // linear scale (y)
     var yScale = d3.scale.linear()
-      .domain([0, 175])
+      .domain([0, 215])
       .range([this.props.height - 50, 0]);
 
     var yAxis = d3.svg.axis()
       .scale(yScale)
       .orient('left')
-      .tickValues([0, 40, 80, 120, 160])
+      .tickValues([0, 40, 80, 120, 160, 200])
       .outerTickSize(0);
 
     return (

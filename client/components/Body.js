@@ -3,10 +3,10 @@
 */
 
 var React = require('react');
+var Modal = require('react-modal');
 var $ = require('jquery');
 var CodeMirror = require('./CodeMirror');
 var Analysis = require('./Analysis');
-var Modal = require('react-modal');
 
 var Body = React.createClass({
   getInitialState: function() {
@@ -51,13 +51,18 @@ var Body = React.createClass({
 
   render: function() {
     var style = {
-      content: {
-        display: 'flex',
-        flexDirection: 'column',
-        height: '90vh'
+      container: {
+        backgroundColor: '#f4f4f4',
+        color: 'rgba(33, 33, 33, 0.8)',
+        paddingTop: '13.4rem',
+        paddingBottom: '7rem',
+        paddingLeft: '30rem',
+        paddingRight: '30rem',
       },
       intro: {
-        width: '100%'
+        fontSize: '2rem',
+        paddingBottom: '4rem',
+        textAlign: 'center'
       }
     };
     var styleModal ={
@@ -88,10 +93,10 @@ var Body = React.createClass({
     }
 
     return (
-      <div className="main-content" style={style.content}>
+      <div style={style.container}>
         <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
-        <Analysis data={this.state.data} equation={this.state.equation} />
+        { this.state.data.length ? <Analysis data={this.state.data} equation={this.state.equation} /> : <span /> }
         { this.state.modalIsOpen ?
           <div>
             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal} >

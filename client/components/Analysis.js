@@ -10,18 +10,17 @@ var Analysis = React.createClass({
   render: function() {
     var style = {
       container: {
-        display: "flex",
-        height: '100%',
-        justifyContent: "space-around"
+        display: 'flex',
+        justifyContent: 'space-around'
       },
-      graph: {
-        width: '65vw'
+      graphContainer: {
+        position: 'relative'
       }
     };
 
     return (
       <div className="analysis-container" style={style.container}>
-        <div className="graph-container" style={style.graph}>
+        <div className="graph-container" style={style.graphContainer}>
           <Graph data={this.props.data} />
         </div>
         <Data data={this.props.data} equation={this.props.equation} />
