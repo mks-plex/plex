@@ -42,7 +42,6 @@ var Body = React.createClass({
       error: function(err) {
         console.error('Oups! You have a ' + err.status + ' error.' + err.responseText);
         this.setState({modalIsOpen: true});
-        console.log("SHOUDL ", this.state.modalIsOpen);
       }.bind(this)
     });
   },
@@ -68,7 +67,7 @@ var Body = React.createClass({
         backgroundColor   : 'rgba(255, 255, 255, 0.75)'
       },
       content : {
-        position                   : 'absolute',
+        position              : 'absolute',
         top                   : '50%',
         left                  : '50%',
         right                 : 'auto',

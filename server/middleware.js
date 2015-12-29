@@ -36,4 +36,4 @@ module.exports.testAlgo = function(req, res, next) {
   } else {
     res.status(200).send("Error, You're function doesn't sort!");
   }
-}
+};
