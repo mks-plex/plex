@@ -12,8 +12,8 @@ var App = React.createClass({
     return (
       <div>
         <Header header="plex" />
-        <Body intro="plex allows you to test the time complexity of your algorithm."/>
-        <Footer footer="Hand crafted with love at MakerSquare"/>
+        <Body intro="plex allows you to test the time complexity of your algorithm." />
+        <Footer footer="Hand crafted with love at MakerSquare" />
       </div>
     )
   }
