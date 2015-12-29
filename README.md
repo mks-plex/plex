@@ -11,12 +11,15 @@ These dependencies include:
   * Git
   * npm
   * webpack
+  * 
 
 # Usage
 
+
+
 # Team
 
-Jonathan Tamsut, Michael Martin,
+Jonathan Tamsut, Michael Martin, Stephanie Raad and
 
 
 sdjflds
