@@ -44,7 +44,7 @@ var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
   var runTime = (diff[0] * 1e9 + diff[1]) / 1e6;
 
   console.log('single runtime for N = ' + dbInput.length + ', run: ' + runTime);
-  
+
   // returns [N, runtime in milliseconds]
   return [dbInput.length, Number(runTime.toFixed(3))];
 };
@@ -66,7 +66,7 @@ function buildFunc(userInput) {
 function recursionFix(string, name, param) {
   var insertBefore = 'var alg=function(' + param + '){';
   var insertAfter = 'return ' + name + '(' + param + ');}; return alg(' + param + ')';
-  
+
   return insertBefore + string + insertAfter;
 }
 

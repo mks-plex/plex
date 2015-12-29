@@ -4,7 +4,7 @@ var utils = require('./utilities.js');
 
 module.exports.evalForAllInputSizes = function(req, res, next) {
   var userInput = req.body.data;
-  var dataType = req.params.dataType || null; 
+  var dataType = req.params.dataType || null;
 
   return new Promise(function(resolve, reject) {
     var data = eval.evalAlg(userInput, dataType);
@@ -34,6 +34,6 @@ module.exports.testAlgo = function(req, res, next) {
   if(result.join() === ordArray.join()) {
     next();
   } else {
-    res.status(200).send("Error, You're function doesn't sort!");
+    res.status(200).send("Error! You're function doesn't sort.");
   }
 };

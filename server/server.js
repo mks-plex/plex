@@ -19,7 +19,7 @@ app.use(express.static(__dirname + '/../client/'));
 
 app.post('/parse/:dataType', mid.testAlgo, mid.evalForAllInputSizes, function(req, res) {
   console.log('S22-sending response, coordinates are: ' + res.body.coords);
-    res.send(res.body);
+  res.send(res.body);
 });
 
 app.use(webpackMiddleware(compiler));

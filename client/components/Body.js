@@ -8,7 +8,6 @@ var CodeMirror = require('./CodeMirror');
 var Analysis = require('./Analysis');
 var Modal = require('react-modal');
 
-
 var Body = React.createClass({
   getInitialState: function() {
     return {
@@ -95,11 +94,12 @@ var Body = React.createClass({
         <Analysis data={this.state.data} equation={this.state.equation} />
         { this.state.modalIsOpen ?
           <div>
-            <Modal isOpen={this.state.modalIsOpen}onRequestClose={this.closeModal} style={styleModal} >
-              <p>Error! you're function doesn't sort</p>
-              <button onClick={this.closeModal}>Close</button>
+            <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal} >
+              <p>Error! You're function doesn't sort.</p>
+              <button onClick={this.closeModal}>close</button>
             </Modal>
-          </div> : <span /> }
+          </div> : <span />
+        }
       </div>
     )
   }
