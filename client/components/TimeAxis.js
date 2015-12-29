@@ -32,7 +32,8 @@ var TimeAxis = React.createClass({
       .attr('y', '0')
       .attr('dy', '1em')
       .style('text-anchor', 'end')
-      .text('time');
+      .style('font-size', '1.2rem')
+      .text('time(ms)');
   },
 
   render: function() {

@@ -14,17 +14,27 @@ var Data = React.createClass({
 
     var style = {
       container: {
-        margin: 50,
-        width: '30vw',
-        borderColor: 'black',
-        borderStyle: 'solid',
-        borderWidth: 1
+        margin: '5rem',
+        marginTop: '6rem',
+        background: '#fffdfd',
+        boxShadow: '0 0.25rem 0.4rem rgba(0, 0, 0, 0.24)',
+        position: 'absolute',
+        right: '70rem',
+        height: '20rem'
       },
       content: {
-        padding: '10px',
-        textAlign: 'center'
+        padding: '1rem',
+        textAlign: 'center',
+        fontSize: '1.4rem'
       },
-      equation: {
+      heading: {
+        fontSize: '1.9rem',
+        marginBottom: '1rem'
+      },
+      section: {
+        marginBottom: '0.8rem'
+      },
+      analytics: {
         fontWeight: 'bold'
       }
     };
@@ -32,11 +42,16 @@ var Data = React.createClass({
     return (
       <div className="data-container" style={style.container}>
         <div className="data-content" style={style.content}>
-          <h2>Information About Your Algorithm</h2>
-          <p>
+          <h2 style={style.heading}>Information About Your Algorithm</h2>
+          <p style={style.section}>
+            The Big O Time Complexity is approximately:
+            <br />
+            <span style={style.analytics}>{this.props.theta}</span>
+          </p>
+          <p style={style.section}>
             The line of best fit has the equation:
             <br />
-            <span style={style.equation}>{this.props.equation}</span>
+            <span style={style.analytics}>{this.props.equation}</span>
           </p>
           <ul>
           </ul>

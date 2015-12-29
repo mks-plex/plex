@@ -97,7 +97,7 @@ var Body = React.createClass({
       <div style={style.container}>
         <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
-        <Analysis data={this.state.data} equation={this.state.equation} />
+        { this.state.data.length ? <Analysis data={this.state.data} equation={this.state.equation} /> : <span /> }
         { this.state.modalIsOpen ?
           <div>
             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal} >
