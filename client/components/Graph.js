@@ -4,7 +4,6 @@
 
 var React = require('react');
 var d3 = require('d3');
-var _ = require('underscore');
 var ZeroAxis = require('./ZeroAxis');
 var InputAxis = require('./InputAxis');
 var TimeAxis = require('./TimeAxis');
