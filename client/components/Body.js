@@ -3,11 +3,10 @@
 */
 
 var React = require('react');
+var Modal = require('react-modal');
 var $ = require('jquery');
-var _ = require('underscore');
 var CodeMirror = require('./CodeMirror');
 var Analysis = require('./Analysis');
-var Modal = require('react-modal');
 
 var Body = React.createClass({
   getInitialState: function() {

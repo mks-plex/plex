@@ -63,7 +63,7 @@ var CodeMirror = React.createClass({
         <div style={style.editor}>
           <ReactCodeMirror ref="editor" value={this.state.code} onChange={this.updateCode} options={options} />
         </div>
-        <button style={style.button} onClick={this.handleClick}>PlexIt</button>
+        <button style={style.button} onClick={this.handleClick}>plexIt</button>
       </div>
     )
   }
