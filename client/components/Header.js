@@ -3,7 +3,7 @@
 */
 
 var React = require('react');
-var TutorialModal = require('./Tutorial');
+var Tutorial = require('./Tutorial');
 
 var Header = React.createClass({
   render: function() {
@@ -57,7 +57,7 @@ var Header = React.createClass({
         </div>
         <span>{ this.props.header }</span>
         <div style={style.rightDiv}>
-          <TutorialModal />
+          <Tutorial />
           <a href="https://github.com/plexit/plex" target="_blank" style={style.link}>
             <i className="fa fa-github"></i>
           </a>
