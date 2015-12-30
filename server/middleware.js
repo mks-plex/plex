@@ -7,10 +7,9 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
   var userInput = req.body.data;
   var dataType = req.params.dataType || null;
 
-  return new Promise(function(resolve, reject) {
-    var data = eval.evalAlg(userInput, dataType);
-    resolve(data)
-  })
+  Promise.resolve(
+    eval.evalAlg(userInput, dataType)
+  )
   .then(function(data) {
     var userInput = req.body.data;
     var userAlg = utils.memoBuild(userInput); 
@@ -21,6 +20,7 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
     res.body.eq = eval.runRegression(data, null);
     var coords = eval.getJSONCoords(data);
     res.body.coords = coords;
+
     next();
   });
 };
@@ -35,6 +35,6 @@ module.exports.testAlgo = function(req, res, next) {
   if(result.join() === ordArray.join()) {
     next();
   } else {
-    res.status(200).send("Error! You're function doesn't sort.");
+    res.status(200).send("Error! Your function doesn't sort.");
   }
 };

@@ -2,37 +2,75 @@ var Promise = require('bluebird');
 var regression = require('regression');
 var queries = require('./queries.js');
 var utils = require('./utilities.js');
+var results = [];
+var runtime;
 
 module.exports.evalAlg = function(userInput, dataType) {
-  var databaseSize = 10000;
-  var avgCutoff = 500;
-  var avgIterations = 3;
-  var currentInputSize = 500;
-  var stepFactor = 1.5;
-  var result = [];
-  var runtime;
 
   return new Promise(function(resolve, reject) {
     return queries.getData(dataType)
     .then(function(response) {
       var data = response[0].array;
+      var timeout = false;
 
-      console.log('eval -data length is ' + data.length);
+      console.log('data length is ' + data.length);
 
-      while (currentInputSize < databaseSize) {
-        if (currentInputSize <= avgCutoff) {
-          runtime = utils.runTimeAverage(userInput, data.slice(0, currentInputSize), avgIterations);
-        } else {
-          runtime = utils.getRunTime(userInput, data.slice(0, currentInputSize));
+      function timedTest(arr, start){
+        var maxInputSize = 20000;
+        var avgCutoff = 5000;
+        var avgIterations = 3;
+        var step = 1000;
+        // var currentInputSize = 500;
+
+        // iteratively test input sizes
+        for(var i = start; i < Math.min(start + step, maxInputSize); i += step){
+          runtime = utils.getRunTime(userInput, data.slice(0, i));
+          results.push(runtime)
+          continue;
         }
-        result.push(runtime);
-        currentInputSize *= stepFactor;
-      }
 
-      resolve(result);
+        // continue testing next inputs or stop
+        if (i < maxInputSize && !timeout) {
+          // yield to event loop
+          setTimeout(function() {
+            console.log('continuing timed test');
+            timedTest(data, start + step);
+          }, 0);
+        } else if (timeout) {
+          console.log('timeout completed BEFORE test, rejecting');
+          console.log('error');
+        }
+
+        console.log(results);
+      }
+      
+      // main timer
+      setTimeout(function() {
+        console.log('timeout completed')
+        timeout = true;
+      }, 5000);
+
+      // var results = timedTest(data, 100);
+
+      // console.log('testing finished, resolving results');
+
+      resolve(timedTest(data, 100));
+
+      // while (currentInputSize < maxInputSize) {
+      //   if (currentInputSize <= avgCutoff) {
+      //     runtime = utils.runTimeAverage(userInput, data.slice(0, currentInputSize), avgIterations);
+      //   } else {
+      //     runtime = utils.getRunTime(userInput, data.slice(0, currentInputSize));
+      //   }
+      //   result.push(runtime);
+      //   currentInputSize *= stepFactor;
+      // }
+
     });
   });
 };
+
+
 
 module.exports.getJSONCoords = function(data) {
   console.log('eval -getting json coordinates from eval data');
@@ -48,7 +86,7 @@ module.exports.getJSONCoords = function(data) {
 };
 
 module.exports.runRegression = function(data, order) {
-  order = order || 'ln';
+  order = order || '1';
   var result;
   var coef;
   var equation;
