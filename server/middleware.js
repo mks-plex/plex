@@ -12,13 +12,12 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
     resolve(data)
   })
   .then(function(data) {
-    res.body = {};
-    console.log("DATAAAAAAA ", data);
-    // TODO: integrate jon's bigO module
-    res.body.bigO = theta.computeTheta(data);
-
+    var userInput = req.body.data;
+    var userAlg = utils.memoBuild(userInput); 
+   
+    res.body = {}; 
+    res.body.bigO = theta.computeTheta(userAlg, data);
     console.log("BIGO ", res.body.bigO);
-
     res.body.name = utils.getFuncName(userInput);
     res.body.eq = eval.runRegression(data, null);
     var coords = eval.getJSONCoords(data);

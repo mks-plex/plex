@@ -33,13 +33,16 @@ var Body = React.createClass({
 
         var coords = JSON.parse(data.coords);
         var equation = data.eq;
+        var theta = data.bigO;
 
         console.log(equation);
         console.log(coords);
+        console.log(theta);
 
         this.setState({
           data: coords,
-          equation: equation
+          equation: equation,
+          theta: theta
         });
       }.bind(this),
       error: function(err) {
@@ -96,7 +99,7 @@ var Body = React.createClass({
       <div style={style.container}>
         <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
-        { this.state.data.length ? <Analysis data={this.state.data} equation={this.state.equation} /> : <span /> }
+        { this.state.data.length ? <Analysis data={this.state.data} equation={this.state.equation} theta={this.state.theta} /> : <span /> }
         { this.state.modalIsOpen ?
           <div>
             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal} >
