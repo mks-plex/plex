@@ -46,7 +46,7 @@ var Body = React.createClass({
         });
       }.bind(this),
       error: function(err) {
-        console.error('Oups! You have a ' + err.status + ' error.' + err.responseText);
+        console.error('Oops! You have a ' + err.status + ' error.' + err.responseText);
         this.setState({modalIsOpen: true});
       }.bind(this)
     });
@@ -75,7 +75,7 @@ var Body = React.createClass({
         left              : 0,
         right             : 0,
         bottom            : 0,
-        backgroundColor   : 'rgba(255, 255, 255, 0.75)'
+        backgroundColor   : 'rgba(0, 0, 0, 0.3)'
       },
       content : {
         position              : 'absolute',
@@ -126,7 +126,7 @@ var Body = React.createClass({
         { this.state.modalIsOpen ?
           <div>
             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal} >
-              <p style={styleModal.message}>Error! You're function doesn't sort.</p>
+              <p style={styleModal.message}>Error! Your function doesn't sort.</p>
               <button onClick={this.closeModal} style={styleModal.button}>close</button>
             </Modal>
           </div> : <span />
