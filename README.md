@@ -4,9 +4,21 @@ plex is an application that estimates the average-case time complexity of usersâ
 
 Visit our application at [plexit.co](http://www.plexit.co).
 
+# The Philosophy Behind plex
+
+plex returns an estimate of an algorithm's average-case time complexity. This is done by randomly  generating input arrays. Each permutation of a given input array is as likely to appears as another randomly generated input array, therefore we can say we return the average-case time complexity.
+
+# Clone the Repository
+
+To get the code for plex onto your local machine you must clone the repository:
+
+```
+$ https://github.com/plexit/plex.git
+```
+
 # Install
 
-To install plex onto your local machine you must have the following dependencies globally installed:
+To run plex on your machine you must have the following dependencies globally installed:
 
   * Node.js
   * Git
@@ -22,7 +34,7 @@ $ npm install
 
 # Usage
 
-To run our application locally you must configure the server, database and webpack module bundler.
+To run our application locally you must configure the server, database and webpack module bundler. Steps for these processes follow.
 
 ## Setting Up the Server and webpack
 
