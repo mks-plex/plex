@@ -4,9 +4,21 @@ plex is an application that estimates the average-case time complexity of usersâ
 
 Visit our application at [plexit.co](http://www.plexit.co).
 
+# The Philosophy Behind plex
+
+plex returns an estimate of an algorithm's average-case time complexity by randomly  generating input arrays. Each permutation of a given input array is as likely to appear as another randomly generated input array. Therefore, we can say that we return the average-case time complexity.
+
+# Clone the Repository
+
+To get the code for plex onto your local machine you must clone the repository:
+
+```
+$ https://github.com/plexit/plex.git
+```
+
 # Install
 
-To install plex onto your local machine you must have the following dependencies globally installed:
+To run plex on your machine you must have the following dependencies globally installed:
 
   * Node.js
   * Git
@@ -22,7 +34,7 @@ $ npm install
 
 # Usage
 
-To run our application locally you must configure the server, database and webpack module bundler.
+To run our application locally you must configure the server, database and webpack module bundler. Steps for these processes follow.
 
 ## Setting Up the Server and webpack
 
@@ -91,7 +103,7 @@ $ exit
 # Team
 
 This application was built with love and care by:
-* Stephanie Raad || GitHub: [Stephyraad](https://github.com/Stephyraad) ||  [LinkedIn](https://www.linkedin.com/in/stephanieraad)
-* Jonathan Tamsut || GitHub: [jtamsut](https://github.com/jtamsut) ||  [LinkedIn](https://www.linkedin.com/in/jtamsut)
-* Michael Martin || GitHub: [martinms-usc](https://github.com/martinms-usc) || [LinkedIn](https://www.linkedin.com/in/martinms)
-* Matthew Murkidjanian || GitHub: [mmurkidjanian](https://github.com/mmurkidjanian) || [LinkedIn](https://www.linkedin.com/in/matthewmurkidjanian)
+* Stephanie Raad || [GitHub](https://github.com/Stephyraad) || [LinkedIn](https://www.linkedin.com/in/stephanieraad)
+* Jonathan Tamsut || [GitHub](https://github.com/jtamsut) || [LinkedIn](https://www.linkedin.com/in/jtamsut)
+* Michael Martin || [GitHub](https://github.com/martinms-usc) || [LinkedIn](https://www.linkedin.com/in/martinms)
+* Matthew Murkidjanian || [GitHub](https://github.com/mmurkidjanian) || [LinkedIn](https://www.linkedin.com/in/matthewmurkidjanian)
