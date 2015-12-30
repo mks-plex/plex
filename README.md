@@ -6,7 +6,7 @@ Visit our application at [plexit.co](http://www.plexit.co).
 
 # The Philosophy Behind plex
 
-plex returns an estimate of an algorithm's average-case time complexity. This is done by randomly  generating input arrays. Each permutation of a given input array is as likely to appears as another randomly generated input array, therefore we can say we return the average-case time complexity.
+plex returns an estimate of an algorithm's average-case time complexity by randomly  generating input arrays. Each permutation of a given input array is as likely to appear as another randomly generated input array. Therefore, we can say that we return the average-case time complexity.
 
 # Clone the Repository
 
@@ -103,7 +103,7 @@ $ exit
 # Team
 
 This application was built with love and care by:
-* Stephanie Raad || GitHub: [Stephyraad](https://github.com/Stephyraad) ||  [LinkedIn](https://www.linkedin.com/in/stephanieraad)
-* Jonathan Tamsut || GitHub: [jtamsut](https://github.com/jtamsut) ||  [LinkedIn](https://www.linkedin.com/in/jtamsut)
-* Michael Martin || GitHub: [martinms-usc](https://github.com/martinms-usc) || [LinkedIn](https://www.linkedin.com/in/martinms)
-* Matthew Murkidjanian || GitHub: [mmurkidjanian](https://github.com/mmurkidjanian) || [LinkedIn](https://www.linkedin.com/in/matthewmurkidjanian)
+* Stephanie Raad || [GitHub](https://github.com/Stephyraad) || [LinkedIn](https://www.linkedin.com/in/stephanieraad)
+* Jonathan Tamsut || [GitHub](https://github.com/jtamsut) || [LinkedIn](https://www.linkedin.com/in/jtamsut)
+* Michael Martin || [GitHub](https://github.com/martinms-usc) || [LinkedIn](https://www.linkedin.com/in/martinms)
+* Matthew Murkidjanian || [GitHub](https://github.com/mmurkidjanian) || [LinkedIn](https://www.linkedin.com/in/matthewmurkidjanian)
