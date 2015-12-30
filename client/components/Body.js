@@ -85,13 +85,36 @@ var Body = React.createClass({
         bottom                : 'auto',
         marginRight           : '-50%',
         transform             : 'translate(-50%, -50%)',
-        border                     : '1px solid #ccc',
-        background                 : '#fff',
+        textAlign             : 'center',
+        background                 : '#fffdfd',
+        boxShadow                  : '0 0.25rem 0.4rem rgba(0, 0, 0, 0.24)',
+        fontSize                   : '1.4rem',
+        color                      : 'rgba(33, 33, 33, 0.8)',
         overflow                   : 'auto',
         WebkitOverflowScrolling    : 'touch',
-        borderRadius               : '4px',
+        borderRadius               : '0.2rem',
         outline                    : 'none',
-        padding                    : '20px'
+        padding                    : '2rem'
+      },
+      message: {
+        marginBottom: '2rem'
+      },
+      button: {
+        backgroundColor: '#c5c2c2',
+        border: '1rem',
+        borderRadius: '0.2rem',
+        boxShadow: 'rgba(0, 0, 0, 0.117647) 0 0.1rem 0.6rem, rgba(0, 0, 0, 0.239216) 0 0.1rem 0.4rem',
+        color: '#ffffff',
+        cursor: 'pointer',
+        fontFamily: 'Roboto',
+        fontSize: '1.4rem',
+        fontWeight: 500,
+        lineHeight: '3.6rem',
+        marginTop: '1.6rem',
+        outline: 'none',
+        padding: '0 1.6rem',
+        textTransform: 'uppercase',
+        transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms'
       }
     }
 
@@ -103,8 +126,8 @@ var Body = React.createClass({
         { this.state.modalIsOpen ?
           <div>
             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal} >
-              <p>Error! You're function doesn't sort.</p>
-              <button onClick={this.closeModal}>close</button>
+              <p style={styleModal.message}>Error! You're function doesn't sort.</p>
+              <button onClick={this.closeModal} style={styleModal.button}>close</button>
             </Modal>
           </div> : <span />
         }
