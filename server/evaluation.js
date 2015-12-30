@@ -2,6 +2,7 @@ var Promise = require('bluebird');
 var regression = require('regression');
 var queries = require('./queries.js');
 var utils = require('./utilities.js');
+var child_process = require('child_process');
 var results = [];
 var runtime;
 
@@ -10,39 +11,62 @@ module.exports.evalAlg = function(userInput, dataType) {
   return new Promise(function(resolve, reject) {
     return queries.getData(dataType)
     .then(function(response) {
+
       var data = response[0].array;
-      var timeout = false;
+      var results;
 
       console.log('data length is ' + data.length);
 
-      function timedTest(arr, start){
-        var maxInputSize = 20000;
-        var avgCutoff = 5000;
-        var avgIterations = 3;
-        var step = 1000;
-        // var currentInputSize = 500;
+      var child = child_process.execFileSync('./syncTest.js', [data], {
+        timeout: 4000,
+        input: data,
+        killSignal: 'Evaluation timed out'
+      });
 
-        // iteratively test input sizes
-        for(var i = start; i < Math.min(start + step, maxInputSize); i += step){
-          runtime = utils.getRunTime(userInput, data.slice(0, i));
-          results.push(runtime)
-          continue;
-        }
+      child.on('error', function(err) {
+        console.log('failed to start child process err:' + err);
+      })
 
-        // continue testing next inputs or stop
-        if (i < maxInputSize && !timeout) {
-          // yield to event loop
-          setTimeout(function() {
-            console.log('continuing timed test');
-            timedTest(data, start + step);
-          }, 0);
-        } else if (timeout) {
-          console.log('timeout completed BEFORE test, rejecting');
-          console.log('error');
-        }
+      // try close
+      child.on('exit', function(code, signal) {
+        console.log('child process exited due to ' + signal);
+        console.log('code: ' + code);
+        results = code; 
+      })
 
-        console.log(results);
-      }
+      child.stdout.on('data', function(data) {
+        console.log('stdout: ' + data);
+        results = data;
+      })
+
+      // function timedTest(arr, start){
+      //   var maxInputSize = 20000;
+      //   var avgCutoff = 5000;
+      //   var avgIterations = 3;
+      //   var step = 1000;
+      //   // var currentInputSize = 500;
+
+      //   // iteratively test input sizes
+      //   for(var i = start; i < Math.min(start + step, maxInputSize); i += step){
+      //     runtime = utils.getRunTime(userInput, data.slice(0, i));
+      //     results.push(runtime)
+      //     continue;
+      //   }
+
+      //   // continue testing next inputs or stop
+      //   if (i < maxInputSize && !timeout) {
+      //     // yield to event loop
+      //     setTimeout(function() {
+      //       console.log('continuing timed test');
+      //       timedTest(data, start + step);
+      //     }, 0);
+      //   } else if (timeout) {
+      //     console.log('timeout completed BEFORE test, rejecting');
+      //     console.log('error');
+      //   }
+
+      //   console.log(results);
+      // }
       
       // main timer
       setTimeout(function() {
