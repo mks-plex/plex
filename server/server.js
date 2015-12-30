@@ -28,7 +28,7 @@ app.get('*', function(req, res) {
   res.sendFile(path.resolve(__dirname, '../client/index.html'));
 });
 
-app.get('/test', integerController.getIntegers);
-app.post('/test', integerController.postIntegers);
+// app.get('/test', integerController.getIntegers);
+// app.post('/test', integerController.postIntegers);
 
 app.listen(port);

@@ -3,97 +3,72 @@ var regression = require('regression');
 var queries = require('./queries.js');
 var utils = require('./utilities.js');
 var child_process = require('child_process');
-var results = [];
-var runtime;
+var fs = require('fs');
+
 
 module.exports.evalAlg = function(userInput, dataType) {
 
   return new Promise(function(resolve, reject) {
-    return queries.getData(dataType)
-    .then(function(response) {
+    var results;
 
-      var data = response[0].array;
-      var results;
-
-      console.log('data length is ' + data.length);
-
-      var child = child_process.execFileSync('./syncTest.js', [data], {
-        timeout: 4000,
-        input: data,
-        killSignal: 'Evaluation timed out'
-      });
-
-      child.on('error', function(err) {
-        console.log('failed to start child process err:' + err);
-      })
-
-      // try close
-      child.on('exit', function(code, signal) {
-        console.log('child process exited due to ' + signal);
-        console.log('code: ' + code);
-        results = code; 
-      })
-
-      child.stdout.on('data', function(data) {
-        console.log('stdout: ' + data);
-        results = data;
-      })
-
-      // function timedTest(arr, start){
-      //   var maxInputSize = 20000;
-      //   var avgCutoff = 5000;
-      //   var avgIterations = 3;
-      //   var step = 1000;
-      //   // var currentInputSize = 500;
-
-      //   // iteratively test input sizes
-      //   for(var i = start; i < Math.min(start + step, maxInputSize); i += step){
-      //     runtime = utils.getRunTime(userInput, data.slice(0, i));
-      //     results.push(runtime)
-      //     continue;
-      //   }
-
-      //   // continue testing next inputs or stop
-      //   if (i < maxInputSize && !timeout) {
-      //     // yield to event loop
-      //     setTimeout(function() {
-      //       console.log('continuing timed test');
-      //       timedTest(data, start + step);
-      //     }, 0);
-      //   } else if (timeout) {
-      //     console.log('timeout completed BEFORE test, rejecting');
-      //     console.log('error');
-      //   }
-
-      //   console.log(results);
-      // }
-      
-      // main timer
-      setTimeout(function() {
-        console.log('timeout completed')
-        timeout = true;
-      }, 5000);
-
-      // var results = timedTest(data, 100);
-
-      // console.log('testing finished, resolving results');
-
-      resolve(timedTest(data, 100));
-
-      // while (currentInputSize < maxInputSize) {
-      //   if (currentInputSize <= avgCutoff) {
-      //     runtime = utils.runTimeAverage(userInput, data.slice(0, currentInputSize), avgIterations);
-      //   } else {
-      //     runtime = utils.getRunTime(userInput, data.slice(0, currentInputSize));
-      //   }
-      //   result.push(runtime);
-      //   currentInputSize *= stepFactor;
-      // }
-
+    var writeable = fs.createWriteStream('server/testInputBuffer.txt');
+    writeable.on('finish', function () {
+      console.log('**test input buffer file has been written');
     });
+    writeable.write(userInput);
+    writeable.end();
+
+    /* TESTING readFile
+    fs.readFile('server/testInputBuffer.txt', 'utf8', function(err, data) {
+      if (err) {
+        throw err;
+      }
+      console.log('READING FILE:', data);
+    });
+    */
+
+    var child = child_process.spawn(process.execPath, ['server/syncTest.js'], {
+      stdio: [null, null, null, 'pipe']
+      // timeout: 500 // for sync version
+    });
+
+    // child.on('close', function(code, signal) {
+    //   console.log('process ended, code:', code);
+    //   console.log('signal:', signal);
+    // })
+
+    child.on('exit', function(code, signal) {
+      console.log('child process exited due to ' + signal);
+      console.log('code: ' + code);
+
+      // if code/signal is due to timeout, return something else
+    })
+
+    child.stdio[3].on('data', function(data) {
+      console.log('got a message from child: ' + data);
+      results = JSON.parse(data);
+
+      child.kill('SIGINT');
+
+      resolve(results);
+    })
+
+    // child.stdout.pipe(process.stdout);
+
+    // var child = child_process.execFile('server/syncTest.js', [data], {
+    //   timeout: 4000
+    //   // input: data
+    //   // env: envDup
+    //   // killSignal: 'Evaluation timed out'
+    // }, function(error, stdout, stderr) {
+    //   console.log('stdout: ' + stdout);
+    //   console.log('stderr: ' + stderr);
+    //   if (error !== null) {
+    //     console.log('exec error: ' + error);
+    //   }
+    // });
   });
 };
-
 
 
 module.exports.getJSONCoords = function(data) {
@@ -108,6 +83,7 @@ module.exports.getJSONCoords = function(data) {
 
   return JSON.stringify(coords);
 };
+
 
 module.exports.runRegression = function(data, order) {
   order = order || '1';
