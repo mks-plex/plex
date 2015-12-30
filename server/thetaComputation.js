@@ -8,19 +8,17 @@ var slopeStandardDev = require('./thetaHelpers/slopeStandardDev.js');
 
 var possibleRunTimes = {'a': 'O(n)', 'b': 'O(n^2)', 'c': 'O(nlogn)'};
 
-// algoData is of the from [[inputSize, time]];
+// data is of the form [[input size, time (ms)], ..., ]
 
-
-function computeTheta(algorithm) {
+var computeTheta = module.exports.computeTheta =  function(algorithm, data) {
 
   var quick = createDataSet(100, 10000, 1000, quicksort, 3);
   var counting = createDataSet(100, 10000, 1000, countingsort, 3);
-  var algoData = createDataSet(100, 10000, 1000, algorithm, 3);
+  var algoData = data;
 
   var standardDevQuick = slopeStandardDev(quick);
   var standardDevCount = slopeStandardDev(counting);
   var standardDevAlgo = slopeStandardDev(algoData);
-  // REPLACE WITH ALGORITHM DATA
 
   if ( Math.abs((standardDevAlgo - standardDevQuick)) > (3*(standardDevQuick)) ) {
     return possibleRunTimes['b'];
@@ -35,5 +33,3 @@ function computeTheta(algorithm) {
   }
   return possibleRunTimes['c'];
 };
-
-console.log(computeTheta(quicksort));

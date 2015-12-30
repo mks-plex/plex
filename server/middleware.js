@@ -1,6 +1,7 @@
 var Promise = require('bluebird');
 var eval = require('./evaluation.js');
 var utils = require('./utilities.js');
+var theta = require('./thetaComputation.js')
 
 module.exports.evalForAllInputSizes = function(req, res, next) {
   var userInput = req.body.data;
@@ -11,11 +12,11 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
     resolve(data)
   })
   .then(function(data) {
-    res.body = {};
-
-    // TODO: integrate jon's bigO module
-    res.body.bigO = null;
-
+    var userInput = req.body.data;
+    var userAlg = utils.memoBuild(userInput); 
+   
+    res.body = {}; 
+    res.body.bigO = theta.computeTheta(userAlg, data);
     res.body.name = utils.getFuncName(userInput);
     res.body.eq = eval.runRegression(data, null);
     var coords = eval.getJSONCoords(data);
