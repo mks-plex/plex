@@ -9,64 +9,75 @@ var fs = require('fs');
 module.exports.evalAlg = function(userInput, dataType) {
 
   return new Promise(function(resolve, reject) {
-    var results;
+    return queries.getData(dataType)
+    .then(function(response) {
+      var inputs = response[0].array;
+      var results;
 
-    var writeable = fs.createWriteStream('server/testInputBuffer.txt');
-    writeable.on('finish', function () {
-      console.log('**test input buffer file has been written');
-    });
-    writeable.write(userInput);
-    writeable.end();
+      console.log('2 Eval alg initialized, got data length ' + inputs.length + ' about to write file');
 
-    /* TESTING readFile
-    fs.readFile('server/testInputBuffer.txt', 'utf8', function(err, data) {
-      if (err) {
-        throw err;
-      }
-      console.log('READING FILE:', data);
-    });
-    */
+      // WRITING inputs to file
+      fs.writeFileSync('server/testInputBuffer.txt', inputs) //function(err) {
+      //   if (err) throw err;
+      //   console.log('ASYNC WRITE FILE SUCCESS FOR INPUTS');
+      // });
+      console.log('Should have just written to input buffer');
 
-    var child = child_process.spawn(process.execPath, ['server/syncTest.js'], {
-      stdio: [null, null, null, 'pipe']
-      // timeout: 500 // for sync version
-    });
+      // WRITING userInput to file 
+      fs.writeFile('server/algorithmBuffer.txt', userInput, function(err) {
+        if (err) throw err;
+        console.log('ASYNC WRITE FILE SUCCESS FOR ALGORITHM');
+      });
 
-    // child.on('close', function(code, signal) {
-    //   console.log('process ended, code:', code);
-    //   console.log('signal:', signal);
+      console.log('just wrote to alg buffer async');
+
+      // TESTING readFile
+      fs.readFile('server/testInputBuffer.txt', 'utf8', function(err, data) {
+        if (err) {
+          throw err;
+        }
+        console.log('*READING FILE:', data.length);
+      });
+
+
+      var parentwd = process.cwd();
+      console.log('parent wd:', parentwd);
+
+      child_process.execFile('server/syncTest.js', null, 
+        {
+        // stdio: [null, null, null, 'pipe']
+          cwd: parentwd,
+          timeout: 5000 // for sync version
+        }, function(error, stdout, stderr) {
+          if (error !== null) throw error;
+          console.log('stdout:', stdout);
+          console.log('stderr:', stderr);
+          resolve(stdout);
+        }
+      );
+
+
+    // var child = child_process.spawn(process.execPath, 'file'...)
+    // child.stdio[3].on('data', function(data) {
+    //   console.log('got a message from child: ' + data);
+    //   results = JSON.parse(data);
+
+    //   child.kill('SIGINT');
+
+    //   resolve(results);
     // })
 
-    child.on('exit', function(code, signal) {
-      console.log('child process exited due to ' + signal);
-      console.log('code: ' + code);
+    // ONLY if using the modifiod stdio version of child
+    // child.on('exit', function(code, signal) {
+    //   console.log('child process exited due to ' + signal);
+    //   console.log('code: ' + code);
 
-      // if code/signal is due to timeout, return something else
-    })
-
-    child.stdio[3].on('data', function(data) {
-      console.log('got a message from child: ' + data);
-      results = JSON.parse(data);
-
-      child.kill('SIGINT');
-
-      resolve(results);
-    })
+    //   // if code/signal is due to timeout, return something else
+    // })
 
     // child.stdout.pipe(process.stdout);
 
-    // var child = child_process.execFile('server/syncTest.js', [data], {
-    //   timeout: 4000
-    //   // input: data
-    //   // env: envDup
-    //   // killSignal: 'Evaluation timed out'
-    // }, function(error, stdout, stderr) {
-    //   console.log('stdout: ' + stdout);
-    //   console.log('stderr: ' + stderr);
-    //   if (error !== null) {
-    //     console.log('exec error: ' + error);
-    //   }
-    // });
+    });
   });
 };
 
