@@ -17,7 +17,6 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
    
     res.body = {}; 
     res.body.bigO = theta.computeTheta(userAlg, data);
-    console.log("BIGO ", res.body.bigO);
     res.body.name = utils.getFuncName(userInput);
     res.body.eq = eval.runRegression(data, null);
     var coords = eval.getJSONCoords(data);
