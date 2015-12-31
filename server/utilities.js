@@ -88,7 +88,7 @@ function getFuncName(string) {
       funcName = string.slice(9, ++eStop);
     }
   } else {
-    alert ('Please use a function expression or declaration\ne.g. `var myFunc = ...` or `function myFunc()...`');
+    return 'Please use a function expression or declaration\ne.g. `var myFunc = ...` or `function myFunc()...`';
   }
 
   return funcName;
