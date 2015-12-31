@@ -14,7 +14,7 @@ var Footer = React.createClass({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: '6.2rem 2.4rem',
+        padding: '5.2rem 2.4rem',
         textAlign: 'center'
       },
       content: {
@@ -35,7 +35,7 @@ var Footer = React.createClass({
     return (
       <div className="footer" style={style.container}>
         <p style={style.content}>{ this.props.footer }</p>
-        <a href="https://github.com/plexit/plex" style={style.link}>
+        <a href="https://github.com/plexit/plex" target="_blank" style={style.link}>
           <i className="fa fa-github"></i>
         </a>
       </div>
