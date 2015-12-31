@@ -28,7 +28,7 @@ module.exports.evalAlg = function(userInput, dataType) {
       var results;
       var wroteOther = false;
 
-      console.log('got data length ' + inputs.length + ' about to write file');
+      console.log('got test inputs length ' + inputs.length);
 
       // var child = child_process.spawn(process.execPath, ['server/syncTest.js']);
       var child = child_process.fork(__dirname + '/syncTest.js', {silent: true, cwd: pwd});
@@ -50,7 +50,7 @@ module.exports.evalAlg = function(userInput, dataType) {
         }
         wroteOther = true;
       })
-      
+
       // WRITING inputs to file async
       fs.writeFile('server/testInputBuffer.txt', inputs, function(err) {
         if (err) throw err;

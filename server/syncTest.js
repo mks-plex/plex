@@ -33,8 +33,8 @@ process.on('message', function(msg) {
   process.stdout.write('GOT THE MESSAGE');
   // readFiles();
 
-  fs.readFile('/server/algorithmBuffer.txt', function(err, data) {
-    if (err) process.stdout.write('err, ', err);
+  fs.readFile(__dirname + '/server/algorithmBuffer.txt', function(err, data) {
+    if (err !== null) process.stdout.write('err: ', err);
 
     process.stdout.write(data);
   })

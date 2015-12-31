@@ -39,11 +39,9 @@ module.exports.testAlgo = function(req, res, next) {
     var userAlg = new Function(param, algString);
     if (!algString || !param) res.status(200).send("Error! No param or function body.");
   } catch(e) {
-    if (e instanceof SyntaxError) {
-      console.log('caught Syntax error, couldn\'t make function');
-      console.log(e);
-      res.send("Error! Your code has syntax errors.")
-    }
+    console.log('caught error, couldn\'t make function');
+    console.log(e);
+    res.send("Error! Your code has syntax errors.")
     return;
   }
 
@@ -53,15 +51,13 @@ module.exports.testAlgo = function(req, res, next) {
     userAlg = utils.memoBuild(userInput);
     userAlg(testArray);
   } catch(e) {
-    if (e instanceof SyntaxError) { 
-      console.log('caught Syntax error, function didn\'t run');
-      console.log(e);
-      res.send("Error! That is not an executable function.")
-    }
+    console.log('caught error, function didn\'t run');
+    console.log(e);
+    res.send("Error! That is not an executable function.")
     return;
   }
 
-  console.log('testing sort')
+  console.log('testing sort');
   var result = userAlg(testArray);
 
   if (result.join() === ordArray.join()) {
