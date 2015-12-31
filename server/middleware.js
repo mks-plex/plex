@@ -47,8 +47,12 @@ module.exports.testAlgo = function(req, res, next) {
   // Test if Built function can be run
   try {
     console.log('try2');
-    var userAlg = utils.memoBuild(userInput);
-    userAlg(testArray)
+    // utils.memoBuild(userInput);
+    // userAlg(testArray);
+    var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
+    var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
+    var userAlg = new Function(param, algString);
+    userAlg(testArray);
   } catch(e) {
     if (e instanceof SyntaxError) { 
       console.log('caught Syntax error, function didn\'t run');
