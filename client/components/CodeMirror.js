@@ -5,8 +5,9 @@
 var React = require('react');
 var ReactCodeMirror = require('react-codemirror');
 require('codemirror/mode/javascript/javascript');
-require('../styles/codemirror.css');
 require('codemirror/addon/edit/matchbrackets.js');
+require('codemirror/addon/edit/closebrackets.js');
+require('../styles/codemirror.css');
 
 var CodeMirror = React.createClass({
   getInitialState: function() {
@@ -30,7 +31,8 @@ var CodeMirror = React.createClass({
       lineNumbers: true,
       mode: 'javascript',
       tabSize: 2,
-      matchbrackets: true
+      matchBrackets: true,
+      autoCloseBrackets: true
     };
 
     var style = {
