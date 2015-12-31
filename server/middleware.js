@@ -19,8 +19,10 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
     res.body.bigO = theta.computeTheta(userAlg, data);
     res.body.name = utils.getFuncName(userInput);
     res.body.eq = eval.runRegression(data, null);
+
     var coords = eval.getJSONCoords(data);
     res.body.coords = coords;
+
     next();
   });
 };
@@ -28,9 +30,10 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
 module.exports.timeAlgo = function(req, res, next) {
   var userInput = req.body.data;
   var sampleArray = [1,5,3,4,2,9,3,10,12,14,8];
-  var testRun = getRunTime(userInput, sampleArray);
+  var testRun = utils.getRunTime(userInput, sampleArray);
+
   if (testRun[1] > 5.0) {
-    res.send("Your function has timed out!");
+    res.send('Your function has timed out!');
   }
 };
 
@@ -48,13 +51,13 @@ module.exports.testAlgo = function(req, res, next) {
     var userAlg = new Function(param, algString);
 
     if (!algString || !param) {
-      res.status(200).send("Error! No param or function body.");
+      res.status(200).send('Error! No param or function body.');
     }
   } catch(e) {
-    console.log('caught Syntax error, couldn\'t make function');
+    console.log('caught syntax error, couldn\'t make function');
     console.log(e);
 
-    res.send("Error! Your code is not a function.");
+    res.send('Error! Your code is not a function.');
     return;
   }
 
@@ -66,10 +69,10 @@ module.exports.testAlgo = function(req, res, next) {
 
     userAlg(testArray);
   } catch(e) {
-    console.log('caught Syntax error, function didn\'t run');
+    console.log('caught syntax error, function didn\'t run');
     console.log(e);
 
-    res.send("Error! That is not an executable function.");
+    res.send('Error! That is not an executable function.');
     return;
   }
 
@@ -79,6 +82,6 @@ module.exports.testAlgo = function(req, res, next) {
     console.log('alg passed');
     next();
   } else {
-    res.send("Error! Your function doesn't sort.");
+    res.send('Error! Your function doesn\'t sort.');
   }
 };
