@@ -26,7 +26,7 @@ var Header = React.createClass({
         zIndex: 4
       },
       leftDiv: {
-        width: '13rem',
+        width: '18rem',
       },
       icon: {
         paddingLeft: '3rem',
@@ -39,7 +39,7 @@ var Header = React.createClass({
         fontWeight: 500,
         justifyContent: 'space-between',
         textTransform: 'uppercase',
-        width: '13rem'
+        width: '18rem'
       },
       link: {
         color: '#ffffff',

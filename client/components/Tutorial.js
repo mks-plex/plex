@@ -84,7 +84,7 @@ var Tutorial = React.createClass({
     return (
       <div>
         <span className="btn-tutorial" onClick={this.openModal}>
-          about
+          how to plex
         </span>
         <Modal className="modal-tutorial" style={style} isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
           <h2 style={style.heading}>How to use plex:</h2>
