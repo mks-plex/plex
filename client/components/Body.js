@@ -13,6 +13,7 @@ var Body = React.createClass({
     return {
       data: [],
       modalIsOpen: false,
+      errMessage: '',
       equation: ''
     };
   },
@@ -47,7 +48,11 @@ var Body = React.createClass({
       }.bind(this),
       error: function(err) {
         console.error('Oops! You have a ' + err.status + ' error.' + err.responseText);
-        this.setState({modalIsOpen: true});
+
+        this.setState({
+          modalIsOpen: true,
+          errMessage: err.responseText
+        });
       }.bind(this)
     });
   },
@@ -100,11 +105,11 @@ var Body = React.createClass({
         marginBottom: '2rem'
       },
       button: {
-        backgroundColor: '#c5c2c2',
+        backgroundColor: '#a1a0a0',
         border: '1rem',
         borderRadius: '0.2rem',
         boxShadow: 'rgba(0, 0, 0, 0.117647) 0 0.1rem 0.6rem, rgba(0, 0, 0, 0.239216) 0 0.1rem 0.4rem',
-        color: '#ffffff',
+        color: '#fffdfd',
         cursor: 'pointer',
         fontFamily: 'Roboto',
         fontSize: '1.4rem',
@@ -125,8 +130,8 @@ var Body = React.createClass({
         { this.state.data.length ? <Analysis data={this.state.data} equation={this.state.equation} theta={this.state.theta} /> : <span /> }
         { this.state.modalIsOpen ?
           <div>
-            <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal} >
-              <p style={styleModal.message}>Error! Your function doesn't sort.</p>
+            <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal}>
+              <p style={styleModal.message}>{this.state.errMessage}</p>
               <button onClick={this.closeModal} style={styleModal.button}>close</button>
             </Modal>
           </div> : <span />
