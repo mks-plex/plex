@@ -6,27 +6,13 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var Graph = require('./Graph');
 var Data = require('./Data');
+var $ = require('jquery');
 
 var Analysis = React.createClass({
+
   componentDidMount: function() {
-    ReactDOM.findDOMNode(this.refs.analysis).scrollTop = 800;
+    window.scroll(0, ReactDOM.findDOMNode(this.refs.analysis).scrollHeight - 40);
   },
-  // componentDidUpdate: function() {
-  //   var node = ReactDOM.findDOMNode();
-  //   node.scrollTop = node.scrollHeight;
-  // },
-  // componentWillUpdate: function() {
-  //    // ReactDOM.findDOMNode()
-  //   var node = ReactDOM.findDOMNode(this.refs.analysis);
-  //   ReactDOM.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
-  // },
-   
-  // componentDidUpdate: function() {
-  //   if (ReactDOM.shouldScrollBottom) {
-  //     var node = ReactDOM.findDOMNode(this.refs.analysis);
-  //     node.scrollTop = node.scrollHeight
-  //   }
-  // },
 
   render: function() {
     var style = {
