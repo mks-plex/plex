@@ -5,6 +5,19 @@ var utils = require('./utilities.js');
 var child_process = require('child_process');
 var fs = require('fs');
 
+(function() {
+    var child_process = require("child_process");
+    var oldSpawn = child_process.fork;
+    function mySpawn() {
+        console.log('spawn called with args:');
+        console.log(arguments);
+        var result = oldSpawn.apply(this, arguments);
+        return result;
+    }
+    child_process.fork = mySpawn;
+})();
+
+var pwd = process.cwd();
 
 module.exports.evalAlg = function(userInput, dataType) {
 
@@ -13,59 +26,89 @@ module.exports.evalAlg = function(userInput, dataType) {
     .then(function(response) {
       var inputs = response[0].array;
       var results;
+      var wroteOther = false;
 
-      console.log('2 Eval alg initialized, got data length ' + inputs.length + ' about to write file');
+      console.log('got data length ' + inputs.length + ' about to write file');
 
-      // WRITING inputs to file
-      fs.writeFileSync('server/testInputBuffer.txt', inputs) //function(err) {
-      //   if (err) throw err;
-      //   console.log('ASYNC WRITE FILE SUCCESS FOR INPUTS');
-      // });
-      console.log('Should have just written to input buffer');
+      // var child = child_process.spawn(process.execPath, ['server/syncTest.js']);
+      var child = child_process.fork(__dirname + '/syncTest.js', {silent: true, cwd: pwd});
+      
+      child.stdout.on('data', function(data) {
+        console.log('got a message from child: ' + data);
+        // results = JSON.parse(data);
+        // resolve(results);
+      })
 
-      // WRITING userInput to file 
+
+      // WRITING userInput to file async
       fs.writeFile('server/algorithmBuffer.txt', userInput, function(err) {
         if (err) throw err;
-        console.log('ASYNC WRITE FILE SUCCESS FOR ALGORITHM');
-      });
+        console.log('ASYNC WRITE FILE SUCCESS for algorithm');
 
-      console.log('just wrote to alg buffer async');
+        if (wroteOther) {
+          child.send('wrote');
+        }
+        wroteOther = true;
+      })
+      
+      // WRITING inputs to file async
+      fs.writeFile('server/testInputBuffer.txt', inputs, function(err) {
+        if (err) throw err;
+        console.log('ASYNC WRITE FILE SUCCESS for inputs');
+
+        if (wroteOther) {
+          child.send('wrote');
+        }
+        wroteOther = true;
+      })
+      
+      // WRITING files sync
+      // fs.writeFileSync('server/algorithmBuffer.txt', userInput);
+      // fs.writeFileSync('server/testInputBuffer.txt', inputs);
+
+
+
+      // setTimeout(function () {
+        // child.kill('SIGINT');
+      // }, 3000);
+
+
+      // child.stdout.pipe(process.stdout);
+
+
+
+      // var returned = child_process.execFileSync('./syncTest.js', null, { 
+      //   encoding: 'utf8',
+      //   timeout: 5000,
+      //   maxBuffer: 200*1024,
+      //   killSignal: 'SIGTERM',
+      //   cwd: null,
+      //   env: null 
+      // });
+       // function(error, stdout, stderr) {
+       //    if (error !== null) throw error;
+       //    console.log('stdout:', stdout);
+       //    console.log('stderr:', stderr);
+       //    resolve(stdout);
+       //  }
+      // );
+      
+
+
 
       // TESTING readFile
-      fs.readFile('server/testInputBuffer.txt', 'utf8', function(err, data) {
-        if (err) {
-          throw err;
-        }
-        console.log('*READING FILE:', data.length);
-      });
+      // fs.readFile('server/testInputBuffer.txt', 'utf8', function(err, data) {
+      //   if (err) {
+      //     throw err;
+      //   }
+      //   console.log('*READING FILE:', data.toString());
+      // });
+
+      // var parentwd = process.cwd();
+      // console.log('parent wd:', parentwd);
 
 
-      var parentwd = process.cwd();
-      console.log('parent wd:', parentwd);
 
-      child_process.execFile('server/syncTest.js', null, 
-        {
-        // stdio: [null, null, null, 'pipe']
-          cwd: parentwd,
-          timeout: 5000 // for sync version
-        }, function(error, stdout, stderr) {
-          if (error !== null) throw error;
-          console.log('stdout:', stdout);
-          console.log('stderr:', stderr);
-          resolve(stdout);
-        }
-      );
-
-
-    // var child = child_process.spawn(process.execPath, 'file'...)
-    // child.stdio[3].on('data', function(data) {
-    //   console.log('got a message from child: ' + data);
-    //   results = JSON.parse(data);
-
-    //   child.kill('SIGINT');
-
-    //   resolve(results);
-    // })
 
     // ONLY if using the modifiod stdio version of child
     // child.on('exit', function(code, signal) {
@@ -75,7 +118,7 @@ module.exports.evalAlg = function(userInput, dataType) {
     //   // if code/signal is due to timeout, return something else
     // })
 
-    // child.stdout.pipe(process.stdout);
+
 
     });
   });
