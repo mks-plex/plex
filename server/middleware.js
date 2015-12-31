@@ -31,7 +31,7 @@ module.exports.testAlgo = function(req, res, next) {
 
   // Test if UserInput can be built
   try {
-    console.log('Try One');
+    console.log('try one');
     var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
     var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
     var userAlg = new Function(param, algString);
