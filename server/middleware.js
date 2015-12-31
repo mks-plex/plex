@@ -30,7 +30,7 @@ module.exports.timeAlgo = function(req, res, next) {
   var sampleArray = [1,5,3,4,2,9,3,10,12,14,8];
   var testRun = getRunTime(userInput, sampleArray);
   if (testRun[1] > 5.0) {
-    res.send("time out");
+    res.send("Your function has timed out!");
   }
 };
 
