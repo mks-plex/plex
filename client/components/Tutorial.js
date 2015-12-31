@@ -57,6 +57,9 @@ var Tutorial = React.createClass({
         marginBottom: '2rem',
         color: 'rgba(33, 33, 33, 0.7)'
       },
+      p: {
+        marginBottom: '1rem'
+      },
       button: {
         backgroundColor: 'rgba(33, 33, 33, 0.7)',
         border: '1rem',
@@ -86,15 +89,14 @@ var Tutorial = React.createClass({
         <Modal className="modal-tutorial" style={style} isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
           <h2 style={style.heading}>How to use plex:</h2>
           <div>
-
-            To use plex properly the algorithm submitted must abide by the following guidelines:
-              <ul>
-                <li>It must be a single function with one parameter. All helper functions must be enclosed within this one function.</li>
-                <li>The parameter must be an array composed of integers.</li>
-                <li>We do not report data for algorithms that are egregiously slow.</li>
-              </ul>
-              <br/>
-              *Note: All data reported are estimations. Use at your own risk.
+            <p style={style.p}>To use plex properly, the algorithm submitted must abide by the following guidelines:</p>
+            <ul>
+              <li>It must be a single function with one parameter. All helper functions must be enclosed within this one function.</li>
+              <li>The parameter must be an array composed of integers.</li>
+              <li>We do not report data for algorithms that are egregiously slow.</li>
+            </ul>
+            <br/>
+            <p>*Note: All data reported are estimations. Use at your own risk.</p>
           </div>
           <button style={style.button} onClick={this.closeModal}>Got it</button>
         </Modal>
