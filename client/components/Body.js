@@ -105,11 +105,11 @@ var Body = React.createClass({
         marginBottom: '2rem'
       },
       button: {
-        backgroundColor: '#c5c2c2',
+        backgroundColor: '#a1a0a0',
         border: '1rem',
         borderRadius: '0.2rem',
         boxShadow: 'rgba(0, 0, 0, 0.117647) 0 0.1rem 0.6rem, rgba(0, 0, 0, 0.239216) 0 0.1rem 0.4rem',
-        color: '#ffffff',
+        color: '#fffdfd',
         cursor: 'pointer',
         fontFamily: 'Roboto',
         fontSize: '1.4rem',

@@ -45,7 +45,7 @@ module.exports.testAlgo = function(req, res, next) {
     console.log('caught Syntax error, couldn\'t make function');
     console.log(e);
 
-    res.send("Error! Your code is not a function");
+    res.send("Error! Your code is not a function.");
     return;
   }
 
