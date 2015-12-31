@@ -13,9 +13,9 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
   })
   .then(function(data) {
     var userInput = req.body.data;
-    var userAlg = utils.memoBuild(userInput); 
-   
-    res.body = {}; 
+    var userAlg = utils.memoBuild(userInput);
+
+    res.body = {};
     res.body.bigO = theta.computeTheta(userAlg, data);
     res.body.name = utils.getFuncName(userInput);
     res.body.eq = eval.runRegression(data, null);
@@ -23,6 +23,15 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
     res.body.coords = coords;
     next();
   });
+};
+
+module.exports.timeAlgo = function(req, res, next) {
+  var userInput = req.body.data;
+  var sampleArray = [1,5,3,4,2,9,3,10,12,14,8];
+  var testRun = getRunTime(userInput, sampleArray);
+  if (testRun[1] > 5.0) {
+    res.send("time out");
+  }
 };
 
 module.exports.testAlgo = function(req, res, next) {
