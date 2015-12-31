@@ -5,7 +5,6 @@ var createTest = require('./thetaHelpers/createTest.js');
 var createDataSet = require('./thetaHelpers/createDataSet.js');
 var getRunTimeOnOneInput = require('./thetaHelpers/getRunTimeOnOneInput.js');
 var slopeStandardDev = require('./thetaHelpers/slopeStandardDev.js');
-
 var possibleRunTimes = {'a': 'O(n)', 'b': 'O(n<sup>2</sup>)', 'c': 'O(nlogn)'};
 
 // data is of the form [[input size, time (ms)], ..., ]

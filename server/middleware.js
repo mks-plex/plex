@@ -33,6 +33,7 @@ module.exports.timeAlgo = function(req, res, next) {
   if (testRun[1] > 5.0) {
     res.send('Your function has timed out!');
   }
+
   next();
 };
 
@@ -80,7 +81,7 @@ module.exports.testAlgo = function(req, res, next) {
 
     if (result.join() === ordArray.join()) {
       console.log('alg passed');
-      
+
       next();
     }
   } catch(e) {

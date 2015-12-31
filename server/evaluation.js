@@ -49,23 +49,25 @@ module.exports.getJSONCoords = function(data) {
 
 module.exports.runRegression = function(data, order) {
   order = order || 'O(n)';
+
   var result;
   var coef;
   var equation;
+
   console.log('big o is ' + order);
 
   switch (order) {
-    case ('O(n<sup>2</sup>)'): 
+    case ('O(n<sup>2</sup>)'):
       result = regression('power', data);
       coef = result.equation;
       equation = 'y = x<sup>' + coef[1].toFixed(2) + '</sup>';
       break;
-    case ('O(n)'): 
+    case ('O(n)'):
       result = regression('linear', data);
       coef = result.equation;
       equation = 'y = x + ' + coef[1].toExponential(2);
       break;
-    default: 
+    default:
       result = regression('linear', data);
       coef = result.equation;
       equation = 'y = x + ' + coef[1].toExponential(2);

@@ -51,19 +51,21 @@ var Data = React.createClass({
       <div className="data-container" style={style.container}>
         <div className="data-content" style={style.content}>
           <h2 style={style.heading}>Information About Your Algorithm</h2>
-          <p style={style.analytics}>{this.props.name}</p>
+          <p style={style.section}>
+            Your function is called:
+            <br />
+            <span style={style.analytics}>{this.props.name}</span>
+          </p>
           <p style={style.section}>
             The Big O Time Complexity is approximately:
             <br />
-            <span style={style.analytics} dangerouslySetInnerHTML={{__html: getTheta.call(this) }}></span>
+            <span style={style.analytics} dangerouslySetInnerHTML={{__html: getTheta.call(this)}}></span>
           </p>
           <p style={style.section}>
             The line of best fit has the equation:
             <br />
-            <span style={style.analytics} dangerouslySetInnerHTML={{__html: getEquation.call(this) }}></span>
+            <span style={style.analytics} dangerouslySetInnerHTML={{__html: getEquation.call(this)}}></span>
           </p>
-          <ul>
-          </ul>
         </div>
       </div>
     )

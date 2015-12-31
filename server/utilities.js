@@ -51,6 +51,7 @@ var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
 
 function buildFunc(userInput) {
   console.log('building function');
+
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
   var algName = getFuncName(userInput);
   var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
