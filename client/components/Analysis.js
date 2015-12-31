@@ -23,7 +23,7 @@ var Analysis = React.createClass({
         <div className="graph-container" style={style.graphContainer}>
           <Graph data={this.props.data} />
         </div>
-        <Data data={this.props.data} equation={this.props.equation} theta={this.props.theta} />
+        <Data data={this.props.data} equation={this.props.equation} theta={this.props.theta} name={this.props.name} />
       </div>
     )
   }

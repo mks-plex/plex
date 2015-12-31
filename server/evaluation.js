@@ -4,11 +4,11 @@ var queries = require('./queries.js');
 var utils = require('./utilities.js');
 
 module.exports.evalAlg = function(userInput, dataType) {
-  var databaseSize = 10000;
-  var avgCutoff = 500;
+  var maxInputSize = 10100;
+  var avgCutoff = 2100;
   var avgIterations = 3;
-  var currentInputSize = 500;
-  var stepFactor = 1.5;
+  var currentInputSize = 100;
+  var stepFactor = 1000;
   var result = [];
   var runtime;
 
@@ -17,16 +17,16 @@ module.exports.evalAlg = function(userInput, dataType) {
     .then(function(response) {
       var data = response[0].array;
 
-      console.log('eval -data length is ' + data.length);
+      console.log(data.length + ' test inputs received');
 
-      while (currentInputSize < databaseSize) {
+      while (currentInputSize < maxInputSize) {
         if (currentInputSize <= avgCutoff) {
           runtime = utils.runTimeAverage(userInput, data.slice(0, currentInputSize), avgIterations);
         } else {
           runtime = utils.getRunTime(userInput, data.slice(0, currentInputSize));
         }
         result.push(runtime);
-        currentInputSize *= stepFactor;
+        currentInputSize += stepFactor;
       }
 
       resolve(result);
@@ -48,42 +48,33 @@ module.exports.getJSONCoords = function(data) {
 };
 
 module.exports.runRegression = function(data, order) {
-  order = order || 'ln';
+  order = order || 'O(n)';
+
   var result;
   var coef;
   var equation;
 
-  /* TODO: use results of bigO to run the right type of regression
-  switch statement for order/regression type
-  2+ - power y = ax^b
-  1 - linear y = ax + b
-  ln - logarithmic y = a + b ln x ?? or use linear also
-  default - linearThroughOrigin y = mx
-  */
+  console.log('big o is ' + order);
 
   switch (order) {
-    case ('2+'): 
+    case ('O(n<sup>2</sup>)'):
       result = regression('power', data);
       coef = result.equation;
-      equation = 'y = ' + coef[0].toExponential(2) + ' x^' + coef[1].toFixed(2);
+      equation = 'y = x<sup>' + coef[1].toFixed(2) + '</sup>';
       break;
-    case ('1'): 
+    case ('O(n)'):
       result = regression('linear', data);
       coef = result.equation;
-      equation = 'y = ' + coef[0].toExponential(2) + 'x + ' + coef[1].toExponential(2);
+      equation = 'y = x + ' + coef[1].toExponential(2);
       break;
-    case ('ln'): 
-      result = regression('logarithmic', data);
+    default:
+      result = regression('linear', data);
       coef = result.equation;
-      equation = 'y = ' + coef[0].toExponential(2) + ' + ' + coef[1].toExponential(2) + 'ln(x)';
+      equation = 'y = x + ' + coef[1].toExponential(2);
       break;
-    default: 
-      result = regression('linearThroughOrigin', data);
-      coef = result.equation;
-      equation = 'y = ' + coef[0].toExponential(2) + 'x';
   }
 
-  console.log('Equation from regression: ' + equation);
+  console.log('equation from regression: ' + equation);
 
   return equation;
 };
