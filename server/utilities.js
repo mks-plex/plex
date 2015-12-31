@@ -50,7 +50,7 @@ var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
 };
 
 function buildFunc(userInput) {
-  console.log('utils -building function');
+  console.log('building function');
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
   var algName = getFuncName(userInput);
   var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
@@ -88,7 +88,7 @@ function getFuncName(string) {
       funcName = string.slice(9, ++eStop);
     }
   } else {
-    return 'Please use a function expression or declaration\ne.g. `var myFunc = ...` or `function myFunc()...`';
+    return null;
   }
 
   return funcName;

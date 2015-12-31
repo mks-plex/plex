@@ -6,14 +6,14 @@ var createDataSet = require('./thetaHelpers/createDataSet.js');
 var getRunTimeOnOneInput = require('./thetaHelpers/getRunTimeOnOneInput.js');
 var slopeStandardDev = require('./thetaHelpers/slopeStandardDev.js');
 
-var possibleRunTimes = {'a': 'O(n)', 'b': 'O(n^2)', 'c': 'O(nlogn)'};
+var possibleRunTimes = {'a': 'O(n)', 'b': 'O(n<sup>2</sup>)', 'c': 'O(nlogn)'};
 
 // data is of the form [[input size, time (ms)], ..., ]
 
 var computeTheta = module.exports.computeTheta =  function(algorithm, data) {
 
-  var quick = createDataSet(100, 10000, 1000, quicksort, 3);
-  var counting = createDataSet(100, 10000, 1000, countingsort, 3);
+  var quick = createDataSet(100, 10100, 1000, quicksort, 3);
+  var counting = createDataSet(100, 10100, 1000, countingsort, 3);
   var algoData = data;
 
   var standardDevQuick = slopeStandardDev(quick);

@@ -18,10 +18,8 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
     res.body = {};
     res.body.bigO = theta.computeTheta(userAlg, data);
     res.body.name = utils.getFuncName(userInput);
-    res.body.eq = eval.runRegression(data, null);
-
-    var coords = eval.getJSONCoords(data);
-    res.body.coords = coords;
+    res.body.eq = eval.runRegression(data, res.body.bigO);
+    res.body.coords = eval.getJSONCoords(data);
 
     next();
   });
@@ -44,14 +42,14 @@ module.exports.testAlgo = function(req, res, next) {
 
   // Test if userInput can be built
   try {
-    console.log('try one');
+    console.log('try - make function');
 
     var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
     var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
     var userAlg = new Function(param, algString);
 
     if (!algString || !param) {
-      res.status(200).send('Error! No param or function body.');
+      res.send("Error! No param or function body.");
     }
   } catch(e) {
     console.log('caught syntax error, couldn\'t make function');
@@ -63,25 +61,28 @@ module.exports.testAlgo = function(req, res, next) {
 
   // Test if built function can be run
   try {
-    console.log('try2');
+    console.log('try - run function');
 
     var userAlg = utils.memoBuild(userInput);
-
     userAlg(testArray);
   } catch(e) {
     console.log('caught syntax error, function didn\'t run');
     console.log(e);
 
     res.send('Error! That is not an executable function.');
+
     return;
   }
 
-  var result = userAlg(testArray);
+  try {
+    var result = userAlg(testArray);
 
-  if (result.join() === ordArray.join()) {
-    console.log('alg passed');
-    next();
-  } else {
-    res.send('Error! Your function doesn\'t sort.');
+    if (result.join() === ordArray.join()) {
+      console.log('alg passed');
+      
+      next();
+    }
+  } catch(e) {
+    res.send("Error! Your function doesn't sort.");
   }
 };

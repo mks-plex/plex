@@ -14,7 +14,8 @@ var Body = React.createClass({
       data: [],
       modalIsOpen: false,
       errMessage: '',
-      equation: ''
+      equation: '',
+      name: ''
     };
   },
 
@@ -35,6 +36,7 @@ var Body = React.createClass({
         var coords = JSON.parse(data.coords);
         var equation = data.eq;
         var theta = data.bigO;
+        var name = data.name;
 
         console.log(equation);
         console.log(coords);
@@ -43,11 +45,12 @@ var Body = React.createClass({
         this.setState({
           data: coords,
           equation: equation,
-          theta: theta
+          theta: theta,
+          name: name
         });
       }.bind(this),
       error: function(err) {
-        console.error('Oops! You have a ' + err.status + ' error.' + err.responseText);
+        console.error(err.responseText);
 
         this.setState({
           modalIsOpen: true,
@@ -128,7 +131,7 @@ var Body = React.createClass({
       <div style={style.container}>
         <p id="intro-message" style={style.intro}>{ this.props.intro }</p>
         <CodeMirror getCode={this.getCode} />
-        { this.state.data.length ? <Analysis data={this.state.data} equation={this.state.equation} theta={this.state.theta} /> : <span /> }
+        { this.state.data.length ? <Analysis data={this.state.data} equation={this.state.equation} theta={this.state.theta} name={this.state.name} /> : <span /> }
         { this.state.modalIsOpen ?
           <div>
             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal}>
