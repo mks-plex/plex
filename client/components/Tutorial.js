@@ -86,10 +86,15 @@ var Tutorial = React.createClass({
         <Modal className="modal-tutorial" style={style} isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
           <h2 style={style.heading}>How to use plex:</h2>
           <div>
-            <p>Insert your self-contained sorting algorithm into the codemirror box.</p>
-            <p>Click the plexIt button.</p>
-            <p>View the graph so see a visual representation of your algorithm's time complexity.</p>
-            <p>View the analytics box to get more useful information about your alogorithm.</p>
+
+            To use plex properly the algorithm submitted must abide by the following guidelines:
+              <ul>
+                <li>It must be a single function with one parameter. All helper functions must be enclosed within this one function.</li>
+                <li>The parameter must be an array composed of integers.</li>
+                <li>We do not report data for algorithms that are egregiously slow.</li>
+              </ul>
+              <br/>
+              *Note: All data reported are estimations. Use at your own risk.
           </div>
           <button style={style.button} onClick={this.closeModal}>Got it</button>
         </Modal>
