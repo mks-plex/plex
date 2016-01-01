@@ -7,51 +7,51 @@ var fs = require('fs');
 
 (function() {
     var child_process = require("child_process");
-    var oldSpawn = child_process.fork;
-    function mySpawn() {
-        console.log('spawn called with args:');
+    var oldFork = child_process.fork;
+    function newFork() {
+        console.log('forked child process with args:');
         console.log(arguments);
-        var result = oldSpawn.apply(this, arguments);
+        var result = oldFork.apply(this, arguments);
         return result;
     }
-    child_process.fork = mySpawn;
+    child_process.fork = newFork;
 })();
-
-var pwd = process.cwd();
 
 module.exports.evalAlg = function(userInput, dataType) {
 
   return new Promise(function(resolve, reject) {
     return queries.getData(dataType)
     .then(function(response) {
+      var pwd = process.cwd();
       var inputs = response[0].array;
       var results;
-      var wroteOther = false;
 
       console.log('got test inputs length ' + inputs.length);
 
-      // var child = child_process.spawn(process.execPath, ['server/syncTest.js']);
       var child = child_process.fork(__dirname + '/syncTest.js', {silent: true, cwd: pwd});
       
       child.stdout.on('data', function(data) {
-        console.log('got a message from child: ' + data);
-        // results = JSON.parse(data);
-        // resolve(results);
+        console.log('child process complete, results: ' + data);
+
+        results = JSON.parse(data);
+        resolve(results);
       })
 
-
-      // WRITING userInput to file async
+      // write userInput to file async
       fs.writeFile('server/algorithmBuffer.txt', userInput, function(err) {
         if (err) throw err;
-        console.log('ASYNC WRITE FILE SUCCESS for algorithm');
+        console.log('wrote file for algorithm');
 
-        if (wroteOther) {
-          child.send('wrote');
-        }
-        wroteOther = true;
+        child.send('wrote');
       })
 
-      // WRITING inputs to file async
+      setTimeout(function () {
+        child.kill('SIGINT');
+        resolve('timeout');
+      }, 8000);
+
+    /*  
+      to write test inputs to file async
       fs.writeFile('server/testInputBuffer.txt', inputs, function(err) {
         if (err) throw err;
         console.log('ASYNC WRITE FILE SUCCESS for inputs');
@@ -61,64 +61,7 @@ module.exports.evalAlg = function(userInput, dataType) {
         }
         wroteOther = true;
       })
-      
-      // WRITING files sync
-      // fs.writeFileSync('server/algorithmBuffer.txt', userInput);
-      // fs.writeFileSync('server/testInputBuffer.txt', inputs);
-
-
-
-      // setTimeout(function () {
-        // child.kill('SIGINT');
-      // }, 3000);
-
-
-      // child.stdout.pipe(process.stdout);
-
-
-
-      // var returned = child_process.execFileSync('./syncTest.js', null, { 
-      //   encoding: 'utf8',
-      //   timeout: 5000,
-      //   maxBuffer: 200*1024,
-      //   killSignal: 'SIGTERM',
-      //   cwd: null,
-      //   env: null 
-      // });
-       // function(error, stdout, stderr) {
-       //    if (error !== null) throw error;
-       //    console.log('stdout:', stdout);
-       //    console.log('stderr:', stderr);
-       //    resolve(stdout);
-       //  }
-      // );
-      
-
-
-
-      // TESTING readFile
-      // fs.readFile('server/testInputBuffer.txt', 'utf8', function(err, data) {
-      //   if (err) {
-      //     throw err;
-      //   }
-      //   console.log('*READING FILE:', data.toString());
-      // });
-
-      // var parentwd = process.cwd();
-      // console.log('parent wd:', parentwd);
-
-
-
-
-    // ONLY if using the modifiod stdio version of child
-    // child.on('exit', function(code, signal) {
-    //   console.log('child process exited due to ' + signal);
-    //   console.log('code: ' + code);
-
-    //   // if code/signal is due to timeout, return something else
-    // })
-
-
+    */
 
     });
   });
@@ -144,14 +87,6 @@ module.exports.runRegression = function(data, order) {
   var result;
   var coef;
   var equation;
-
-  /* TODO: use results of bigO to run the right type of regression
-  switch statement for order/regression type
-  2+ - power y = ax^b
-  1 - linear y = ax + b
-  ln - logarithmic y = a + b ln x ?? or use linear also
-  default - linearThroughOrigin y = mx
-  */
 
   switch (order) {
     case ('2+'): 

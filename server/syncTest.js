@@ -1,48 +1,53 @@
 var fs = require('fs');
 
-var userInput;
-var testInputs;
+// var readFiles = function() {
 
-var readFiles = function() {
-  process.stdout.write('simulated results');
+//   fs.readFile(__dirname + '/algorithmBuffer.txt', 'utf8', function(err, data) {
+//     if (err !== null) {
+//       process.stdout('err reading algo: ' + err);
+//     }
+//     userInput = JSON.parse(data);
+//     process.stdout.write('~~~got algorithm~~~'  + userInput);
+//   })
 
-  fs.readFile('server/algorithmBuffer.txt', 'utf8', function(err, data) {
-    if (err) {
-      process.stdout('err: ' + err);
-    }
-    userInput = JSON.parse(data);
-    process.stdout.write('got alg');
-  });
-
-  fs.readFile('./testInputBuffer.txt', 'utf8', function(err, data) {
-    if (err) {
-      throw err;
-    }
-    testInputs = JSON.parse(data);
-    process.stdout.write('got inputs');
-    //   call timedTest and write results or use interval to poll a results
-    //   var results = JSON.stringify(timedTest(userInput, data)); 
-  });
-};
-
-
-
+//   fs.readFile(__dirname + '/testInputBuffer.txt', 'utf8', function(err, data) {
+//     if (err !== null) {
+//       process.stdout('err reading inputs: ' + err);
+//     }
+//     testInputs = JSON.parse(data);
+//     process.stdout.write('~~~got inputs~~~' + testInputs.length);
+//     //   call timedTest and write results or use interval to poll a results
+//     //   var results = JSON.stringify(timedTest(userInput, data)); 
+//   })
+// };
 
 
 process.on('message', function(msg) {
-  process.stdout.write('GOT THE MESSAGE');
+  
   // readFiles();
 
-  fs.readFile(__dirname + '/server/algorithmBuffer.txt', function(err, data) {
-    if (err !== null) process.stdout.write('err: ', err);
+  fs.readFile(__dirname + '/algorithmBuffer.txt', function(err, data) {
+    if (err !== null) process.stdout.write('err');
 
-    process.stdout.write(data);
+    // process.stdout.write(data);
+    // userInput = data;
+
+    fs.readFile(__dirname + '/testInputBuffer.txt', 'utf8', function(err, data2) {
+      if (err !== null) {
+        process.stdout.write('err');
+      }
+      var alg = data;
+      var inputs = JSON.parse(data2);
+
+      // process.stdout.write('got alg');
+      // process.stdout.write('got inputs length: ' + inputs.length);
+
+      var results = JSON.stringify(timedTest(alg, inputs));
+
+      process.stdout.write(results);
+    })
   })
-
 })
-
-
-
 
 // poll to see if timed test is done
 // setInterval(function() {
@@ -51,126 +56,124 @@ process.on('message', function(msg) {
 //   }
 // }, 500);
 
-// process.stdout.write(userInput);
+function timedTest(userInput, data) {
+  var currentInputSize = 100;
+  var maxInputSize = 20000;
+  var avgCutoff = 500;
+  var avgIterations = 3;
+  var stepFactor = 1000;
+  var result = [];
+  var runtime;
+
+  while (currentInputSize < maxInputSize) {
+    if (currentInputSize <= avgCutoff) {
+      runtime = runTimeAverage(userInput, data.slice(0, currentInputSize), avgIterations);
+    } else {
+      runtime = getRunTime(userInput, data.slice(0, currentInputSize));
+    }
+
+    result.push(runtime);
+
+    currentInputSize += stepFactor;
+  }
+
+  return result;
+}
+
+function memoize(func) {
+  var cached = {};
+
+  return function() {
+    var args = Array.prototype.slice.call(arguments);
+    if (!cached[args]) {
+      cached[args] = func.apply(this, arguments);
+    }
+
+    return cached[args];
+  };
+};
+
+var memoBuild = memoize(buildFunc);
+
+function runTimeAverage(userInput, dbInput, iterations) {
+  var total = 0;
+  var i = 0;
+  var averageRun;
+  var stats;
+
+  while (i < iterations) {
+    stats = getRunTime(userInput, dbInput);
+    total += stats[1];
+    i++;
+  }
+
+  averageRun = total / iterations;
+
+  // returns [input size N, average runtime in milliseconds]
+  return [stats[0], Number(averageRun.toFixed(3))];
+};
+
+function getRunTime(userInput, dbInput) {
+  var userAlg = memoBuild(userInput);
+
+  var time = process.hrtime();
+  var result = userAlg(dbInput);
+  var diff = process.hrtime(time);
+  var runTime = (diff[0] * 1e9 + diff[1]) / 1e6;
+
+  // returns [N, runtime in milliseconds]
+  return [dbInput.length, Number(runTime.toFixed(3))];
+};
 
 
+function buildFunc(userInput) {
+  // process.stdout.write('building func')
 
+  var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
+  var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
+  var name = getFuncName(userInput);
+  var wrappedAlg = recursionFix(userInput, name, param);
+  var userAlg = new Function(param, wrappedAlg);
 
+  return userAlg;
+}
 
+function recursionFix(string, name, param) {
+  // process.stdout.write('recursionfix called for ' + name);
 
+  var insertBefore = 'var alg=function(' + param + '){';
+  var insertAfter = 'return ' + name + '(' + param + ');}; return alg(' + param + ')';
 
+  return insertBefore + string + insertAfter;
+}
 
+function getFuncName(string) {
+  // process.stdout.write('getting func name');
+  var userInput = string.slice(0);
 
+  var dStop = string.indexOf('=');
+  var eStop = string.indexOf('(');
+  var funcName;
 
+  // trim leading white space
+  while (string[0] === ' ') {
+    userInput = userInput.slice(1);
+  }
 
+  if (userInput.slice(0,3) == 'var') {
+    if (userInput[--dStop] == ' ') {
+      funcName = userInput.slice(4, dStop);
+    } else {
+      funcName = userInput.slice(4, ++dStop);
+    }
+  } 
+  if (userInput.slice(0, 8) == 'function') {
+    if (userInput[--eStop] == ' ') {
+      funcName = userInput.slice(9, eStop);
+    } else {
+      funcName = userInput.slice(9, ++eStop);
+    }
+  }
 
-
-// function timedTest(userInput, data) {
-//   var currentInputSize = 100;
-//   var maxInputSize = 20000;
-//   var avgCutoff = 500;
-//   var avgIterations = 3;
-//   var currentInputSize = 100;
-//   var stepFactor = 1000;
-//   var result = [];
-//   var runtime;
-
-//   while (currentInputSize < maxInputSize) {
-//     if (currentInputSize <= avgCutoff) {
-//       runtime = utils.runTimeAverage(userInput, data.slice(0, currentInputSize), avgIterations);
-//     } else {
-//       runtime = utils.getRunTime(userInput, data.slice(0, currentInputSize));
-//     }
-
-//     result.push(runtime);
-
-//     currentInputSize += stepFactor;
-//   }
-
-//   console.log('results of child', results);
-
-//   return result;
-// }
-
-
-// var memoBuild = module.exports.memoBuild = memoize(buildFunc);
-
-// function runTimeAverage(userInput, dbInput, iterations) {
-//   console.log('calculating runtime average for N = ' + dbInput.length);
-
-//   var total = 0;
-//   var i = 0;
-//   var averageRun;
-//   var stats;
-
-//   while (i < iterations) {
-//     stats = getRunTime(userInput, dbInput);
-//     total += stats[1];
-//     i++;
-//   }
-
-//   averageRun = total / iterations;
-
-//   // returns [input size N, average runtime in milliseconds]
-//   return [stats[0], Number(averageRun.toFixed(3))];
-// };
-
-// function getRunTime(userInput, dbInput) {
-//   var userAlg = memoBuild(userInput);
-
-//   var time = process.hrtime();
-//   var result = userAlg(dbInput);
-//   var diff = process.hrtime(time);
-//   var runTime = (diff[0] * 1e9 + diff[1]) / 1e6;
-
-//   // console.log('single runtime for N = ' + dbInput.length + ', run: ' + runTime);
-
-//   // returns [N, runtime in milliseconds]
-//   return [dbInput.length, Number(runTime.toFixed(3))];
-// };
-
-// function buildFunc(userInput) {
-//   console.log('building function');
-//   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
-//   var algName = getFuncName(userInput);
-//   var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
-//   var wrappedAlg = recursionFix(userInput, algName, param);
-//   var userAlg = new Function(param, wrappedAlg);
-
-//   // console.log('created ' + algName + ' algorithm');
-//   // console.log(userAlg.toString());
-
-//   return userAlg;
-// }
-
-// function recursionFix(string, name, param) {
-//   var insertBefore = 'var alg=function(' + param + '){';
-//   var insertAfter = 'return ' + name + '(' + param + ');}; return alg(' + param + ')';
-
-//   return insertBefore + string + insertAfter;
-// }
-
-// function getFuncName(string) {
-//   var dStop = string.indexOf('=');
-//   var eStop = string.indexOf('(');
-//   var funcName;
-
-//   if (string.substr(0,3) === 'var') {
-//     if (string[--dStop] === ' ') {
-//       funcName = string.slice(4, dStop);
-//     } else {
-//       funcName = string.slice(4, ++dStop);
-//     }
-//   } else if (string.substr(0, 8) === 'function') {
-//     if (string[--eStop] === ' ') {
-//       funcName = string.slice(9, eStop);
-//     } else {
-//       funcName = string.slice(9, ++eStop);
-//     }
-//   } else {
-//     return null;
-//   }
-
-//   return funcName;
-// }
-
+  return funcName;
+}

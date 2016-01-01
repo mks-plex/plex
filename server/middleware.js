@@ -11,6 +11,7 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
     eval.evalAlg(userInput, dataType)
   )
   .then(function(data) {
+    if (data === 'timeout') res.send(data);
     var userInput = req.body.data;
     var userAlg = utils.memoBuild(userInput); 
    
