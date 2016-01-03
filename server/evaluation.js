@@ -20,51 +20,45 @@ var fs = require('fs');
 module.exports.evalAlg = function(userInput, dataType) {
 
   return new Promise(function(resolve, reject) {
-    return queries.getData(dataType)
-    .then(function(response) {
-      var pwd = process.cwd();
-      var inputs = response[0].array;
-      var results;
+    var pwd = process.cwd();
+    var results;
 
-      console.log('got test inputs length ' + inputs.length);
+    var child = child_process.fork(__dirname + '/syncTest.js', {silent: true, cwd: pwd});
+    
+    var mainTimer = setTimeout(function () {
+      child.kill('SIGINT');
+      console.log('eval timed out, killed child process');
+      resolve('timeout');
+    }, 8000);
+  
+    child.stdout.on('data', function(data) {
+      console.log('child process complete, results: ' + data);
+      if (data === 'err') {
+        resolve(data);
+      }
 
-      var child = child_process.fork(__dirname + '/syncTest.js', {silent: true, cwd: pwd});
-      
-      child.stdout.on('data', function(data) {
-        console.log('child process complete, results: ' + data);
+      results = JSON.parse(data);
+      clearTimeout(mainTimer);
+      resolve(results);
+    });
 
-        results = JSON.parse(data);
-        resolve(results);
-      })
+    // write userInput to file async
+    fs.writeFile('server/algorithmBuffer.txt', userInput, function(err) {
+      if (err) throw err;
+      console.log('wrote file for algorithm');
 
-      // write userInput to file async
-      fs.writeFile('server/algorithmBuffer.txt', userInput, function(err) {
-        if (err) throw err;
-        console.log('wrote file for algorithm');
-
-        child.send('wrote');
-      })
-
-      setTimeout(function () {
-        child.kill('SIGINT');
-        resolve('timeout');
-      }, 8000);
-
-    /*  
-      to write test inputs to file async
-      fs.writeFile('server/testInputBuffer.txt', inputs, function(err) {
-        if (err) throw err;
-        console.log('ASYNC WRITE FILE SUCCESS for inputs');
-
-        if (wroteOther) {
-          child.send('wrote');
-        }
-        wroteOther = true;
-      })
-    */
-
+      child.send('wrote');
     });
   });
+
+/*
+  to write test inputs to file
+  fs.writeFile('server/testInputBuffer.txt', inputs, function(err) {
+    if (err) throw err;
+    console.log('wrote inputs file async');
+  });
+*/
+    
 };
 
 

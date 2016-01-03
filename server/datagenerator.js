@@ -1,7 +1,7 @@
 var server = require('./server');
 
 var integer=[];
-// for(var i = 20000; i > 0; i--){
+// for(var i = 10100; i > 0; i--){
 //   integer.push(i);
 // }
 // console.log("Integer " , integer.length);
