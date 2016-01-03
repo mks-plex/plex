@@ -11,10 +11,16 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
     eval.evalAlg(userInput, dataType)
   )
   .then(function(data) {
-    if (data === 'timeout') res.send(data);
+    if (data === 'timeout') {
+      console.log('evaluation timed out');
+      res.send(data);
+    } else if (data === 'err') {
+      console.log('error evaluating algorithm');
+      res.send(data);
+    }
+
     var userInput = req.body.data;
     var userAlg = utils.memoBuild(userInput); 
-   
     res.body = {}; 
     res.body.bigO = theta.computeTheta(userAlg, data);
     res.body.name = utils.getFuncName(userInput);

@@ -15,26 +15,6 @@ var memoize = module.exports.memoize = function(func) {
 module.exports.getFuncName = memoize(getFuncName);
 var memoBuild = module.exports.memoBuild = memoize(buildFunc);
 
-module.exports.runTimeAverage = function(userInput, dbInput, iterations) {
-  console.log('calculating runtime average for N = ' + dbInput.length);
-
-  var total = 0;
-  var i = 0;
-  var averageRun;
-  var stats;
-
-  while (i < iterations) {
-    stats = getRunTime(userInput, dbInput);
-    total += stats[1];
-    i++;
-  }
-
-  averageRun = total / iterations;
-
-  // returns [input size N, average runtime in milliseconds]
-  return [stats[0], Number(averageRun.toFixed(3))];
-};
-
 var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
   var userAlg = memoBuild(userInput);
 
