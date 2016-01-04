@@ -1,36 +1,63 @@
 var Promise = require('bluebird');
+var child_process = require('child_process');
+var fs = require('fs');
 var regression = require('regression');
 var queries = require('./queries.js');
-var utils = require('./utilities.js');
+
+(function() {
+  var child_process = require('child_process');
+  var oldFork = child_process.fork;
+
+  function newFork() {
+    console.log('forked child process with args:');
+    console.log(arguments);
+    var result = oldFork.apply(this, arguments);
+    return result;
+  }
+
+  child_process.fork = newFork;
+})();
 
 module.exports.evalAlg = function(userInput, dataType) {
-  var maxInputSize = 10100;
-  var avgCutoff = 2100;
-  var avgIterations = 3;
-  var currentInputSize = 100;
-  var stepFactor = 1000;
-  var result = [];
-  var runtime;
-
   return new Promise(function(resolve, reject) {
-    return queries.getData(dataType)
-    .then(function(response) {
-      var data = response[0].array;
+    var pwd = process.cwd();
+    var results;
 
-      console.log(data.length + ' test inputs received');
+    var child = child_process.fork(__dirname + '/syncTest.js', {silent: true, cwd: pwd});
 
-      while (currentInputSize < maxInputSize) {
-        if (currentInputSize <= avgCutoff) {
-          runtime = utils.runTimeAverage(userInput, data.slice(0, currentInputSize), avgIterations);
-        } else {
-          runtime = utils.getRunTime(userInput, data.slice(0, currentInputSize));
-        }
-        result.push(runtime);
-        currentInputSize += stepFactor;
+    var mainTimer = setTimeout(function () {
+      child.kill('SIGINT');
+      console.log('eval timed out, killed child process');
+      resolve('timeout');
+    }, 8000);
+
+    child.stdout.on('data', function(data) {
+      console.log('child process complete, results: ' + data);
+      if (data === 'err') {
+        resolve(data);
       }
 
-      resolve(result);
+      results = JSON.parse(data);
+      clearTimeout(mainTimer);
+      resolve(results);
     });
+
+    // write userInput to file async
+    fs.writeFile('server/testingBuffers/algorithmBuffer.txt', userInput, function(err) {
+      if (err) throw err;
+      console.log('wrote file for algorithm');
+
+      child.send('wrote');
+    });
+
+  /*
+    // to write test inputs to file
+    fs.writeFile('server/testInputBuffer.txt', inputs, function(err) {
+      if (err) throw err;
+      console.log('wrote inputs file async');
+    });
+  */
+
   });
 };
 
@@ -62,7 +89,7 @@ module.exports.runRegression = function(data, order) {
       coef = result.equation;
       equation = 'y = x<sup>' + coef[1].toFixed(2) + '</sup>';
       break;
-    case ('O(n)'):
+    case ('O(nlogn)'):
       result = regression('linear', data);
       coef = result.equation;
       equation = 'y = x + ' + coef[1].toExponential(2);
