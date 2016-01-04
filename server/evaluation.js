@@ -87,7 +87,7 @@ module.exports.runRegression = function(data, order) {
       coef = result.equation;
       equation = 'y = x<sup>' + coef[1].toFixed(2) + '</sup>';
       break;
-    case ('O(n)'):
+    case ('O(nlogn)'):
       result = regression('linear', data);
       coef = result.equation;
       equation = 'y = x + ' + coef[1].toExponential(2);
