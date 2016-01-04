@@ -7,15 +7,20 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
   var userInput = req.body.data;
   var dataType = req.params.dataType || null;
 
-  return new Promise(function(resolve, reject) {
-    var data = eval.evalAlg(userInput, dataType);
-    resolve(data)
-  })
+  Promise.resolve(
+    eval.evalAlg(userInput, dataType)
+  )
   .then(function(data) {
-    var userInput = req.body.data;
-    var userAlg = utils.memoBuild(userInput);
+    if (data === 'timeout') {
+      console.log('timeout event');
+      res.send('Error! Evaluation of your algorithm timed out');
+    } else if (data === 'err') {
+      console.log('unknown evaluation error');
+      res.send('Unknown error evaluating algorithm');
+    }
 
     res.body = {};
+    var userAlg = utils.memoBuild(userInput);
     res.body.bigO = theta.computeTheta(userAlg, data);
     res.body.name = utils.getFuncName(userInput);
     res.body.eq = eval.runRegression(data, res.body.bigO);
@@ -41,50 +46,41 @@ module.exports.testAlgo = function(req, res, next) {
   var userInput = req.body.data;
   var testArray = [10,9,8,7,6,5,4,3,2,1];
   var ordArray = [1,2,3,4,5,6,7,8,9,10];
+  var userAlg;
 
-  // Test if userInput can be built
+  // test if function can be built
   try {
-    console.log('try - make function');
-
+    console.log('try - testing syntax');
     var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
     var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
     var userAlg = new Function(param, algString);
-
-    if (!algString || !param) {
-      res.send("Error! No param or function body.");
-    }
+    if (!algString || !param) res.status(200).send("Error! No param or function body.");
   } catch(e) {
-    console.log('caught syntax error, couldn\'t make function');
+    console.log('caught error, couldn\'t make function');
     console.log(e);
-
-    res.send('Error! Your code is not a function.');
+    res.send("Error! Your code has syntax errors.")
     return;
   }
 
-  // Test if built function can be run
+  // test if function runs
   try {
-    console.log('try - run function');
-
-    var userAlg = utils.memoBuild(userInput);
+    console.log('try2 - testing executable');
+    userAlg = utils.memoBuild(userInput);
     userAlg(testArray);
   } catch(e) {
-    console.log('caught syntax error, function didn\'t run');
+    console.log('caught error, function didn\'t run');
     console.log(e);
-
-    res.send('Error! That is not an executable function.');
-
+    res.send("Error! That is not an executable function.")
     return;
   }
 
-  try {
-    var result = userAlg(testArray);
+  console.log('testing sort');
+  var result = userAlg(testArray);
 
-    if (result.join() === ordArray.join()) {
-      console.log('alg passed');
-
-      next();
-    }
-  } catch(e) {
+  if (result.join() === ordArray.join()) {
+    console.log('alg passed');
+    next();
+  } else {
     res.send("Error! Your function doesn't sort.");
   }
 };

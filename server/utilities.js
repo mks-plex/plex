@@ -1,41 +1,7 @@
-var memoize = module.exports.memoize = function(func) {
-  var cached = {};
-
-  return function() {
-    var args = Array.prototype.slice.call(arguments);
-    if (!cached[args]) {
-      cached[args] = func.apply(this, arguments);
-    }
-
-    return cached[args];
-  };
-};
-
-// memoizing needs to be done in this order to work properly
-module.exports.getFuncName = memoize(getFuncName);
 var memoBuild = module.exports.memoBuild = memoize(buildFunc);
+module.exports.getFuncName = memoize(getFuncName);
 
-module.exports.runTimeAverage = function(userInput, dbInput, iterations) {
-  console.log('calculating runtime average for N = ' + dbInput.length);
-
-  var total = 0;
-  var i = 0;
-  var averageRun;
-  var stats;
-
-  while (i < iterations) {
-    stats = getRunTime(userInput, dbInput);
-    total += stats[1];
-    i++;
-  }
-
-  averageRun = total / iterations;
-
-  // returns [input size N, average runtime in milliseconds]
-  return [stats[0], Number(averageRun.toFixed(3))];
-};
-
-var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
+module.exports.getRunTime = function(userInput, dbInput) {
   var userAlg = memoBuild(userInput);
 
   var time = process.hrtime();
@@ -54,7 +20,6 @@ function buildFunc(userInput) {
 
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
   var algName = getFuncName(userInput);
-  var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
   var wrappedAlg = recursionFix(userInput, algName, param);
   var userAlg = new Function(param, wrappedAlg);
 
@@ -89,8 +54,21 @@ function getFuncName(string) {
       funcName = string.slice(9, ++eStop);
     }
   } else {
-    return null;
+    return ('Please use a function expression or declaration\ne.g. `var myFunc = ...` or `function myFunc()...`');
   }
 
   return funcName;
+}
+
+function memoize(func) {
+  var cached = {};
+
+  return function() {
+    var args = Array.prototype.slice.call(arguments);
+    if (!cached[args]) {
+      cached[args] = func.apply(this, arguments);
+    }
+
+    return cached[args];
+  };
 }
