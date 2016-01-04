@@ -1,10 +1,10 @@
 var fs = require('fs');
 
 process.on('message', function(msg) {
-  fs.readFile(__dirname + '/algorithmBuffer.txt', function(err, alg) {
+  fs.readFile(__dirname + '/testingBuffers/algorithmBuffer.txt', function(err, alg) {
     if (err !== null) process.stdout.write('err');
 
-    fs.readFile(__dirname + '/testInputBuffer.txt', 'utf8', function(err, data) {
+    fs.readFile(__dirname + '/testingBuffers/testInputBuffer.txt', 'utf8', function(err, data) {
       if (err !== null) {
         process.stdout.write('err');
       }
@@ -52,18 +52,18 @@ function memoize(func) {
 
     return cached[args];
   };
-};
+}
 
 var memoBuild = memoize(buildFunc);
 
-function runTimeAverage(userInput, dbInput, iterations) {
+function runTimeAverage(userInput, testData, iterations) {
   var total = 0;
   var i = 0;
   var averageRun;
   var stats;
 
   while (i < iterations) {
-    stats = getRunTime(userInput, dbInput);
+    stats = getRunTime(userInput, testData);
     total += stats[1];
     i++;
   }
@@ -71,18 +71,18 @@ function runTimeAverage(userInput, dbInput, iterations) {
   averageRun = total / iterations;
 
   return [stats[0], Number(averageRun.toFixed(3))];
-};
+}
 
-function getRunTime(userInput, dbInput) {
+function getRunTime(userInput, testData) {
   var userAlg = memoBuild(userInput);
 
   var time = process.hrtime();
-  var result = userAlg(dbInput);
+  var result = userAlg(testData);
   var diff = process.hrtime(time);
   var runTime = (diff[0] * 1e9 + diff[1]) / 1e6;
 
-  return [dbInput.length, Number(runTime.toFixed(3))];
-};
+  return [testData.length, Number(runTime.toFixed(3))];
+}
 
 
 function buildFunc(userInput) {

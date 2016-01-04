@@ -103,7 +103,7 @@ var Body = React.createClass({
         { this.state.modalIsOpen ?
           <div>
             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={styleModal} >
-              <p>Error! You're function doesn't sort.</p>
+              <p>"Error! Your function doesn't sort."</p>
               <button onClick={this.closeModal}>close</button>
             </Modal>
           </div> : <span />

@@ -1,21 +1,7 @@
-var memoize = module.exports.memoize = function(func) {
-  var cached = {};
-
-  return function() {
-    var args = Array.prototype.slice.call(arguments);
-    if (!cached[args]) {
-      cached[args] = func.apply(this, arguments);
-    }
-
-    return cached[args];
-  };
-};
-
-// memoizing needs to be done in this order to work properly
-module.exports.getFuncName = memoize(getFuncName);
 var memoBuild = module.exports.memoBuild = memoize(buildFunc);
+module.exports.getFuncName = memoize(getFuncName);
 
-var getRunTime = module.exports.getRunTime = function(userInput, dbInput) {
+module.exports.getRunTime = function(userInput, dbInput) {
   var userAlg = memoBuild(userInput);
 
   var time = process.hrtime();
@@ -33,7 +19,6 @@ function buildFunc(userInput) {
   console.log('building function');
   var param = userInput.slice(userInput.indexOf('(') + 1, userInput.indexOf(')'));
   var algName = getFuncName(userInput);
-  var algString = userInput.slice(userInput.indexOf('{') + 1, userInput.lastIndexOf('}'));
   var wrappedAlg = recursionFix(userInput, algName, param);
   var userAlg = new Function(param, wrappedAlg);
 
@@ -72,4 +57,17 @@ function getFuncName(string) {
   }
 
   return funcName;
+}
+
+function memoize(func) {
+  var cached = {};
+
+  return function() {
+    var args = Array.prototype.slice.call(arguments);
+    if (!cached[args]) {
+      cached[args] = func.apply(this, arguments);
+    }
+
+    return cached[args];
+  };
 }

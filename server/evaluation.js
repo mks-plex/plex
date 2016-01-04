@@ -1,7 +1,6 @@
 var Promise = require('bluebird');
 var regression = require('regression');
 var queries = require('./queries.js');
-var utils = require('./utilities.js');
 var child_process = require('child_process');
 var fs = require('fs');
 
@@ -18,7 +17,6 @@ var fs = require('fs');
 })();
 
 module.exports.evalAlg = function(userInput, dataType) {
-
   return new Promise(function(resolve, reject) {
     var pwd = process.cwd();
     var results;
@@ -43,24 +41,23 @@ module.exports.evalAlg = function(userInput, dataType) {
     });
 
     // write userInput to file async
-    fs.writeFile('server/algorithmBuffer.txt', userInput, function(err) {
+    fs.writeFile('server/testingBuffers/algorithmBuffer.txt', userInput, function(err) {
       if (err) throw err;
       console.log('wrote file for algorithm');
 
       child.send('wrote');
     });
-  });
 
-/*
-  to write test inputs to file
-  fs.writeFile('server/testInputBuffer.txt', inputs, function(err) {
-    if (err) throw err;
-    console.log('wrote inputs file async');
-  });
-*/
+  /*
+    // to write test inputs to file
+    fs.writeFile('server/testInputBuffer.txt', inputs, function(err) {
+      if (err) throw err;
+      console.log('wrote inputs file async');
+    });
+  */
     
+  });
 };
-
 
 module.exports.getJSONCoords = function(data) {
   console.log('eval -getting json coordinates from eval data');
@@ -74,7 +71,6 @@ module.exports.getJSONCoords = function(data) {
 
   return JSON.stringify(coords);
 };
-
 
 module.exports.runRegression = function(data, order) {
   order = order || '1';
@@ -104,7 +100,7 @@ module.exports.runRegression = function(data, order) {
       equation = 'y = ' + coef[0].toExponential(2) + 'x';
   }
 
-  console.log('Equation from regression: ' + equation);
+  console.log('equation from regression: ' + equation);
 
   return equation;
 };

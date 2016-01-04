@@ -12,21 +12,19 @@ module.exports.evalForAllInputSizes = function(req, res, next) {
   )
   .then(function(data) {
     if (data === 'timeout') {
-      console.log('evaluation timed out');
-      res.send(data);
+      console.log('timeout event');
+      res.send('Error! Evaluation of your algorithm timed out');
     } else if (data === 'err') {
-      console.log('error evaluating algorithm');
-      res.send(data);
+      console.log('unknown evaluation error');
+      res.send('Unknown error evaluating algorithm');
     }
 
-    var userInput = req.body.data;
-    var userAlg = utils.memoBuild(userInput); 
     res.body = {}; 
+    var userAlg = utils.memoBuild(userInput); 
     res.body.bigO = theta.computeTheta(userAlg, data);
     res.body.name = utils.getFuncName(userInput);
-    res.body.eq = eval.runRegression(data, null);
-    var coords = eval.getJSONCoords(data);
-    res.body.coords = coords;
+    res.body.eq = eval.runRegression(data, res.body.bigO);
+    res.body.coords = eval.getJSONCoords(data);
 
     next();
   });
