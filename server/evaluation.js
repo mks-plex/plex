@@ -73,31 +73,30 @@ module.exports.getJSONCoords = function(data) {
 };
 
 module.exports.runRegression = function(data, order) {
-  order = order || '1';
+  order = order || 'O(n)';
+
   var result;
   var coef;
   var equation;
 
+  console.log('big o is ' + order);
+
   switch (order) {
-    case ('2+'): 
+    case ('O(n<sup>2</sup>)'):
       result = regression('power', data);
       coef = result.equation;
-      equation = 'y = ' + coef[0].toExponential(2) + ' x^' + coef[1].toFixed(2);
+      equation = 'y = x<sup>' + coef[1].toFixed(2) + '</sup>';
       break;
-    case ('1'): 
+    case ('O(n)'):
       result = regression('linear', data);
       coef = result.equation;
-      equation = 'y = ' + coef[0].toExponential(2) + 'x + ' + coef[1].toExponential(2);
+      equation = 'y = x + ' + coef[1].toExponential(2);
       break;
-    case ('ln'): 
-      result = regression('logarithmic', data);
+    default:
+      result = regression('linear', data);
       coef = result.equation;
-      equation = 'y = ' + coef[0].toExponential(2) + ' + ' + coef[1].toExponential(2) + 'ln(x)';
+      equation = 'y = x + ' + coef[1].toExponential(2);
       break;
-    default: 
-      result = regression('linearThroughOrigin', data);
-      coef = result.equation;
-      equation = 'y = ' + coef[0].toExponential(2) + 'x';
   }
 
   console.log('equation from regression: ' + equation);
