@@ -13,7 +13,7 @@ var possibleRunTimes = {'a': 'O(n)', 'b': 'O(n^2)', 'c': 'O(nlogn)'};
 var computeTheta = module.exports.computeTheta =  function(algorithm, data) {
 
   var quick = createDataSet(100, 10100, 1000, quicksort, 3);
-  var counting = createDataSet(100, 10000, 1000, countingsort, 3);
+  var counting = createDataSet(100, 10100, 1000, countingsort, 3);
   var algoData = data;
 
   var standardDevQuick = slopeStandardDev(quick);
