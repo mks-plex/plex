@@ -4,6 +4,7 @@
 
 var React = require('react');
 var ReactCodeMirror = require('react-codemirror');
+var checkForm = require('../styles/form.js');
 require('codemirror/mode/javascript/javascript');
 require('codemirror/addon/edit/matchbrackets.js');
 require('codemirror/addon/edit/closebrackets.js');
@@ -12,7 +13,7 @@ require('../styles/codemirror.css');
 var CodeMirror = React.createClass({
   getInitialState: function() {
     return {
-      code: 'Write your algorithm here.',
+      code: 'Write here.',
       mode: 'javascript'
     }
   },
@@ -21,9 +22,16 @@ var CodeMirror = React.createClass({
   },
 
   updateCode: function(newCode) {
-    this.setState({
-      code: newCode
+    console.log(newCode);
+    if (checkForm(newCode)) {
+      this.setState({
+        code: ''
+      })
+    } else {
+      this.setState({
+        code: newCode
     });
+   }
   },
 
   render: function() {
